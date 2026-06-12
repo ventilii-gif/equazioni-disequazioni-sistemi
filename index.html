@@ -1,0 +1,2712 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f9fafb">
+<meta name="description" content="App didattica interattiva: equazioni di primo e secondo grado, disequazioni e sistemi. Teoria, simulazioni e quiz di autovalutazione.">
+<title>Equazioni, disequazioni e sistemi · Matematica</title>
+<style>
+/* ===================== Design system ===================== */
+:root{
+  --color-primary:#2563eb;      /* Blu scientifico */
+  --color-secondary:#1e40af;
+  --color-accent:#f59e0b;       /* Arancio per highlight */
+  --color-success:#10b981;      /* Verde */
+  --color-error:#ef4444;        /* Rosso */
+  --color-bg:#f9fafb;
+  --color-text:#1f2937;
+  --surface:#ffffff;
+  --border:#e5e7eb;
+  --muted:#6b7280;
+  --primary-soft:#eff6ff;
+  --accent-soft:#fef3c7;
+  --accent-deep:#b45309;
+  --success-soft:#d1fae5;
+  --success-deep:#047857;
+  --error-soft:#fee2e2;
+  --error-deep:#b91c1c;
+  --radius:12px;
+  --shadow:0 1px 3px rgba(17,24,39,.07);
+  --font-math:"Cambria Math","STIX Two Math","Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--color-bg);color:var(--color-text);
+  font-family:"Inter","Roboto",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+  font-size:clamp(15px,2.3vw,16.5px);line-height:1.6;
+  -webkit-font-smoothing:antialiased}
+:focus-visible{outline:3px solid rgba(37,99,235,.45);outline-offset:2px}
+
+/* ===================== Header ===================== */
+header{background:var(--surface);border-bottom:1px solid var(--border);
+  padding:.85rem 1rem .8rem}
+header .wrap{max-width:1000px;margin:0 auto;display:flex;align-items:baseline;
+  justify-content:space-between;gap:.8rem;flex-wrap:wrap}
+header h1{font-size:clamp(1.12rem,3.8vw,1.45rem);font-weight:800;
+  letter-spacing:-.02em;color:var(--color-text)}
+header .sub{color:var(--muted);font-size:.82em;font-weight:500}
+
+/* ===================== Nav ===================== */
+nav.main{background:var(--surface);border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:30;overflow-x:auto;
+  scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+nav.main .wrap{max-width:1000px;margin:0 auto;display:flex;gap:.4rem;padding:.55rem 1rem}
+nav.main button{flex:0 0 auto;background:var(--color-bg);border:1px solid var(--border);
+  border-radius:999px;padding:.42rem .95rem;font-size:.85em;color:var(--muted);
+  cursor:pointer;white-space:nowrap;font-family:inherit;font-weight:600;min-height:36px;
+  transition:background .15s,border-color .15s,color .15s}
+nav.main button:hover:not(.active){background:var(--primary-soft);
+  border-color:var(--color-primary);color:var(--color-secondary)}
+nav.main button.active{background:var(--color-primary);border-color:var(--color-primary);color:#fff}
+
+/* ===================== Layout ===================== */
+main{padding:1.2rem 1rem 2.6rem;max-width:1000px;margin:0 auto}
+section.scene{display:none}
+section.scene.active{display:block;animation:fadein .25s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.page-head{margin:.2rem 0 1rem;border-left:4px solid var(--color-primary);padding-left:.75rem}
+.page-head h2{font-size:clamp(1.18rem,3.6vw,1.5rem);font-weight:800;letter-spacing:-.015em}
+.page-head .lead{margin-top:.15rem}
+.sec-label{font-size:.72em;font-weight:700;letter-spacing:.1em;color:var(--muted);
+  text-transform:uppercase;margin:1.3rem 0 .45rem}
+.lead{color:var(--muted);font-size:.92em}
+
+/* ===================== Card ===================== */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:1.15rem 1.25rem;margin-bottom:1.1rem;box-shadow:var(--shadow)}
+.card>h2{font-size:1.13em;font-weight:700;letter-spacing:-.01em;margin-bottom:.45rem}
+.card h3{color:var(--color-secondary);font-size:.97em;font-weight:700;margin:.9rem 0 .3rem}
+.card p{margin:.35rem 0}
+.card ul,.card ol{margin:.4rem 0 .4rem 1.3rem}
+.card li{margin:.22rem 0}
+.card li::marker{color:var(--color-primary);font-weight:700}
+
+/* ===================== Accordion ===================== */
+.accordion details{border:1px solid var(--border);border-radius:10px;
+  margin-bottom:.55rem;background:var(--surface);overflow:hidden}
+.accordion details[open]{border-color:#c7d6f5}
+.accordion summary{list-style:none;display:flex;align-items:center;justify-content:space-between;
+  gap:.7rem;padding:.72rem 1rem;cursor:pointer;font-weight:650;font-size:.96em;
+  transition:background .15s,color .15s}
+.accordion summary::-webkit-details-marker{display:none}
+.accordion summary:hover{background:var(--primary-soft);color:var(--color-secondary)}
+.accordion summary::after{content:"";flex:0 0 auto;width:9px;height:9px;
+  border-right:2.2px solid var(--muted);border-bottom:2.2px solid var(--muted);
+  transform:rotate(45deg) translate(-1px,-1px);transition:transform .25s}
+.accordion details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+.acc-body{padding:.3rem 1rem .95rem;border-top:1px solid var(--border)}
+.acc-body>p:first-child{margin-top:.55rem}
+
+/* ===================== Formule e note ===================== */
+.formula{background:var(--primary-soft);border-left:3px solid var(--color-primary);
+  padding:.55rem .9rem;margin:.55rem 0;border-radius:0 8px 8px 0;
+  font-family:var(--font-math);font-size:1.08em;line-height:1.95;overflow-x:auto}
+.formula.center{text-align:center}
+.formula.big{font-size:1.22em}
+.formula .why{display:block;font-family:"Inter","Roboto",system-ui,sans-serif;
+  font-size:.72em;color:var(--muted);line-height:1.45;margin-top:-.2rem}
+.note-ok{background:var(--success-soft);border-left:3px solid var(--color-success);
+  color:#064e3b;padding:.5rem .9rem;margin:.55rem 0;border-radius:0 8px 8px 0;font-size:.9em}
+.note-warn{background:var(--accent-soft);border-left:3px solid var(--color-accent);
+  color:#78350f;padding:.5rem .9rem;margin:.55rem 0;border-radius:0 8px 8px 0;font-size:.9em}
+.note-err{background:var(--error-soft);border-left:3px solid var(--color-error);
+  color:#7f1d1d;padding:.5rem .9rem;margin:.55rem 0;border-radius:0 8px 8px 0;font-size:.9em}
+.sol-box{background:var(--success-soft);border:1px solid #a7f3d0;border-radius:10px;
+  padding:.7rem 1rem;margin:.6rem 0;font-size:1em}
+.sol-box .t{font-size:.72em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--success-deep);display:block;margin-bottom:.15rem}
+
+/* ===================== Tabelle ===================== */
+.tbl-wrap{overflow-x:auto;margin:.6rem 0}
+table.tbl{border-collapse:collapse;width:100%;font-size:.88em;min-width:430px}
+.tbl th{background:var(--primary-soft);color:var(--color-secondary);text-align:left;
+  padding:.45rem .65rem;border-bottom:2px solid var(--color-primary);font-weight:700}
+.tbl td{padding:.45rem .65rem;border-bottom:1px solid var(--border);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl .m{font-family:var(--font-math)}
+
+/* ===================== Bottoni ===================== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+  border-radius:8px;padding:.5rem 1.05rem;font-family:inherit;font-size:.88em;
+  font-weight:600;cursor:pointer;border:1px solid transparent;
+  transition:background .15s,border-color .15s,color .15s,box-shadow .15s,transform .1s}
+.btn:active:not(:disabled){transform:translateY(1px)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-primary{background:var(--color-primary);color:#fff}
+.btn-primary:hover:not(:disabled){background:var(--color-secondary);box-shadow:0 2px 8px rgba(37,99,235,.3)}
+.btn-ghost{background:var(--surface);border-color:var(--border);color:var(--color-secondary)}
+.btn-ghost:hover:not(:disabled){background:var(--primary-soft);border-color:var(--color-primary)}
+.btn-accent{background:var(--color-accent);color:#fff}
+.btn-accent:hover:not(:disabled){background:#d97706}
+.btn-row{display:flex;flex-wrap:wrap;gap:.45rem;margin:.45rem 0}
+
+/* ===================== Campi input ===================== */
+input[type=text],input[type=number],select{font-family:inherit;font-size:.92em;
+  padding:.5rem .65rem;border:1px solid var(--border);border-radius:8px;
+  background:var(--surface);color:var(--color-text);width:100%;min-height:40px}
+input[type=text]:focus,input[type=number]:focus,select:focus{outline:none;
+  border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(37,99,235,.18)}
+.field label,.coef label{display:block;font-size:.78em;font-weight:600;color:var(--muted);
+  margin-bottom:.22rem}
+.field .err-msg{display:none;color:var(--color-error);font-size:.8em;font-weight:500;margin-top:.3rem}
+.field.invalid .err-msg{display:block}
+.field.invalid input{border-color:var(--color-error);box-shadow:0 0 0 3px rgba(239,68,68,.14)}
+.coef-grid{display:flex;flex-wrap:wrap;gap:.55rem;margin:.4rem 0 .6rem}
+.coef{width:5.4em;flex:0 1 auto}
+.coef.wide{width:8.5em}
+.coef input.bad{border-color:var(--color-error);box-shadow:0 0 0 3px rgba(239,68,68,.14)}
+.coef-err{color:var(--color-error);font-size:.8em;font-weight:500;margin:.1rem 0 .3rem;display:none}
+.coef-err.show{display:block}
+input[type=range]{accent-color:var(--color-primary);min-height:26px}
+.ctrl{display:grid;gap:.5rem;margin:.2rem 0 .7rem}
+.ctrl label{display:flex;align-items:center;gap:.6rem;font-size:.89em}
+.ctrl label .nm{color:var(--muted);min-width:2.2em;font-weight:600}
+.ctrl label input[type=range]{flex:1;min-width:0}
+.ctrl label .v{min-width:3.2em;text-align:right;font-weight:700;color:var(--color-secondary);
+  font-variant-numeric:tabular-nums}
+
+/* ===================== Simulazioni ===================== */
+.sim-layout{display:grid;grid-template-columns:1.08fr 1fr;gap:1.15rem;align-items:start;margin-top:.6rem}
+@media(max-width:740px){.sim-layout{grid-template-columns:1fr}}
+.sim-pane,.ctrl-pane{min-width:0}
+canvas.plot{width:100%;height:auto;display:block;border:1px solid var(--border);
+  border-radius:10px;background:#fff}
+svg.bil{width:100%;height:auto;display:block;border:1px solid var(--border);
+  border-radius:10px;background:#fff}
+.legend{display:flex;flex-wrap:wrap;gap:.35rem;margin:.5rem 0 0;font-size:.76em}
+.legend span{display:inline-flex;align-items:center;gap:.32rem;background:var(--color-bg);
+  padding:.18rem .55rem;border-radius:999px;border:1px solid var(--border);color:var(--muted)}
+.legend i{display:inline-block;width:13px;height:5px;border-radius:3px}
+.read{display:grid;grid-template-columns:repeat(auto-fit,minmax(108px,1fr));gap:.45rem;margin:.55rem 0;font-size:.87em}
+.read .it{background:var(--color-bg);padding:.42rem .6rem;border-radius:8px;border:1px solid var(--border)}
+.read .it .l{color:var(--muted);font-size:.76em;display:block;margin-bottom:.1rem;font-weight:600}
+.read .it .v{font-weight:700;font-variant-numeric:tabular-nums}
+.case-banner{padding:.55rem .9rem;border-radius:8px;font-weight:600;font-size:.9em;
+  border:1px solid;margin:.55rem 0}
+.case-banner.c2{background:var(--success-soft);border-color:#a7f3d0;color:var(--success-deep)}
+.case-banner.c1{background:var(--accent-soft);border-color:#fde68a;color:var(--accent-deep)}
+.case-banner.c0{background:var(--error-soft);border-color:#fecaca;color:var(--error-deep)}
+.case-banner.cn{background:var(--primary-soft);border-color:#bfdbfe;color:var(--color-secondary)}
+.eq-display{font-family:var(--font-math);font-size:1.3em;text-align:center;
+  background:var(--primary-soft);border:1px solid #bfdbfe;border-radius:10px;
+  padding:.5rem .8rem;margin-bottom:.6rem;overflow-x:auto;white-space:nowrap}
+.hint{color:var(--muted);font-size:.82em;margin:.4rem 0}
+
+/* ===================== Passi risolutivi ===================== */
+ol.steps{list-style:none;margin:.6rem 0;counter-reset:st;padding:0}
+ol.steps li{counter-increment:st;position:relative;padding:.3rem 0 .3rem 2.15rem;margin:0;
+  border-bottom:1px dashed var(--border)}
+ol.steps li:last-child{border-bottom:none}
+ol.steps li::before{content:counter(st);position:absolute;left:0;top:.42rem;
+  width:1.5rem;height:1.5rem;border-radius:50%;background:var(--primary-soft);
+  color:var(--color-secondary);font-weight:700;font-size:.76em;
+  display:flex;align-items:center;justify-content:center}
+.step-note{font-size:.82em;color:var(--muted)}
+.eqline{font-family:var(--font-math);font-size:1.06em;line-height:1.9;overflow-x:auto}
+.badge{display:inline-block;border-radius:999px;padding:.05rem .55rem;font-size:.7em;
+  font-weight:700;vertical-align:middle;margin-left:.35rem;letter-spacing:.02em}
+.badge.b1{background:var(--primary-soft);color:var(--color-secondary)}
+.badge.b2{background:var(--accent-soft);color:var(--accent-deep)}
+
+/* ===================== Matematica inline ===================== */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:-.55em;
+  line-height:1.12;margin:0 .1em;font-size:.92em}
+.frac .nu{padding:0 .28em}
+.frac .de{border-top:1.5px solid currentColor;padding:0 .28em}
+.sq{white-space:nowrap}
+.sq .sq-i{border-top:1.6px solid currentColor;padding:0 .18em 0 .08em}
+.det{display:inline-grid;grid-template-columns:auto auto;gap:.05em .7em;
+  border-left:1.6px solid currentColor;border-right:1.6px solid currentColor;
+  padding:.12em .45em;margin:0 .15em;vertical-align:middle;text-align:center;line-height:1.3}
+
+/* ===================== Striscia dei segni ===================== */
+.sign-strip{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;
+  margin:.55rem 0;text-align:center;font-size:.86em}
+.sign-strip .col{flex:1;min-width:0;display:flex;flex-direction:column}
+.sign-strip .col+.col{border-left:1px solid var(--border)}
+.sign-strip .v{font-size:.75em;color:var(--muted);padding:.18rem .2rem;background:var(--color-bg);
+  border-bottom:1px solid var(--border);font-family:var(--font-math);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.sign-strip .s{padding:.25rem .2rem;font-weight:800}
+.sign-strip .s.pos{background:var(--success-soft);color:var(--success-deep)}
+.sign-strip .s.neg{background:var(--error-soft);color:var(--error-deep)}
+.sign-strip .s.zero{background:var(--color-bg);color:var(--muted)}
+.strip-title{font-size:.78em;font-weight:700;color:var(--muted);margin:.6rem 0 0}
+
+/* ===================== Tabs ===================== */
+.tabs{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.85rem}
+.tab{background:var(--color-bg);border:1px solid var(--border);border-radius:999px;
+  padding:.4rem .95rem;font-family:inherit;font-size:.85em;font-weight:600;
+  color:var(--muted);cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.tab:hover:not(.active){background:var(--primary-soft);border-color:var(--color-primary);
+  color:var(--color-secondary)}
+.tab.active{background:var(--color-primary);border-color:var(--color-primary);color:#fff}
+
+/* ===================== Quiz ===================== */
+.quiz-hd{display:flex;justify-content:space-between;align-items:center;gap:.6rem;
+  margin-bottom:.45rem;font-size:.84em;color:var(--muted);font-weight:600}
+.quiz-hd .score{color:var(--color-secondary)}
+.quiz-bar{background:#e5e7eb;border-radius:999px;height:6px;margin-bottom:.95rem;overflow:hidden}
+.quiz-bar i{display:block;background:var(--color-primary);height:100%;border-radius:999px;
+  transition:width .4s cubic-bezier(.4,0,.2,1)}
+.quiz-q{font-weight:650;margin:.2rem 0 .8rem;line-height:1.5;font-size:.97em}
+.quiz-opts{display:grid;gap:.4rem;margin-bottom:.5rem}
+.quiz-btn{background:var(--color-bg);border:1.5px solid var(--border);border-radius:8px;
+  padding:.52rem .9rem;text-align:left;cursor:pointer;font-size:.89em;font-family:inherit;
+  color:var(--color-text);line-height:1.4;transition:background .12s,border-color .12s}
+.quiz-btn:not(:disabled):hover{background:var(--primary-soft);border-color:var(--color-primary)}
+.quiz-btn:disabled{cursor:default}
+.quiz-btn.correct{background:var(--success-soft)!important;border-color:var(--color-success)!important;
+  color:#064e3b;font-weight:650}
+.quiz-btn.wrong{background:var(--error-soft)!important;border-color:var(--color-error)!important;
+  color:var(--error-deep)}
+.quiz-exp{padding:.55rem .9rem;border-radius:8px;font-size:.86em;line-height:1.5;margin:.5rem 0}
+.quiz-exp.ok{background:var(--success-soft);border-left:3px solid var(--color-success);color:#064e3b}
+.quiz-exp.no{background:var(--error-soft);border-left:3px solid var(--color-error);color:#7f1d1d}
+.quiz-end{text-align:center;padding:1.2rem .6rem}
+.quiz-end .big{font-size:2rem;font-weight:800;color:var(--color-secondary);
+  font-variant-numeric:tabular-nums}
+.quiz-end p{margin:.4rem 0 .9rem;color:var(--muted)}
+
+/* ===================== Home ===================== */
+.home-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.8rem;margin:.6rem 0}
+.home-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:1rem 1.05rem;cursor:pointer;text-align:left;font-family:inherit;font-size:1em;
+  color:inherit;box-shadow:var(--shadow);
+  transition:border-color .18s,box-shadow .18s,transform .14s}
+.home-card:hover{border-color:var(--color-primary);box-shadow:0 5px 16px rgba(37,99,235,.14);
+  transform:translateY(-2px)}
+.home-card .ico{display:block;width:46px;height:46px;margin-bottom:.5rem;color:var(--color-primary)}
+.home-card strong{display:block;color:var(--color-secondary);font-size:.99em;margin-bottom:.15rem}
+.home-card span{display:block;color:var(--muted);font-size:.84em;line-height:1.45}
+.chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem}
+.chips em{font-style:normal;background:var(--primary-soft);color:var(--color-secondary);
+  border-radius:999px;padding:.12rem .6rem;font-size:.72em;font-weight:700}
+
+/* ===================== Footer ===================== */
+footer{border-top:1px solid var(--border);background:var(--surface);
+  padding:1.1rem 1rem;text-align:center;color:var(--muted);font-size:.8em}
+
+/* ===================== Bilancia ===================== */
+.bil .beam-g{transition:transform .75s cubic-bezier(.3,1.4,.45,1)}
+.bil .pan{transition:transform .75s cubic-bezier(.3,1.4,.45,1)}
+.bil .item{transition:opacity .42s,transform .42s}
+.bil .item.out{opacity:0;transform:translateY(-12px) scale(.35)}
+@media(max-width:480px){
+  .card{padding:.95rem .9rem}
+  .coef{width:4.6em}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Equazioni, disequazioni e sistemi</h1>
+    <span class="sub">Matematica · Algebra · Biennio</span>
+  </div>
+</header>
+
+<nav class="main" aria-label="Sezioni">
+  <div class="wrap" id="mainNav">
+    <button data-target="home" class="active">Home</button>
+    <button data-target="eq1">Equazioni di 1° grado</button>
+    <button data-target="eq2">Equazioni di 2° grado</button>
+    <button data-target="diseq">Disequazioni</button>
+    <button data-target="sist">Sistemi</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============================================================
+     HOME
+============================================================ -->
+<section class="scene active" id="home">
+  <div class="card">
+    <h2>Un percorso interattivo sull’algebra di primo e secondo grado</h2>
+    <p>Quattro sezioni, ciascuna organizzata in tre momenti: la <strong>teoria</strong> essenziale
+       (in schede richiudibili), una o più <strong>simulazioni</strong> da esplorare cambiando i
+       parametri, e la palestra <strong>«Prova tu»</strong> con 10 domande di teoria e
+       10 esercizi di calcolo a risposta chiusa, con correzione e spiegazione immediate.</p>
+    <div class="chips"><em>Teoria</em><em>Simulazioni interattive</em><em>80 domande con feedback</em><em>Funziona anche da mobile</em></div>
+  </div>
+
+  <div class="home-grid">
+    <button class="home-card" data-target="eq1">
+      <svg class="ico" viewBox="0 0 56 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M28 8v30M18 42h20M25 8l3-4 3 4z"/>
+        <path d="M10 12h36"/>
+        <path d="M10 12L5 23M10 12l5 11M46 12l-5 11M46 12l5 11"/>
+        <path d="M4 23a6.3 4.4 0 0 0 12.6 0z" fill="currentColor" stroke="none" opacity=".85"/>
+        <path d="M39.4 23a6.3 4.4 0 0 0 12.6 0z" fill="currentColor" stroke="none" opacity=".85"/>
+      </svg>
+      <strong>Equazioni di 1° grado</strong>
+      <span>Bilancia animata, principi di equivalenza, risolutore passo passo e verifica della soluzione.</span>
+    </button>
+    <button class="home-card" data-target="eq2">
+      <svg class="ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+        <path d="M4 36h40M24 44V6" opacity=".4"/>
+        <path d="M10 10q14 60 28 0"/>
+        <circle cx="18.9" cy="36" r="2.6" fill="#f59e0b" stroke="none"/>
+        <circle cx="29.1" cy="36" r="2.6" fill="#f59e0b" stroke="none"/>
+      </svg>
+      <strong>Equazioni di 2° grado</strong>
+      <span>Parabola interattiva, discriminante, costruzione della formula risolutiva e lettura grafica.</span>
+    </button>
+    <button class="home-card" data-target="diseq">
+      <svg class="ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+        <path d="M4 24h40M44 24l-5-4M44 24l-5 4"/>
+        <path d="M19 24h20" stroke="#f59e0b" stroke-width="5"/>
+        <circle cx="16" cy="24" r="3.6" fill="#fff"/>
+        <path d="M10 18v12M30 18v12" opacity=".25"/>
+      </svg>
+      <strong>Disequazioni di 1° e 2° grado</strong>
+      <span>Retta e parabola con zone colorate, studio del segno e intervalli delle soluzioni.</span>
+    </button>
+    <button class="home-card" data-target="sist">
+      <svg class="ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+        <path d="M8 4v40M4 40h40" opacity=".3"/>
+        <path d="M6 36L42 12"/>
+        <path d="M8 10l34 26" stroke="#f59e0b"/>
+        <circle cx="24.5" cy="22.6" r="3.2" fill="#10b981" stroke="none"/>
+      </svg>
+      <strong>Sistemi di equazioni</strong>
+      <span>Rette e parabole che si intersecano; sostituzione, riduzione, Cramer e metodo grafico.</span>
+    </button>
+  </div>
+
+  <div class="card">
+    <h2>Come usare l’app</h2>
+    <ol>
+      <li><strong>Leggi la teoria.</strong> Apri le schede una alla volta: ogni scheda contiene definizioni, formule e un esempio svolto.</li>
+      <li><strong>Esplora la simulazione.</strong> Muovi i cursori e cambia i coefficienti: il grafico, i passaggi e i risultati si aggiornano in tempo reale.</li>
+      <li><strong>Mettiti alla prova.</strong> Rispondi prima al quiz di teoria, poi a quello di calcolo: ogni risposta riceve subito correzione e spiegazione.</li>
+    </ol>
+    <p class="hint">Suggerimento: tieni carta e penna accanto per i quiz di calcolo, e usa la simulazione per controllare i tuoi risultati.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     EQUAZIONI DI PRIMO GRADO
+============================================================ -->
+<section class="scene" id="eq1">
+  <div class="page-head">
+    <h2>Equazioni di primo grado</h2>
+    <p class="lead">Equazioni intere a coefficienti numerici: principi di equivalenza, metodo della bilancia, procedura risolutiva e verifica della soluzione.</p>
+  </div>
+
+  <p class="sec-label">Teoria</p>
+  <div class="card">
+    <div class="accordion">
+
+      <details open>
+        <summary>Che cos’è un’equazione</summary>
+        <div class="acc-body">
+          <p>Un’<strong>equazione</strong> è un’uguaglianza tra due espressioni contenenti
+             un’<strong>incognita</strong> (di solito indicata con <span class="eqline">x</span>),
+             vera solo per particolari valori attribuiti all’incognita.
+             L’espressione a sinistra dell’uguale si chiama <strong>primo membro</strong>,
+             quella a destra <strong>secondo membro</strong>.</p>
+          <div class="formula center">3x + 2 = x + 8</div>
+          <p>I valori che rendono vera l’uguaglianza si chiamano <strong>soluzioni</strong>
+             (o radici). Risolvere un’equazione significa determinare l’insieme
+             <span class="eqline">S</span> di tutte le sue soluzioni. Un’equazione può essere:</p>
+          <ul>
+            <li><strong>determinata</strong>: ha un numero finito di soluzioni
+                (per il primo grado: una sola);</li>
+            <li><strong>impossibile</strong>: nessun valore la verifica,
+                <span class="eqline">S = ∅</span> (es. <span class="eqline">x = x + 1</span>);</li>
+            <li><strong>indeterminata</strong> (identità): è vera per qualsiasi valore
+                (es. <span class="eqline">2(x + 1) = 2x + 2</span>).</li>
+          </ul>
+          <div class="note-ok">Un’equazione <strong>intera di primo grado</strong> (lineare) si può sempre
+            ridurre alla <strong>forma normale</strong> <span class="eqline">ax + b = 0</span>:
+            l’incognita compare solo con esponente 1 e non sta al denominatore.</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>I principi di equivalenza: la bilancia</summary>
+        <div class="acc-body">
+          <p>Due equazioni si dicono <strong>equivalenti</strong> se hanno le stesse soluzioni.
+             I principi di equivalenza permettono di trasformare un’equazione in un’altra
+             equivalente ma più semplice. L’immagine guida è la <strong>bilancia a due piatti</strong>
+             in equilibrio: i due membri «pesano» uguale, e l’equilibrio si conserva solo se
+             ogni operazione viene fatta <em>su entrambi i piatti</em>.</p>
+
+          <h3>Primo principio (addizione e sottrazione)</h3>
+          <div class="formula center">A = B &nbsp;⇔&nbsp; A + C = B + C</div>
+          <p>Aggiungendo o sottraendo ai due membri uno stesso numero (o una stessa espressione)
+             si ottiene un’equazione equivalente. Conseguenze pratiche:</p>
+          <ul>
+            <li><strong>regola del trasporto</strong>: un termine può passare da un membro
+                all’altro <em>cambiando di segno</em>;</li>
+            <li>termini uguali presenti in entrambi i membri si possono <strong>cancellare</strong>.</li>
+          </ul>
+
+          <h3>Secondo principio (moltiplicazione e divisione)</h3>
+          <div class="formula center">A = B &nbsp;⇔&nbsp; A · C = B · C &nbsp;&nbsp;(C ≠ 0)</div>
+          <p>Moltiplicando o dividendo entrambi i membri per uno stesso numero
+             <strong>diverso da zero</strong> si ottiene un’equazione equivalente.
+             Conseguenze pratiche:</p>
+          <ul>
+            <li>si possono <strong>cambiare i segni</strong> di tutti i termini
+                (equivale a moltiplicare per −1);</li>
+            <li>si possono <strong>eliminare i denominatori numerici</strong>
+                moltiplicando per il loro minimo comune multiplo.</li>
+          </ul>
+          <div class="note-warn"><strong>Attenzione:</strong> non si può mai moltiplicare o dividere
+            per zero, né per un’espressione che potrebbe annullarsi: con C = 0 entrambi i membri
+            diventerebbero 0 e ogni informazione sull’incognita andrebbe perduta.</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Procedura risolutiva e casi possibili</summary>
+        <div class="acc-body">
+          <ol>
+            <li>Svolgi i calcoli ed elimina le parentesi.</li>
+            <li>Con il <strong>1° principio</strong> porta i termini con l’incognita nel primo membro
+                e i termini noti nel secondo (cambiando segno a chi «trasloca»).</li>
+            <li>Riduci i termini simili: ottieni la forma <span class="eqline">ax = b</span>.</li>
+            <li>Con il <strong>2° principio</strong> dividi entrambi i membri per
+                <span class="eqline">a</span> (se <span class="eqline">a ≠ 0</span>).</li>
+          </ol>
+          <div class="formula center">5x + 3 = 2x + 12 &nbsp;→&nbsp; 5x − 2x = 12 − 3 &nbsp;→&nbsp; 3x = 9 &nbsp;→&nbsp; x = 3</div>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Forma finale ax = b</th><th>Tipo di equazione</th><th>Insieme soluzione</th></tr>
+            <tr><td class="m">a ≠ 0</td><td>determinata</td><td class="m">S = { b / a }</td></tr>
+            <tr><td class="m">a = 0, b = 0 &nbsp;(0x = 0)</td><td>indeterminata (identità)</td><td class="m">S = ℝ</td></tr>
+            <tr><td class="m">a = 0, b ≠ 0 &nbsp;(0x = b)</td><td>impossibile</td><td class="m">S = ∅</td></tr>
+          </table></div>
+        </div>
+      </details>
+
+      <details>
+        <summary>La verifica della soluzione</summary>
+        <div class="acc-body">
+          <p><strong>Verificare</strong> una soluzione significa sostituirla al posto dell’incognita
+             nell’equazione <em>iniziale</em> (non in quelle intermedie) e controllare che i due
+             membri assumano lo stesso valore.</p>
+          <div class="formula">x = 3 in 5x + 3 = 2x + 12:<br>
+            primo membro: 5 · 3 + 3 = 18<br>
+            secondo membro: 2 · 3 + 12 = 18</div>
+          <div class="note-ok">18 = 18: l’uguaglianza è vera, quindi x = 3 è davvero la soluzione.</div>
+          <p class="hint">La verifica protegge dagli errori di calcolo e di trascrizione: se i due
+             valori non coincidono, qualche passaggio va rivisto.</p>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <p class="sec-label">Simulazione · Bilancia animata</p>
+  <div class="card">
+    <h2>Risolvi con la bilancia</h2>
+    <p class="lead">Ogni piatto rappresenta un membro dell’equazione: i blocchi blu valgono
+       <strong>x</strong>, i gettoni arancioni valgono <strong>1</strong>. Applica le operazioni
+       <em>a entrambi i piatti</em>: la bilancia resta in equilibrio (1° e 2° principio) finché
+       non isoli la x.</p>
+    <div class="sim-layout">
+      <div class="sim-pane">
+        <div class="eq-display" id="bilEq">—</div>
+        <svg class="bil" id="bilSvg" viewBox="0 0 560 330" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Bilancia a due piatti che rappresenta l’equazione"></svg>
+        <div class="legend">
+          <span><i style="background:#2563eb"></i> blocco x (incognita)</span>
+          <span><i style="background:#f59e0b"></i> gettone unitario (vale 1)</span>
+        </div>
+      </div>
+      <div class="ctrl-pane">
+        <div class="btn-row">
+          <button class="btn btn-ghost" id="bilNew">Nuova equazione</button>
+          <button class="btn btn-primary" id="bilAuto">Passo suggerito</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-ghost" id="bilRemX">Togli 1 x per piatto</button>
+          <button class="btn btn-ghost" id="bilRemU">Togli 1 unità per piatto</button>
+          <button class="btn btn-ghost" id="bilDiv">Dividi i piatti</button>
+        </div>
+        <p class="hint" id="bilHint">Togli le x finché restano su un solo piatto, poi le unità in eccesso; infine dividi.</p>
+        <ol class="steps" id="bilSteps"></ol>
+        <div id="bilDone" hidden></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Risolutore passo passo</h2>
+    <p class="lead">Scrivi una qualsiasi equazione intera di primo grado: l’app mostra i passaggi,
+       indica il principio di equivalenza usato a ogni passo e verifica la soluzione.</p>
+    <div class="field" id="rsField">
+      <label for="rsInput">Equazione (usa x come incognita)</label>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <input type="text" id="rsInput" style="flex:1;min-width:200px" value="3(x − 2) = x + 4" placeholder="es. 3(x − 2) = x + 4" autocomplete="off" spellcheck="false">
+        <button class="btn btn-primary" id="rsSolve">Risolvi</button>
+        <button class="btn btn-ghost" id="rsEx">Esempio</button>
+      </div>
+      <p class="err-msg" id="rsErr">—</p>
+    </div>
+    <div id="rsOut"></div>
+  </div>
+
+  <p class="sec-label">Prova tu</p>
+  <div class="card">
+    <h2>Palestra di autovalutazione</h2>
+    <div class="tabs">
+      <button class="tab active" data-qtab="eq1t" data-card="eq1">Quiz di teoria (10)</button>
+      <button class="tab" data-qtab="eq1c" data-card="eq1">Quiz di calcolo (10)</button>
+    </div>
+    <div class="quiz" id="qz-eq1t" data-quiz="eq1t"></div>
+    <div class="quiz" id="qz-eq1c" data-quiz="eq1c" hidden></div>
+  </div>
+</section>
+<!-- ============================================================
+     EQUAZIONI DI SECONDO GRADO
+============================================================ -->
+<section class="scene" id="eq2">
+  <div class="page-head">
+    <h2>Equazioni di secondo grado</h2>
+    <p class="lead">Dalla forma normale alla formula risolutiva con il completamento del quadrato; il ruolo del discriminante e l’interpretazione grafica con la parabola.</p>
+  </div>
+
+  <p class="sec-label">Teoria</p>
+  <div class="card">
+    <div class="accordion">
+
+      <details open>
+        <summary>Forma normale e classificazione</summary>
+        <div class="acc-body">
+          <p>Un’equazione di <strong>secondo grado</strong> in una incognita si può sempre
+             ridurre alla forma normale:</p>
+          <div class="formula center big">ax² + bx + c = 0&nbsp;&nbsp;&nbsp;con a ≠ 0</div>
+          <p><span class="eqline">a</span> è il coefficiente del termine quadratico,
+             <span class="eqline">b</span> quello del termine lineare,
+             <span class="eqline">c</span> è il termine noto.
+             Se fosse <span class="eqline">a = 0</span> l’equazione degraderebbe al primo grado.</p>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Tipo</th><th>Forma</th><th>Come si risolve</th></tr>
+            <tr><td><strong>completa</strong></td><td class="m">ax² + bx + c = 0</td>
+                <td>formula risolutiva</td></tr>
+            <tr><td><strong>spuria</strong> (c = 0)</td><td class="m">ax² + bx = 0</td>
+                <td>raccolgo x: &nbsp;<span class="m">x(ax + b) = 0 → x = 0, x = −b/a</span></td></tr>
+            <tr><td><strong>pura</strong> (b = 0)</td><td class="m">ax² + c = 0</td>
+                <td><span class="m">x² = −c/a</span>: se −c/a ≥ 0, <span class="m">x = ±√(−c/a)</span>; altrimenti impossibile in ℝ</td></tr>
+            <tr><td><strong>monomia</strong> (b = c = 0)</td><td class="m">ax² = 0</td>
+                <td><span class="m">x = 0</span> (soluzione doppia)</td></tr>
+          </table></div>
+          <div class="note-ok">La spuria ha sempre <strong>x = 0</strong> tra le soluzioni:
+            si risolve con il raccoglimento e la <strong>legge di annullamento del prodotto</strong>
+            (un prodotto è zero se e solo se almeno un fattore è zero).</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Come si arriva alla formula risolutiva</summary>
+        <div class="acc-body">
+          <p>La formula non va imparata come una magia: si <em>costruisce</em> con i principi di
+             equivalenza, trasformando il primo membro in un <strong>quadrato perfetto</strong>
+             (completamento del quadrato).</p>
+          <div class="formula">1.&nbsp; ax² + bx + c = 0
+            <span class="why">forma normale, con a ≠ 0</span></div>
+          <div class="formula">2.&nbsp; 4a²x² + 4abx + 4ac = 0
+            <span class="why">moltiplico entrambi i membri per 4a (2° principio)</span></div>
+          <div class="formula">3.&nbsp; 4a²x² + 4abx = −4ac
+            <span class="why">porto 4ac al secondo membro (1° principio)</span></div>
+          <div class="formula">4.&nbsp; 4a²x² + 4abx + b² = b² − 4ac
+            <span class="why">aggiungo b² a entrambi i membri (1° principio): ora a sinistra c’è un quadrato perfetto</span></div>
+          <div class="formula">5.&nbsp; (2ax + b)² = b² − 4ac
+            <span class="why">infatti (2ax + b)² = 4a²x² + 4abx + b²; la quantità a destra si chiama discriminante Δ</span></div>
+          <div class="formula">6.&nbsp; 2ax + b = ±<span class="sq">√<span class="sq-i">b² − 4ac</span></span>
+            <span class="why">se Δ ≥ 0 estraggo la radice quadrata: due possibilità, una per segno</span></div>
+          <div class="formula center big">x<sub>1,2</sub> =
+            <span class="frac"><span class="nu">−b ± <span class="sq">√<span class="sq-i">b² − 4ac</span></span></span><span class="de">2a</span></span>
+            <span class="why">porto b a destra e divido per 2a (1° e 2° principio): è la formula risolutiva</span></div>
+          <div class="note-warn">Se <strong>Δ &lt; 0</strong> il passaggio 6 è impossibile:
+            nessun numero reale elevato al quadrato dà un risultato negativo,
+            quindi l’equazione non ha soluzioni reali.</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Il discriminante Δ</summary>
+        <div class="acc-body">
+          <p>La quantità sotto radice si chiama <strong>discriminante</strong>:</p>
+          <div class="formula center big">Δ = b² − 4ac</div>
+          <p>Si chiama così perché <em>discrimina</em> (distingue) i tre casi possibili:</p>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Discriminante</th><th>Soluzioni reali</th><th>Formula</th></tr>
+            <tr><td class="m">Δ &gt; 0</td><td>due soluzioni reali <strong>distinte</strong></td>
+                <td class="m">x₁ = (−b − √Δ)/2a,&nbsp; x₂ = (−b + √Δ)/2a</td></tr>
+            <tr><td class="m">Δ = 0</td><td>due soluzioni reali <strong>coincidenti</strong> (doppia)</td>
+                <td class="m">x₁ = x₂ = −b/2a</td></tr>
+            <tr><td class="m">Δ &lt; 0</td><td><strong>nessuna</strong> soluzione reale</td>
+                <td class="m">—</td></tr>
+          </table></div>
+          <p class="hint">Conviene calcolare sempre Δ per primo: dice subito quante soluzioni
+             aspettarsi, prima ancora di trovarle.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Interpretazione grafica: la parabola</summary>
+        <div class="acc-body">
+          <p>Al trinomio è associata la funzione <span class="eqline">y = ax² + bx + c</span>,
+             il cui grafico è una <strong>parabola</strong> con asse verticale:</p>
+          <ul>
+            <li>se <span class="eqline">a &gt; 0</span> la concavità è rivolta verso l’<strong>alto</strong>,
+                se <span class="eqline">a &lt; 0</span> verso il <strong>basso</strong>;</li>
+            <li>il <strong>vertice</strong> ha coordinate
+                <span class="eqline">V(−b/2a; −Δ/4a)</span>;</li>
+            <li>le <strong>soluzioni</strong> di <span class="eqline">ax² + bx + c = 0</span> sono le
+                <strong>ascisse dei punti in cui la parabola interseca l’asse x</strong>.</li>
+          </ul>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Discriminante</th><th>Posizione rispetto all’asse x</th><th>Intersezioni</th></tr>
+            <tr><td class="m">Δ &gt; 0</td><td>la parabola attraversa l’asse (secante)</td><td>2 punti: x₁ e x₂</td></tr>
+            <tr><td class="m">Δ = 0</td><td>la parabola tocca l’asse nel vertice (tangente)</td><td>1 punto: x₁ = x₂</td></tr>
+            <tr><td class="m">Δ &lt; 0</td><td>la parabola non tocca l’asse</td><td>nessuno</td></tr>
+          </table></div>
+          <p class="hint">Prova nella simulazione: muovi a, b, c e osserva come Δ e le intersezioni cambiano insieme.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Somma e prodotto delle radici</summary>
+        <div class="acc-body">
+          <p>Quando le soluzioni esistono, valgono le relazioni:</p>
+          <div class="formula center">x₁ + x₂ = −<span class="frac"><span class="nu">b</span><span class="de">a</span></span>
+            &nbsp;&nbsp;&nbsp;&nbsp; x₁ · x₂ = <span class="frac"><span class="nu">c</span><span class="de">a</span></span></div>
+          <p>Da qui la <strong>scomposizione del trinomio</strong>:
+             <span class="eqline">ax² + bx + c = a(x − x₁)(x − x₂)</span>.
+             Per i trinomi con <span class="eqline">a = 1</span> si cercano due numeri che
+             abbiano somma <span class="eqline">−b</span>… anzi: somma uguale a
+             <span class="eqline">−b/a</span> e prodotto uguale a <span class="eqline">c/a</span>.</p>
+          <div class="note-ok">Uso pratico: per <strong>verificare</strong> le soluzioni trovate.
+            In x² − 5x + 6 = 0 le radici 2 e 3 vanno bene perché 2 + 3 = 5 = −(−5)/1
+            e 2 · 3 = 6 = c/a.</div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <p class="sec-label">Simulazione · Parabola interattiva</p>
+  <div class="card">
+    <h2>Discriminante e intersezioni con l’asse x</h2>
+    <p class="lead">Muovi i coefficienti di y = ax² + bx + c. I punti arancioni sull’asse x sono
+       le soluzioni di ax² + bx + c = 0; il punto verde è il vertice.</p>
+    <div class="sim-layout">
+      <div class="sim-pane">
+        <div class="eq-display" id="pbEq">—</div>
+        <canvas class="plot" id="pbPlot" role="img" aria-label="Grafico della parabola"></canvas>
+        <div class="legend">
+          <span><i style="background:#2563eb"></i> parabola</span>
+          <span><i style="background:#f59e0b"></i> soluzioni (intersezioni con l’asse x)</span>
+          <span><i style="background:#10b981"></i> vertice</span>
+        </div>
+      </div>
+      <div class="ctrl-pane">
+        <div class="ctrl">
+          <label><span class="nm">a</span><input type="range" id="pbA" min="-3" max="3" step="1" value="1"><span class="v" id="pbAv">1</span></label>
+          <label><span class="nm">b</span><input type="range" id="pbB" min="-10" max="10" step="1" value="-2"><span class="v" id="pbBv">−2</span></label>
+          <label><span class="nm">c</span><input type="range" id="pbC" min="-10" max="10" step="1" value="-3"><span class="v" id="pbCv">−3</span></label>
+        </div>
+        <div class="case-banner cn" id="pbCase">—</div>
+        <div class="read">
+          <div class="it"><span class="l">Δ = b² − 4ac</span><span class="v" id="pbDelta">—</span></div>
+          <div class="it"><span class="l">Concavità</span><span class="v" id="pbConc">—</span></div>
+          <div class="it"><span class="l">Vertice</span><span class="v" id="pbVert">—</span></div>
+        </div>
+        <h3>Formula risolutiva applicata</h3>
+        <div id="pbSteps"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-label">Prova tu</p>
+  <div class="card">
+    <h2>Palestra di autovalutazione</h2>
+    <div class="tabs">
+      <button class="tab active" data-qtab="eq2t">Quiz di teoria (10)</button>
+      <button class="tab" data-qtab="eq2c">Quiz di calcolo (10)</button>
+    </div>
+    <div class="quiz" id="qz-eq2t" data-quiz="eq2t"></div>
+    <div class="quiz" id="qz-eq2c" data-quiz="eq2c" hidden></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DISEQUAZIONI
+============================================================ -->
+<section class="scene" id="diseq">
+  <div class="page-head">
+    <h2>Disequazioni di primo e secondo grado</h2>
+    <p class="lead">Lo studio del segno con retta e parabola: zone colorate, regola del verso e intervalli delle soluzioni.</p>
+  </div>
+
+  <p class="sec-label">Teoria</p>
+  <div class="card">
+    <div class="accordion">
+
+      <details open>
+        <summary>Disequazioni e intervalli</summary>
+        <div class="acc-body">
+          <p>Una <strong>disequazione</strong> è una disuguaglianza tra due espressioni contenenti
+             un’incognita, costruita con uno dei simboli
+             <span class="eqline">&lt;, &gt;, ≤, ≥</span> (il simbolo usato si chiama
+             <strong>verso</strong>). A differenza delle equazioni, le soluzioni sono in genere
+             <strong>infinite</strong> e formano uno o più <strong>intervalli</strong>.</p>
+          <p>Lo stesso insieme di soluzioni si può scrivere in tre modi:</p>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Disuguaglianza</th><th>Intervallo</th><th>Sulla retta dei numeri</th></tr>
+            <tr><td class="m">x &gt; 3</td><td class="m">(3; +∞)</td><td>cerchietto <strong>vuoto</strong> su 3, semiretta verso destra</td></tr>
+            <tr><td class="m">x ≤ −1</td><td class="m">(−∞; −1]</td><td>cerchietto <strong>pieno</strong> su −1, semiretta verso sinistra</td></tr>
+            <tr><td class="m">−2 &lt; x ≤ 5</td><td class="m">(−2; 5]</td><td>segmento da −2 (escluso) a 5 (incluso)</td></tr>
+          </table></div>
+          <ul>
+            <li>parentesi <strong>tonda</strong> ( ) e cerchietto vuoto: estremo <strong>escluso</strong> (verso stretto &lt; o &gt;);</li>
+            <li>parentesi <strong>quadra</strong> [ ] e cerchietto pieno: estremo <strong>incluso</strong> (verso largo ≤ o ≥);</li>
+            <li>il simbolo <span class="eqline">∪</span> unisce intervalli separati; <span class="eqline">∅</span> è l’insieme vuoto.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Principi di equivalenza e regola del verso</summary>
+        <div class="acc-body">
+          <p>Per le disequazioni valgono principi analoghi a quelli delle equazioni,
+             con una differenza <strong>cruciale</strong> nel secondo:</p>
+          <h3>Primo principio</h3>
+          <p>Aggiungendo o sottraendo ai due membri una stessa quantità, il verso
+             <strong>non cambia</strong>: vale ancora la regola del trasporto.</p>
+          <h3>Secondo principio</h3>
+          <ul>
+            <li>moltiplicando o dividendo per un numero <strong>positivo</strong>,
+                il verso <strong>resta invariato</strong>;</li>
+            <li>moltiplicando o dividendo per un numero <strong>negativo</strong>,
+                il verso <strong>si inverte</strong> (&lt; diventa &gt;, ≤ diventa ≥, e viceversa).</li>
+          </ul>
+          <div class="formula center">−2x &lt; 6 &nbsp;→&nbsp; x &gt; −3
+            <span class="why">divido per −2 (negativo): il verso si inverte</span></div>
+          <div class="note-err"><strong>Errore tipico:</strong> da −2x &lt; 6 concludere x &lt; −3.
+            Controllo rapido: x = 0 rende vera la disequazione di partenza (0 &lt; 6),
+            quindi 0 deve appartenere alle soluzioni: succede con x &gt; −3, non con x &lt; −3.</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Disequazioni di primo grado</summary>
+        <div class="acc-body">
+          <p>Si riducono alla forma <span class="eqline">ax + b &gt; 0</span>
+             (o con altro verso) e si risolvono in due passi:</p>
+          <ol>
+            <li>porto il termine noto a destra: <span class="eqline">ax &gt; −b</span> (1° principio);</li>
+            <li>divido per <span class="eqline">a</span>: se <span class="eqline">a &gt; 0</span> il verso resta,
+                se <span class="eqline">a &lt; 0</span> il verso <strong>si inverte</strong> (2° principio).</li>
+          </ol>
+          <div class="formula">Esempio:&nbsp; −3x + 6 &gt; 0 &nbsp;→&nbsp; −3x &gt; −6 &nbsp;→&nbsp; x &lt; 2</div>
+          <p>Graficamente: la retta <span class="eqline">y = ax + b</span> sta <em>sopra</em> l’asse x
+             dove l’espressione è positiva e <em>sotto</em> dove è negativa; il punto in cui lo
+             attraversa, <span class="eqline">x₀ = −b/a</span>, separa le due zone.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Disequazioni di secondo grado: il segno della parabola</summary>
+        <div class="acc-body">
+          <p>Per risolvere <span class="eqline">ax² + bx + c &gt; 0</span> (o con altro verso)
+             si studia il <strong>segno del trinomio</strong> leggendo la parabola:</p>
+          <ol>
+            <li>porto la disequazione in forma normale; se <span class="eqline">a &lt; 0</span>
+                conviene moltiplicare per −1 <strong>invertendo il verso</strong>;</li>
+            <li>calcolo <span class="eqline">Δ</span> e le eventuali radici
+                <span class="eqline">x₁ ≤ x₂</span> dell’equazione associata;</li>
+            <li>disegno uno schizzo della parabola (bastano concavità e radici);</li>
+            <li>leggo gli intervalli dove la parabola sta sopra (+) o sotto (−) l’asse x,
+                secondo il verso richiesto.</li>
+          </ol>
+          <p>Con <span class="eqline">a &gt; 0</span> e <span class="eqline">Δ &gt; 0</span> vale la
+             regola «<strong>esterni / interni</strong>»: il trinomio è positivo per
+             <strong>valori esterni</strong> alle radici, negativo per <strong>valori interni</strong>.</p>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Caso (a &gt; 0)</th><th class="m">&gt; 0</th><th class="m">≥ 0</th><th class="m">&lt; 0</th><th class="m">≤ 0</th></tr>
+            <tr><td class="m">Δ &gt; 0</td>
+                <td class="m">x &lt; x₁ ∨ x &gt; x₂</td><td class="m">x ≤ x₁ ∨ x ≥ x₂</td>
+                <td class="m">x₁ &lt; x &lt; x₂</td><td class="m">x₁ ≤ x ≤ x₂</td></tr>
+            <tr><td class="m">Δ = 0</td>
+                <td class="m">x ≠ x₀</td><td class="m">∀x ∈ ℝ</td>
+                <td class="m">∅</td><td class="m">x = x₀</td></tr>
+            <tr><td class="m">Δ &lt; 0</td>
+                <td class="m">∀x ∈ ℝ</td><td class="m">∀x ∈ ℝ</td>
+                <td class="m">∅</td><td class="m">∅</td></tr>
+          </table></div>
+          <div class="note-warn">Non imparare la tabella a memoria: <strong>disegna la parabola</strong>.
+            Lo schizzo con concavità e radici risponde da solo a tutti i casi.</div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <p class="sec-label">Simulazione · Retta e zone colorate</p>
+  <div class="card">
+    <h2>Disequazioni di primo grado: ax + b ⋛ 0</h2>
+    <p class="lead">La retta è colorata di verde dove l’espressione è positiva e di rosso dove è
+       negativa. La fascia azzurra e il tratto blu sull’asse x mostrano l’insieme soluzione.</p>
+    <div class="sim-layout">
+      <div class="sim-pane">
+        <div class="eq-display" id="d1Eq">—</div>
+        <canvas class="plot" id="d1Plot" role="img" aria-label="Grafico della retta con zone colorate"></canvas>
+        <div class="legend">
+          <span><i style="background:#10b981"></i> espressione &gt; 0</span>
+          <span><i style="background:#ef4444"></i> espressione &lt; 0</span>
+          <span><i style="background:#2563eb"></i> insieme soluzione</span>
+        </div>
+      </div>
+      <div class="ctrl-pane">
+        <div class="coef-grid">
+          <div class="coef"><label for="d1A">a</label><input type="number" id="d1A" value="2" step="any"></div>
+          <div class="coef"><label for="d1B">b</label><input type="number" id="d1B" value="-6" step="any"></div>
+          <div class="coef wide"><label for="d1V">verso</label>
+            <select id="d1V">
+              <option value="gt">&gt; 0</option>
+              <option value="ge">≥ 0</option>
+              <option value="lt">&lt; 0</option>
+              <option value="le">≤ 0</option>
+            </select></div>
+        </div>
+        <p class="coef-err" id="d1Err">—</p>
+        <div id="d1Steps"></div>
+        <p class="strip-title">Segno di ax + b</p>
+        <div class="sign-strip" id="d1Strip"></div>
+        <div id="d1Sol"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-label">Simulazione · Parabola e zone colorate</p>
+  <div class="card">
+    <h2>Disequazioni di secondo grado: ax² + bx + c ⋛ 0</h2>
+    <p class="lead">La parabola è verde dove il trinomio è positivo, rossa dove è negativo.
+       Cambia il verso e osserva quali intervalli dell’asse x vengono selezionati.</p>
+    <div class="sim-layout">
+      <div class="sim-pane">
+        <div class="eq-display" id="d2Eq">—</div>
+        <canvas class="plot" id="d2Plot" role="img" aria-label="Grafico della parabola con zone colorate"></canvas>
+        <div class="legend">
+          <span><i style="background:#10b981"></i> trinomio &gt; 0</span>
+          <span><i style="background:#ef4444"></i> trinomio &lt; 0</span>
+          <span><i style="background:#2563eb"></i> insieme soluzione</span>
+        </div>
+      </div>
+      <div class="ctrl-pane">
+        <div class="coef-grid">
+          <div class="coef"><label for="d2A">a</label><input type="number" id="d2A" value="1" step="1"></div>
+          <div class="coef"><label for="d2B">b</label><input type="number" id="d2B" value="-2" step="1"></div>
+          <div class="coef"><label for="d2C">c</label><input type="number" id="d2C" value="-3" step="1"></div>
+          <div class="coef wide"><label for="d2V">verso</label>
+            <select id="d2V">
+              <option value="gt">&gt; 0</option>
+              <option value="ge">≥ 0</option>
+              <option value="lt">&lt; 0</option>
+              <option value="le">≤ 0</option>
+            </select></div>
+        </div>
+        <p class="coef-err" id="d2Err">—</p>
+        <div class="read">
+          <div class="it"><span class="l">Δ</span><span class="v" id="d2Delta">—</span></div>
+          <div class="it"><span class="l">Radici</span><span class="v" id="d2Roots">—</span></div>
+          <div class="it"><span class="l">Concavità</span><span class="v" id="d2Conc">—</span></div>
+        </div>
+        <p class="strip-title">Segno di ax² + bx + c</p>
+        <div class="sign-strip" id="d2Strip"></div>
+        <div id="d2Sol"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-label">Prova tu</p>
+  <div class="card">
+    <h2>Palestra di autovalutazione</h2>
+    <div class="tabs">
+      <button class="tab active" data-qtab="dist">Quiz di teoria (10)</button>
+      <button class="tab" data-qtab="disc">Quiz di calcolo (10)</button>
+    </div>
+    <div class="quiz" id="qz-dist" data-quiz="dist"></div>
+    <div class="quiz" id="qz-disc" data-quiz="disc" hidden></div>
+  </div>
+</section>
+<!-- ============================================================
+     SISTEMI DI EQUAZIONI
+============================================================ -->
+<section class="scene" id="sist">
+  <div class="page-head">
+    <h2>Sistemi di equazioni</h2>
+    <p class="lead">Rette e parabole che si intersecano: soluzione grafica e metodi algebrici — sostituzione, riduzione e Cramer.</p>
+  </div>
+
+  <p class="sec-label">Teoria</p>
+  <div class="card">
+    <div class="accordion">
+
+      <details open>
+        <summary>Che cos’è un sistema</summary>
+        <div class="acc-body">
+          <p>Un <strong>sistema</strong> è un insieme di due o più equazioni nelle stesse incognite,
+             che devono essere verificate <strong>contemporaneamente</strong>.
+             Una <strong>soluzione</strong> di un sistema in due incognite è una
+             <strong>coppia ordinata</strong> <span class="eqline">(x; y)</span> che rende vere
+             <em>tutte</em> le equazioni.</p>
+          <div class="formula center">
+            { a₁x + b₁y = c₁ ;&nbsp;&nbsp; a₂x + b₂y = c₂ }
+            <span class="why">forma normale di un sistema lineare di due equazioni in due incognite</span>
+          </div>
+          <p>Il <strong>grado</strong> di un sistema è il <strong>prodotto</strong> dei gradi delle sue
+             equazioni: due equazioni lineari danno un sistema di 1° grado; una retta e una parabola
+             danno un sistema di 2° grado.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Interpretazione grafica e classificazione</summary>
+        <div class="acc-body">
+          <p>Ogni equazione lineare in x e y rappresenta una <strong>retta</strong> nel piano cartesiano.
+             Risolvere il sistema significa cercare i <strong>punti comuni</strong> alle due rette:</p>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Le due rette sono…</th><th>Sistema</th><th>Soluzioni</th></tr>
+            <tr><td><strong>incidenti</strong> (si intersecano in un punto)</td><td>determinato</td><td>una sola coppia (x; y)</td></tr>
+            <tr><td><strong>parallele distinte</strong></td><td>impossibile</td><td>nessuna</td></tr>
+            <tr><td><strong>coincidenti</strong></td><td>indeterminato</td><td>infinite</td></tr>
+          </table></div>
+          <p>Con i coefficienti (tutti non nulli) il confronto dei rapporti dice subito il caso:</p>
+          <div class="formula center">
+            <span class="frac"><span class="nu">a₁</span><span class="de">a₂</span></span> ≠
+            <span class="frac"><span class="nu">b₁</span><span class="de">b₂</span></span> determinato;&nbsp;&nbsp;
+            <span class="frac"><span class="nu">a₁</span><span class="de">a₂</span></span> =
+            <span class="frac"><span class="nu">b₁</span><span class="de">b₂</span></span> ≠
+            <span class="frac"><span class="nu">c₁</span><span class="de">c₂</span></span> impossibile;&nbsp;&nbsp;
+            <span class="frac"><span class="nu">a₁</span><span class="de">a₂</span></span> =
+            <span class="frac"><span class="nu">b₁</span><span class="de">b₂</span></span> =
+            <span class="frac"><span class="nu">c₁</span><span class="de">c₂</span></span> indeterminato
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Metodo di sostituzione</summary>
+        <div class="acc-body">
+          <ol>
+            <li>Isolo un’incognita in una delle due equazioni (conviene quella con coefficiente 1 o −1).</li>
+            <li>Sostituisco l’espressione trovata nell’<em>altra</em> equazione: ottengo
+                un’equazione in una sola incognita.</li>
+            <li>La risolvo.</li>
+            <li>Sostituisco il valore trovato nell’espressione del punto 1 e ricavo l’altra incognita.</li>
+          </ol>
+          <div class="formula">{ y = 2x ;&nbsp; x + y = 9 } &nbsp;→&nbsp; x + 2x = 9 &nbsp;→&nbsp; 3x = 9 &nbsp;→&nbsp; x = 3, y = 6</div>
+          <div class="note-ok">È il metodo più generale: funziona anche per i sistemi di secondo
+            grado (retta e parabola).</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Metodo di riduzione (o eliminazione)</summary>
+        <div class="acc-body">
+          <p>Si <strong>sommano o sottraggono membro a membro</strong> le due equazioni,
+             dopo averle eventualmente moltiplicate per numeri opportuni, in modo che
+             un’incognita abbia coefficienti opposti (o uguali) e <strong>si elimini</strong>.</p>
+          <div class="formula">{ x + y = 5 ;&nbsp; x − y = 1 }<br>
+            sommo: &nbsp;2x = 6 → x = 3;&nbsp;&nbsp; sottraggo: &nbsp;2y = 4 → y = 2</div>
+          <p class="hint">Per rendere opposti i coefficienti di y si moltiplica la prima equazione
+             per b₂ e la seconda per b₁ (o per i fattori del loro minimo comune multiplo),
+             poi si sottrae.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Metodo di Cramer</summary>
+        <div class="acc-body">
+          <p>Si basa sui <strong>determinanti</strong> delle matrici 2×2. Il determinante è:</p>
+          <div class="formula center">
+            <span class="det"><span>a</span><span>b</span><span>c</span><span>d</span></span> = a·d − b·c
+          </div>
+          <p>Per il sistema in forma normale si calcolano tre determinanti:
+             <strong>D</strong> con i coefficienti delle incognite;
+             <strong>D<sub>x</sub></strong> sostituendo la colonna delle x con i termini noti;
+             <strong>D<sub>y</sub></strong> sostituendo la colonna delle y.</p>
+          <div class="formula center">
+            x = <span class="frac"><span class="nu">D<sub>x</sub></span><span class="de">D</span></span>
+            &nbsp;&nbsp;&nbsp; y = <span class="frac"><span class="nu">D<sub>y</sub></span><span class="de">D</span></span>
+            &nbsp;&nbsp;&nbsp;(se D ≠ 0)
+          </div>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Determinanti</th><th>Sistema</th></tr>
+            <tr><td class="m">D ≠ 0</td><td>determinato</td></tr>
+            <tr><td class="m">D = 0 e almeno uno tra Dx, Dy ≠ 0</td><td>impossibile</td></tr>
+            <tr><td class="m">D = Dx = Dy = 0</td><td>indeterminato</td></tr>
+          </table></div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Sistemi di 2° grado: retta e parabola</summary>
+        <div class="acc-body">
+          <p>Un sistema tra una parabola <span class="eqline">y = ax² + bx + c</span> e una retta
+             <span class="eqline">y = mx + q</span> si risolve per <strong>sostituzione</strong>:
+             eguagliando le due espressioni di y si ottiene l’<strong>equazione risolvente</strong>
+             di secondo grado:</p>
+          <div class="formula center">ax² + (b − m)x + (c − q) = 0</div>
+          <p>Il suo discriminante decide la posizione reciproca:</p>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Δ risolvente</th><th>Retta e parabola</th><th>Soluzioni del sistema</th></tr>
+            <tr><td class="m">Δ &gt; 0</td><td><strong>secanti</strong></td><td>2 punti di intersezione</td></tr>
+            <tr><td class="m">Δ = 0</td><td><strong>tangenti</strong></td><td>1 punto (contato due volte)</td></tr>
+            <tr><td class="m">Δ &lt; 0</td><td><strong>esterne</strong></td><td>nessuna</td></tr>
+          </table></div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <p class="sec-label">Simulazione · Sistema lineare 2×2</p>
+  <div class="card">
+    <h2>Due rette nel piano: quattro metodi a confronto</h2>
+    <p class="lead">Inserisci i coefficienti delle due equazioni e confronta i metodi risolutivi.
+       Il punto verde sul grafico è la soluzione del sistema.</p>
+    <div class="sim-layout">
+      <div class="sim-pane">
+        <div class="eq-display" id="slEq" style="font-size:1.05em">—</div>
+        <canvas class="plot" id="slPlot" role="img" aria-label="Grafico delle due rette"></canvas>
+        <div class="legend">
+          <span><i style="background:#2563eb"></i> 1ª equazione</span>
+          <span><i style="background:#f59e0b"></i> 2ª equazione</span>
+          <span><i style="background:#10b981"></i> soluzione (intersezione)</span>
+        </div>
+      </div>
+      <div class="ctrl-pane">
+        <p class="hint" style="margin-top:0">1ª equazione: a₁x + b₁y = c₁</p>
+        <div class="coef-grid">
+          <div class="coef"><label for="slA1">a₁</label><input type="number" id="slA1" value="1" step="any"></div>
+          <div class="coef"><label for="slB1">b₁</label><input type="number" id="slB1" value="1" step="any"></div>
+          <div class="coef"><label for="slC1">c₁</label><input type="number" id="slC1" value="5" step="any"></div>
+        </div>
+        <p class="hint">2ª equazione: a₂x + b₂y = c₂</p>
+        <div class="coef-grid">
+          <div class="coef"><label for="slA2">a₂</label><input type="number" id="slA2" value="1" step="any"></div>
+          <div class="coef"><label for="slB2">b₂</label><input type="number" id="slB2" value="-1" step="any"></div>
+          <div class="coef"><label for="slC2">c₂</label><input type="number" id="slC2" value="1" step="any"></div>
+        </div>
+        <p class="coef-err" id="slErr">—</p>
+        <div class="case-banner cn" id="slCase">—</div>
+        <div class="tabs" style="margin-top:.6rem">
+          <button class="tab active" data-met="graf">Grafico</button>
+          <button class="tab" data-met="sost">Sostituzione</button>
+          <button class="tab" data-met="rid">Riduzione</button>
+          <button class="tab" data-met="cram">Cramer</button>
+        </div>
+        <div id="slSteps"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-label">Simulazione · Retta e parabola</p>
+  <div class="card">
+    <h2>Sistema di secondo grado</h2>
+    <p class="lead">Parabola y = ax² + bx + c e retta y = mx + q: l’equazione risolvente
+       determina se sono secanti, tangenti o esterne. Usa coefficienti interi.</p>
+    <div class="sim-layout">
+      <div class="sim-pane">
+        <div class="eq-display" id="spEq" style="font-size:1.05em">—</div>
+        <canvas class="plot" id="spPlot" role="img" aria-label="Grafico di retta e parabola"></canvas>
+        <div class="legend">
+          <span><i style="background:#2563eb"></i> parabola</span>
+          <span><i style="background:#f59e0b"></i> retta</span>
+          <span><i style="background:#10b981"></i> intersezioni</span>
+        </div>
+      </div>
+      <div class="ctrl-pane">
+        <p class="hint" style="margin-top:0">Parabola: y = ax² + bx + c</p>
+        <div class="coef-grid">
+          <div class="coef"><label for="spA">a</label><input type="number" id="spA" value="1" step="1"></div>
+          <div class="coef"><label for="spB">b</label><input type="number" id="spB" value="0" step="1"></div>
+          <div class="coef"><label for="spC">c</label><input type="number" id="spC" value="-1" step="1"></div>
+        </div>
+        <p class="hint">Retta: y = mx + q</p>
+        <div class="coef-grid">
+          <div class="coef"><label for="spM">m</label><input type="number" id="spM" value="1" step="1"></div>
+          <div class="coef"><label for="spQ">q</label><input type="number" id="spQ" value="1" step="1"></div>
+        </div>
+        <p class="coef-err" id="spErr">—</p>
+        <div class="case-banner cn" id="spCase">—</div>
+        <div id="spSteps"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-label">Prova tu</p>
+  <div class="card">
+    <h2>Palestra di autovalutazione</h2>
+    <div class="tabs">
+      <button class="tab active" data-qtab="sist_t">Quiz di teoria (10)</button>
+      <button class="tab" data-qtab="sisc">Quiz di calcolo (10)</button>
+    </div>
+    <div class="quiz" id="qz-sist_t" data-quiz="sist_t"></div>
+    <div class="quiz" id="qz-sisc" data-quiz="sisc" hidden></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Equazioni, disequazioni e sistemi · App didattica di matematica per il biennio —
+  teoria, simulazioni interattive e quiz di autovalutazione.
+</footer>
+<script>
+'use strict';
+/* ================================================================
+   PARTE PURA: aritmetica esatta, parser, solutori
+   ================================================================ */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t}return a||1}
+
+class Frac{
+  constructor(n,d=1){
+    if(d===0)throw{msg:'Denominatore nullo'};
+    if(!Number.isInteger(n)||!Number.isInteger(d))throw{msg:'Frazione non intera'};
+    if(d<0){n=-n;d=-d}
+    const g=gcd(n,d);this.n=n/g;this.d=d/g;
+  }
+  static dec(s){
+    s=String(s).trim().replace(',','.');
+    if(!/^[+-]?(\d+(\.\d*)?|\.\d+)$/.test(s))return null;
+    const neg=s[0]==='-';s=s.replace(/^[+-]/,'');
+    const parts=s.split('.');const ip=parts[0]||'0';let fp=parts[1]||'';
+    if(fp.length>6)fp=fp.slice(0,6);
+    if(ip.length+fp.length>12)return null;
+    const n=parseInt(ip+fp||'0',10),d=Math.pow(10,fp.length);
+    return new Frac(neg?-n:n,d);
+  }
+  add(o){return new Frac(this.n*o.d+o.n*this.d,this.d*o.d)}
+  sub(o){return new Frac(this.n*o.d-o.n*this.d,this.d*o.d)}
+  mul(o){return new Frac(this.n*o.n,this.d*o.d)}
+  div(o){if(o.n===0)throw{msg:'Divisione per zero'};return new Frac(this.n*o.d,this.d*o.n)}
+  neg(){return new Frac(-this.n,this.d)}
+  abs(){return new Frac(Math.abs(this.n),this.d)}
+  isInt(){return this.d===1}
+  num(){return this.n/this.d}
+  eq(o){return this.n===o.n&&this.d===o.d}
+  html(){
+    if(this.d===1)return fmtInt(this.n);
+    const s=this.n<0?'−':'';
+    return s+'<span class="frac"><span class="nu">'+Math.abs(this.n)+'</span><span class="de">'+this.d+'</span></span>';
+  }
+  txt(){return this.d===1?fmtInt(this.n):fmtInt(this.n)+'/'+this.d}
+}
+const F0=()=>new Frac(0),F1=()=>new Frac(1);
+
+function fmtInt(n){return String(n).replace('-','−')}
+function fmt(x,dec=2){
+  if(!isFinite(x))return x>0?'+∞':'−∞';
+  const p=Math.pow(10,dec);let r=Math.round(x*p)/p;
+  if(Object.is(r,-0))r=0;
+  let s=String(r);
+  if(s.includes('e'))s=r.toFixed(dec);
+  return s.replace('.',',').replace('-','−');
+}
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+/* ---------- espressioni lineari {a,b} = a·x + b ---------- */
+function lin(a,b){return{a,b}}
+function lAdd(u,v){return lin(u.a.add(v.a),u.b.add(v.b))}
+function lSub(u,v){return lin(u.a.sub(v.a),u.b.sub(v.b))}
+function lNeg(u){return lin(u.a.neg(),u.b.neg())}
+function lMul(u,v){
+  if(u.a.n!==0&&v.a.n!==0)throw{msg:'L’equazione non è di primo grado: moltiplicando compare un termine con x²'};
+  return lin(u.a.mul(v.b).add(v.a.mul(u.b)),u.b.mul(v.b));
+}
+function lDiv(u,v){
+  if(v.a.n!==0)throw{msg:'Si può dividere solo per un numero, non per un’espressione contenente la x'};
+  if(v.b.n===0)throw{msg:'Divisione per zero'};
+  return lin(u.a.div(v.b),u.b.div(v.b));
+}
+function linHtml(L,vn){
+  vn=vn||'x';let out='';
+  if(L.a.n!==0){
+    if(L.a.n===1&&L.a.d===1)out=vn;
+    else if(L.a.n===-1&&L.a.d===1)out='−'+vn;
+    else out=L.a.html()+vn;
+  }
+  if(L.b.n!==0||out===''){
+    if(out==='')out=L.b.html();
+    else out+=(L.b.n<0?' − ':' + ')+L.b.abs().html();
+  }
+  return out;
+}
+
+/* ---------- parser di equazioni lineari ---------- */
+function tokenize(src){
+  if(src.length>90)throw{msg:'Equazione troppo lunga'};
+  const s=src.replace(/[−–—]/g,'-').replace(/[×·]/g,'*').replace(/,/g,'.').replace(/X/g,'x');
+  const toks=[];let i=0;
+  while(i<s.length){
+    const ch=s[i];
+    if(ch===' '||ch==='\t'){i++;continue}
+    if(/[0-9.]/.test(ch)){
+      let j=i;while(j<s.length&&/[0-9.]/.test(s[j]))j++;
+      const t=s.slice(i,j);
+      if((t.match(/\./g)||[]).length>1)throw{msg:'Numero non valido: '+t};
+      toks.push({t:'n',s:t});i=j;continue;
+    }
+    if(ch==='x'){toks.push({t:'x'});i++;continue}
+    if('+-*/()='.includes(ch)){toks.push({t:ch});i++;continue}
+    throw{msg:'Carattere non ammesso: «'+escapeHtml(src[i]||ch)+'»'};
+  }
+  return toks;
+}
+function symTok(t){return t.t==='n'?t.s:(t.t==='x'?'x':t.t)}
+function parseSide(toks,nome){
+  if(!toks.length)throw{msg:'Manca il '+nome+' membro dell’equazione'};
+  let p=0;
+  const peek=()=>toks[p],next=()=>toks[p++];
+  function expr(){
+    let v=term();
+    while(peek()&&(peek().t==='+'||peek().t==='-')){
+      const op=next().t,r=term();
+      v=op==='+'?lAdd(v,r):lSub(v,r);
+    }
+    return v;
+  }
+  function term(){
+    let v=unary();
+    while(peek()&&(peek().t==='*'||peek().t==='/'||peek().t==='n'||peek().t==='x'||peek().t==='(')){
+      if(peek().t==='*'){next();v=lMul(v,unary())}
+      else if(peek().t==='/'){next();v=lDiv(v,unary())}
+      else v=lMul(v,unary());
+    }
+    return v;
+  }
+  function unary(){
+    if(peek()&&peek().t==='-'){next();return lNeg(unary())}
+    if(peek()&&peek().t==='+'){next();return unary()}
+    return atom();
+  }
+  function atom(){
+    const t=next();
+    if(!t)throw{msg:'Espressione incompleta'};
+    if(t.t==='n'){const f=Frac.dec(t.s);if(!f)throw{msg:'Numero non valido: '+t.s};return lin(F0(),f)}
+    if(t.t==='x')return lin(F1(),F0());
+    if(t.t==='('){
+      const v=expr();const c=next();
+      if(!c||c.t!==')')throw{msg:'Parentesi non chiusa'};
+      return v;
+    }
+    throw{msg:'Simbolo inatteso: «'+symTok(t)+'»'};
+  }
+  const v=expr();
+  if(p<toks.length)throw{msg:'Simbolo inatteso: «'+symTok(toks[p])+'»'};
+  return v;
+}
+function parseLinEq(src){
+  const toks=tokenize(src);
+  const iEq=toks.findIndex(t=>t.t==='=');
+  if(iEq<0)throw{msg:'Manca il segno ='};
+  if(toks.slice(iEq+1).some(t=>t.t==='='))throw{msg:'C’è più di un segno ='};
+  return{L:parseSide(toks.slice(0,iEq),'primo'),R:parseSide(toks.slice(iEq+1),'secondo')};
+}
+function solveLin(L,R){
+  const A=L.a.sub(R.a),B=R.b.sub(L.b);
+  if(A.n!==0)return{type:'det',A,B,x:B.div(A)};
+  return{type:B.n===0?'ind':'imp',A,B};
+}
+
+/* ---------- secondo grado (coefficienti interi) ---------- */
+function sqSimplify(n){let k=1,m=n;for(let i=2;i*i<=m;i++){while(m%(i*i)===0){m/=i*i;k*=i}}return[k,m]}
+function sqrtHtml(arg){return'<span class="sq">√<span class="sq-i">'+arg+'</span></span>'}
+function radHtml(nb,nk,m,den,sign){
+  let nu='';
+  if(nb!==0)nu+=fmtInt(nb)+' '+sign+' ';
+  else if(sign==='−')nu+='−';
+  else if(sign==='±')nu+='±';
+  nu+=(nk===1?'':nk)+sqrtHtml(m);
+  if(den===1)return nu;
+  return'<span class="frac"><span class="nu">'+nu+'</span><span class="de">'+den+'</span></span>';
+}
+function quadExact(a,b,c){
+  const D=b*b-4*a*c;
+  if(D<0)return{D,n:0};
+  if(D===0){
+    const x0=new Frac(-b,2*a);
+    return{D,n:1,x0,x0h:x0.html(),x0v:x0.num()};
+  }
+  const sq=sqSimplify(D),k=sq[0],m=sq[1];
+  if(m===1){
+    let r1=new Frac(-b-k,2*a),r2=new Frac(-b+k,2*a);
+    if(r1.num()>r2.num()){const t=r1;r1=r2;r2=t}
+    return{D,n:2,rational:true,sqK:k,x1:r1,x2:r2,x1h:r1.html(),x2h:r2.html(),x1v:r1.num(),x2v:r2.num()};
+  }
+  let den=2*a,nb=-b,nk=k;
+  const g=gcd(gcd(nb,nk),den);
+  nb/=g;nk/=g;den/=g;
+  if(den<0){den=-den;nb=-nb}
+  const x1v=(nb-nk*Math.sqrt(m))/den,x2v=(nb+nk*Math.sqrt(m))/den;
+  return{D,n:2,rational:false,sqK:k,sqM:m,rnb:nb,rnk:nk,rden:den,
+    x1v,x2v,
+    x1h:radHtml(nb,nk,m,den,'−'),x2h:radHtml(nb,nk,m,den,'+'),
+    xph:radHtml(nb,nk,m,den,'±')};
+}
+
+/* ---------- versi e disequazioni ---------- */
+const VERSI={gt:{sym:'&gt;',strict:true},ge:{sym:'≥',strict:false},lt:{sym:'&lt;',strict:true},le:{sym:'≤',strict:false}};
+const FLIP={gt:'lt',lt:'gt',ge:'le',le:'ge'};
+function diseq1Solve(a,b,vk){
+  const x0=b.neg().div(a);
+  const inverted=a.n<0;
+  return{x0,inverted,v2:inverted?FLIP[vk]:vk};
+}
+function solSet1(v2,x0h){
+  const s=VERSI[v2].sym;
+  const ineq='x '+s+' '+x0h;
+  let interval;
+  if(v2==='gt')interval='('+x0h+';&nbsp;+∞)';
+  else if(v2==='ge')interval='['+x0h+';&nbsp;+∞)';
+  else if(v2==='lt')interval='(−∞;&nbsp;'+x0h+')';
+  else interval='(−∞;&nbsp;'+x0h+']';
+  return{ineq,interval};
+}
+function diseq2Solve(a,b,c,vk){
+  const q=quadExact(a,b,c);
+  const strict=VERSI[vk].strict;
+  const wantPos=(vk==='gt'||vk==='ge');
+  const saMatch=(a>0)===wantPos;
+  let kind;
+  if(q.n===2){
+    kind=saMatch?'outside':'inside';
+  }else if(q.n===1){
+    if(saMatch)kind=strict?'allExcept':'all';
+    else kind=strict?'none':'point';
+  }else{
+    kind=saMatch?'all':'none';
+  }
+  return{q,kind,incl:!strict,strict};
+}
+function solSet2(r){
+  const q=r.q;
+  if(r.kind==='all')return{ineq:'ogni x ∈ ℝ',interval:'S = ℝ'};
+  if(r.kind==='none')return{ineq:'nessun valore di x',interval:'S = ∅'};
+  if(r.kind==='allExcept')return{ineq:'ogni x ≠ '+q.x0h,interval:'S = ℝ ∖ { '+q.x0h+' }'};
+  if(r.kind==='point')return{ineq:'solo x = '+q.x0h,interval:'S = { '+q.x0h+' }'};
+  const a=q.x1h,b=q.x2h;
+  if(r.kind==='inside'){
+    return{ineq:a+(r.incl?' ≤ x ≤ ':' &lt; x &lt; ')+b,
+      interval:'S = '+(r.incl?'[':'(')+a+';&nbsp;'+b+(r.incl?']':')')};
+  }
+  return{ineq:'x '+(r.incl?'≤':'&lt;')+' '+a+' &nbsp;∨&nbsp; x '+(r.incl?'≥':'&gt;')+' '+b,
+    interval:'S = (−∞;&nbsp;'+a+(r.incl?']':')')+' ∪ '+(r.incl?'[':'(')+b+';&nbsp;+∞)'};
+}
+
+/* ---------- sistemi lineari ---------- */
+function det2(a,b,c,d){return a.mul(d).sub(b.mul(c))}
+function cramerData(A1,B1,C1,A2,B2,C2){
+  const D=det2(A1,B1,A2,B2),Dx=det2(C1,B1,C2,B2),Dy=det2(A1,C1,A2,C2);
+  if(D.n!==0)return{D,Dx,Dy,type:'det',x:Dx.div(D),y:Dy.div(D)};
+  return{D,Dx,Dy,type:(Dx.n===0&&Dy.n===0)?'ind':'imp'};
+}
+
+/* ================================================================
+   QUIZ: 4 sezioni × (10 teoria + 10 calcolo)
+   ================================================================ */
+const QUIZZES={
+/* ---------- Equazioni di 1° grado: teoria ---------- */
+eq1t:[
+ {q:'Che cos’è un’equazione?',
+  opts:['Una disuguaglianza tra due espressioni','Un’uguaglianza tra due espressioni, vera solo per particolari valori dell’incognita','Un’operazione tra numeri noti','Una formula vera per qualsiasi valore dell’incognita'],ans:1,
+  exp:'L’equazione è un’uguaglianza verificata solo da particolari valori (le soluzioni). Se fosse vera per ogni valore sarebbe un’identità.'},
+ {q:'Il grado di un’equazione ridotta a forma normale è…',
+  opts:['il numero dei suoi termini','il massimo esponente con cui compare l’incognita','il coefficiente dell’incognita','il numero delle sue soluzioni'],ans:1,
+  exp:'Il grado è il massimo esponente dell’incognita: in 3x − 5 = 0 il grado è 1, in x² = 4 è 2.'},
+ {q:'Che cosa afferma il primo principio di equivalenza?',
+  opts:['Si può moltiplicare un solo membro per un numero','Si possono scambiare i due membri solo se positivi','Aggiungendo o sottraendo a entrambi i membri una stessa quantità si ottiene un’equazione equivalente','Si può elevare al quadrato entrambi i membri'],ans:2,
+  exp:'È la regola della bilancia: aggiungere o togliere lo stesso «peso» dai due piatti conserva l’equilibrio, cioè le soluzioni.'},
+ {q:'Che cosa permette di fare il secondo principio di equivalenza?',
+  opts:['Moltiplicare o dividere entrambi i membri per uno stesso numero diverso da zero','Moltiplicare entrambi i membri per zero','Aggiungere quantità diverse ai due membri','Eliminare l’incognita da un membro'],ans:0,
+  exp:'Moltiplicare o dividere i due membri per lo stesso numero, purché diverso da zero, dà un’equazione equivalente.'},
+ {q:'La regola del trasporto («un termine cambia segno passando da un membro all’altro») è conseguenza…',
+  opts:['del secondo principio di equivalenza','del primo principio di equivalenza','della legge di annullamento del prodotto','della proprietà commutativa'],ans:1,
+  exp:'Trasportare un termine equivale a sottrarlo (o aggiungerlo) a entrambi i membri: è il primo principio.'},
+ {q:'Un’equazione si dice impossibile quando…',
+  opts:['non si riesce a risolverla a mente','ha più di una soluzione','ha soluzione x = 0','nessun valore dell’incognita la verifica'],ans:3,
+  exp:'Impossibile significa S = ∅: ad esempio 0·x = 5. Attenzione: x = 0 è una soluzione del tutto legittima, non rende l’equazione impossibile.'},
+ {q:'L’equazione 0·x = 0 è…',
+  opts:['impossibile','determinata, con soluzione x = 0','indeterminata: ogni numero reale è soluzione','priva di significato'],ans:2,
+  exp:'Qualsiasi valore di x moltiplicato per 0 dà 0: l’uguaglianza è sempre vera, quindi l’equazione è indeterminata (identità).'},
+ {q:'Due equazioni si dicono equivalenti se…',
+  opts:['hanno lo stesso grado','hanno gli stessi coefficienti','hanno le stesse soluzioni','sono entrambe intere'],ans:2,
+  exp:'L’equivalenza riguarda l’insieme delle soluzioni: 2x = 6 e x = 3 sono equivalenti pur avendo coefficienti diversi.'},
+ {q:'Che cosa significa «verificare» una soluzione?',
+  opts:['Risolvere di nuovo l’equazione con un altro metodo','Sostituire il valore trovato nell’equazione iniziale e controllare che i due membri risultino uguali','Controllare che il risultato sia positivo','Calcolare il discriminante'],ans:1,
+  exp:'La verifica è una sostituzione nell’equazione di partenza: se i due membri assumono lo stesso valore, la soluzione è corretta.'},
+ {q:'Perché nel secondo principio si richiede che il fattore sia diverso da zero?',
+  opts:['Perché moltiplicare per zero allunga i calcoli','Perché moltiplicando per zero si otterrebbe 0 = 0, perdendo ogni informazione sull’incognita','Perché zero non è un numero razionale','Per evitare soluzioni negative'],ans:1,
+  exp:'Moltiplicando per 0 ogni equazione diventa 0 = 0, vera per qualunque x: l’equazione ottenuta non è più equivalente a quella data.'}
+],
+/* ---------- Equazioni di 1° grado: calcolo ---------- */
+eq1c:[
+ {q:'Risolvi: 2x = 10',
+  opts:['x = 2','x = 5','x = 8','x = 20'],ans:1,
+  exp:'Divido entrambi i membri per 2 (secondo principio): x = 10/2 = 5.'},
+ {q:'Risolvi: x + 7 = 10',
+  opts:['x = 3','x = 17','x = −3','x = 7'],ans:0,
+  exp:'Sottraggo 7 a entrambi i membri (primo principio): x = 10 − 7 = 3.'},
+ {q:'Risolvi: 3x − 4 = 11',
+  opts:['x = 3','x = 7/3','x = 5','x = −5'],ans:2,
+  exp:'3x = 11 + 4 = 15, quindi x = 15/3 = 5.'},
+ {q:'Risolvi: 5x + 3 = 2x + 12',
+  opts:['x = 3','x = 5','x = 9','x = 15/7'],ans:0,
+  exp:'5x − 2x = 12 − 3, cioè 3x = 9, da cui x = 3.'},
+ {q:'Risolvi: 2(x − 3) = 10',
+  opts:['x = 4','x = 13','x = 8','x = 2'],ans:2,
+  exp:'2x − 6 = 10, quindi 2x = 16 e x = 8. In alternativa: divido subito per 2 e ottengo x − 3 = 5.'},
+ {q:'Risolvi: 4x + 5 = 4x − 7',
+  opts:['x = −3','x = 0','indeterminata','impossibile'],ans:3,
+  exp:'Trasportando: 4x − 4x = −7 − 5, cioè 0·x = −12. Nessun valore di x può verificarla: impossibile.'},
+ {q:'Risolvi: 3(x + 1) = 3x + 3',
+  opts:['x = 1','impossibile','indeterminata (identità)','x = 0'],ans:2,
+  exp:'Svolgendo: 3x + 3 = 3x + 3, cioè 0·x = 0, vera per ogni x: identità.'},
+ {q:'Risolvi: x/3 = 7',
+  opts:['x = 7/3','x = 21','x = 10','x = 4'],ans:1,
+  exp:'Moltiplico entrambi i membri per 3 (secondo principio): x = 21.'},
+ {q:'Risolvi: 7 − x = 2x + 1',
+  opts:['x = 2','x = −2','x = 3','x = 6'],ans:0,
+  exp:'Porto le x a destra: 7 − 1 = 2x + x, cioè 6 = 3x, da cui x = 2.'},
+ {q:'Risolvi: −2x = 8',
+  opts:['x = 4','x = −4','x = 16','x = −16'],ans:1,
+  exp:'Divido per −2: x = 8/(−2) = −4. Attenzione al segno del coefficiente.'}
+],
+/* ---------- Equazioni di 2° grado: teoria ---------- */
+eq2t:[
+ {q:'Qual è la forma normale di un’equazione di secondo grado?',
+  opts:['ax² + bx + c = 0 con a ≠ 0','ax + b = 0 con a ≠ 0','ax² + bx + c = 0 con c ≠ 0','x² = k con k &gt; 0'],ans:0,
+  exp:'Serve a ≠ 0, altrimenti il termine quadratico sparisce e l’equazione diventa di primo grado. b e c possono anche essere nulli.'},
+ {q:'Come si calcola il discriminante?',
+  opts:['Δ = b² + 4ac','Δ = 4ac − b²','Δ = b² − 4ac','Δ = (b − 4ac)²'],ans:2,
+  exp:'Δ = b² − 4ac: è la quantità che compare sotto radice nella formula risolutiva.'},
+ {q:'Se Δ &gt; 0, l’equazione ha…',
+  opts:['nessuna soluzione reale','una sola soluzione (doppia)','due soluzioni reali distinte','infinite soluzioni'],ans:2,
+  exp:'Con Δ &gt; 0 la radice √Δ è un numero positivo: il ± produce due valori diversi.'},
+ {q:'Se Δ = 0, l’equazione ha…',
+  opts:['due soluzioni reali coincidenti: x = −b/(2a)','nessuna soluzione reale','due soluzioni opposte','soluzioni solo se b = 0'],ans:0,
+  exp:'Con Δ = 0 il ±√Δ vale 0: le due soluzioni coincidono in x = −b/(2a) (soluzione doppia).'},
+ {q:'Se Δ &lt; 0, l’equazione…',
+  opts:['ha due soluzioni reali distinte','non ha soluzioni reali','ha una soluzione negativa','ha come unica soluzione x = 0'],ans:1,
+  exp:'Nessun numero reale al quadrato è negativo, quindi √Δ non esiste in ℝ: nessuna soluzione reale.'},
+ {q:'L’equazione ax² + bx = 0 (con c = 0) si chiama…',
+  opts:['pura','spuria','monomia','completa'],ans:1,
+  exp:'È la spuria: si risolve raccogliendo x, cioè x(ax + b) = 0, con la legge di annullamento del prodotto.'},
+ {q:'Una soluzione di ogni equazione spuria è sempre…',
+  opts:['x = 1','x = −b/a','x = 0','x = a'],ans:2,
+  exp:'Da x(ax + b) = 0 segue x = 0 oppure ax + b = 0: lo zero è sempre tra le soluzioni.'},
+ {q:'Graficamente, le soluzioni reali di ax² + bx + c = 0 sono…',
+  opts:['le ordinate del vertice della parabola','le ascisse dei punti in cui la parabola y = ax² + bx + c interseca l’asse x','le intersezioni della parabola con l’asse y','le coordinate del fuoco'],ans:1,
+  exp:'Risolvere l’equazione significa cercare dove la parabola assume valore y = 0, cioè dove tocca o attraversa l’asse x.'},
+ {q:'Se a &gt; 0, la parabola y = ax² + bx + c ha…',
+  opts:['concavità rivolta verso il basso','concavità rivolta verso l’alto','vertice sempre sull’asse x','asse di simmetria orizzontale'],ans:1,
+  exp:'Il segno di a decide la concavità: a &gt; 0 verso l’alto, a &lt; 0 verso il basso.'},
+ {q:'L’ascissa del vertice della parabola y = ax² + bx + c è…',
+  opts:['x = −b/(2a)','x = b/(2a)','x = −Δ/(4a)','x = c/a'],ans:0,
+  exp:'x_V = −b/(2a); l’ordinata del vertice è invece y_V = −Δ/(4a).'}
+],
+/* ---------- Equazioni di 2° grado: calcolo ---------- */
+eq2c:[
+ {q:'Risolvi: x² − 5x + 6 = 0',
+  opts:['x₁ = 2, x₂ = 3','x₁ = −2, x₂ = −3','x₁ = 1, x₂ = 6','x₁ = −1, x₂ = 6'],ans:0,
+  exp:'Δ = 25 − 24 = 1; x = (5 ± 1)/2, cioè 2 e 3. Controllo: somma 5, prodotto 6.'},
+ {q:'Risolvi l’equazione pura: x² − 9 = 0',
+  opts:['x = 3','x = ±3','x = 9','x = ±81'],ans:1,
+  exp:'x² = 9, quindi x = ±√9 = ±3: non dimenticare la soluzione negativa.'},
+ {q:'Risolvi l’equazione spuria: x² + 4x = 0',
+  opts:['x₁ = 0, x₂ = 4','x₁ = 0, x₂ = −4','x = −4 (doppia)','x₁ = 2, x₂ = −2'],ans:1,
+  exp:'Raccolgo: x(x + 4) = 0, quindi x = 0 oppure x = −4.'},
+ {q:'Risolvi: x² − 4x + 4 = 0',
+  opts:['x = 2 (soluzione doppia)','x₁ = 2, x₂ = −2','x = 4 (soluzione doppia)','nessuna soluzione reale'],ans:0,
+  exp:'Δ = 16 − 16 = 0: soluzione doppia x = 4/2 = 2. Infatti il trinomio è (x − 2)².'},
+ {q:'Risolvi: x² + x + 1 = 0',
+  opts:['x₁ = −1, x₂ = 1','x = −1/2 (doppia)','nessuna soluzione reale','x₁ = 0, x₂ = −1'],ans:2,
+  exp:'Δ = 1 − 4 = −3 &lt; 0: l’equazione non ha soluzioni reali.'},
+ {q:'Quanto vale il discriminante di 2x² − 3x + 1 = 0?',
+  opts:['17','1','−1','7'],ans:1,
+  exp:'Δ = (−3)² − 4·2·1 = 9 − 8 = 1.'},
+ {q:'Risolvi: 2x² − 3x + 1 = 0',
+  opts:['x₁ = 1/2, x₂ = 1','x₁ = −1, x₂ = −1/2','x₁ = 1, x₂ = 2','x₁ = −1/2, x₂ = 1'],ans:0,
+  exp:'Δ = 1; x = (3 ± 1)/4: le soluzioni sono 1 e 1/2.'},
+ {q:'Risolvi: x² + 2x − 8 = 0',
+  opts:['x₁ = −4, x₂ = 2','x₁ = −2, x₂ = 4','x₁ = −8, x₂ = 1','x₁ = −1, x₂ = 8'],ans:0,
+  exp:'Δ = 4 + 32 = 36; x = (−2 ± 6)/2: le soluzioni sono 2 e −4.'},
+ {q:'Quante volte la parabola y = x² − 2x + 5 interseca l’asse x?',
+  opts:['Due volte','Una volta (tangente)','Mai','Dipende dal vertice'],ans:2,
+  exp:'Δ = 4 − 20 = −16 &lt; 0: l’equazione associata non ha soluzioni reali, la parabola resta sopra l’asse x.'},
+ {q:'Risolvi: x² = 16',
+  opts:['x = 4','x = ±4','x = 8','x = ±8'],ans:1,
+  exp:'x = ±√16 = ±4. Errore tipico: considerare solo la soluzione positiva.'}
+],
+/* ---------- Disequazioni: teoria ---------- */
+dist:[
+ {q:'L’insieme delle soluzioni di una disequazione di primo grado è in genere…',
+  opts:['un solo numero','un insieme infinito di numeri (una semiretta o un intervallo)','una coppia ordinata','sempre tutto ℝ'],ans:1,
+  exp:'A differenza delle equazioni, le disequazioni sono in genere verificate da infiniti valori, che formano intervalli.'},
+ {q:'Moltiplicando entrambi i membri di una disequazione per un numero negativo…',
+  opts:['il verso resta invariato','il verso si inverte','la disequazione diventa impossibile','si ottiene un’equazione'],ans:1,
+  exp:'È la regola fondamentale: ×(−1) scambia le posizioni sulla retta dei numeri, quindi &lt; diventa &gt; e viceversa.'},
+ {q:'Come si rappresenta x &gt; 3 sulla retta dei numeri?',
+  opts:['Cerchietto pieno su 3 e semiretta verso destra','Cerchietto vuoto su 3 e semiretta verso destra','Cerchietto vuoto su 3 e semiretta verso sinistra','Segmento da 0 a 3'],ans:1,
+  exp:'Il 3 è escluso (verso stretto): cerchietto vuoto; i valori maggiori stanno a destra.'},
+ {q:'Qual è la differenza tra &gt; e ≥?',
+  opts:['Nessuna, sono equivalenti','≥ include anche il valore di confine, &gt; lo esclude','&gt; include il valore di confine','≥ vale solo per i numeri positivi'],ans:1,
+  exp:'Il verso largo ≥ include l’estremo (cerchietto pieno, parentesi quadra); quello stretto &gt; lo esclude.'},
+ {q:'Che cosa significa x ∈ (−2; 5] ?',
+  opts:['−2 ≤ x ≤ 5','−2 &lt; x ≤ 5','−2 &lt; x &lt; 5','x ≤ −2 oppure x &gt; 5'],ans:1,
+  exp:'Parentesi tonda su −2: escluso; parentesi quadra su 5: incluso. Quindi −2 &lt; x ≤ 5.'},
+ {q:'Se a &gt; 0 e Δ &gt; 0, la disequazione ax² + bx + c &gt; 0 è verificata per…',
+  opts:['valori interni alle radici','valori esterni alle radici','ogni x reale','nessun valore di x'],ans:1,
+  exp:'La parabola (concavità in alto) sta sopra l’asse x prima di x₁ e dopo x₂: valori esterni.'},
+ {q:'Se a &gt; 0 e Δ &lt; 0, la disequazione ax² + bx + c &gt; 0 è verificata…',
+  opts:['mai','solo per x positivi','per ogni x reale','solo tra le radici'],ans:2,
+  exp:'Senza radici reali e con concavità verso l’alto, la parabola sta tutta sopra l’asse x: il trinomio è sempre positivo.'},
+ {q:'Se a &gt; 0 e Δ = 0 (radice doppia x₀), la disequazione ax² + bx + c &gt; 0 è verificata per…',
+  opts:['ogni x ≠ x₀','ogni x reale','nessun x','solo x = x₀'],ans:0,
+  exp:'La parabola tocca l’asse solo nel vertice x₀, dove il trinomio vale 0 (non &gt; 0): tutte le altre x vanno bene.'},
+ {q:'Per studiare il segno di un trinomio di secondo grado conviene…',
+  opts:['calcolare solo il vertice','tracciare uno schizzo della parabola con concavità e radici, e leggere dove sta sopra o sotto l’asse x','sostituire qualche valore a caso','trasformare la disequazione in equazione e fermarsi lì'],ans:1,
+  exp:'Lo schizzo qualitativo (concavità + radici) contiene tutte le informazioni sul segno: è il metodo più sicuro.'},
+ {q:'Se a &gt; 0 e Δ &gt; 0, la disequazione ax² + bx + c &lt; 0 è verificata per…',
+  opts:['valori esterni alle radici','valori interni alle radici: x₁ &lt; x &lt; x₂','ogni x reale','x = x₁ oppure x = x₂'],ans:1,
+  exp:'Tra le radici la parabola con concavità in alto scende sotto l’asse x: trinomio negativo per valori interni.'}
+],
+/* ---------- Disequazioni: calcolo ---------- */
+disc:[
+ {q:'Risolvi: 2x − 6 &gt; 0',
+  opts:['x &gt; 3','x &lt; 3','x &gt; −3','x ≥ 3'],ans:0,
+  exp:'2x &gt; 6, divido per 2 (positivo): x &gt; 3, con il 3 escluso.'},
+ {q:'Risolvi: −3x + 6 &gt; 0',
+  opts:['x &gt; 2','x &lt; 2','x &gt; −2','x &lt; −2'],ans:1,
+  exp:'−3x &gt; −6; dividendo per −3 il verso si inverte: x &lt; 2.'},
+ {q:'Risolvi: 5x + 10 ≤ 0',
+  opts:['x ≤ −2','x ≥ −2','x ≤ 2','x &lt; −2'],ans:0,
+  exp:'5x ≤ −10, quindi x ≤ −2: il −2 è incluso perché il verso è largo.'},
+ {q:'Risolvi: x² − 4 &gt; 0',
+  opts:['−2 &lt; x &lt; 2','x &lt; −2 ∨ x &gt; 2','x &gt; 2','x ≠ ±2'],ans:1,
+  exp:'Radici ±2, a = 1 &gt; 0, verso &gt;: valori esterni alle radici.'},
+ {q:'Risolvi: x² − 4 ≤ 0',
+  opts:['x ≤ −2 ∨ x ≥ 2','−2 ≤ x ≤ 2','−2 &lt; x &lt; 2','nessuna soluzione'],ans:1,
+  exp:'Verso ≤ con a &gt; 0: valori interni alle radici, estremi inclusi.'},
+ {q:'Risolvi: x² − 5x + 6 &lt; 0',
+  opts:['x &lt; 2 ∨ x &gt; 3','2 &lt; x &lt; 3','2 ≤ x ≤ 3','x &lt; −3 ∨ x &gt; −2'],ans:1,
+  exp:'Radici 2 e 3; trinomio negativo per valori interni: 2 &lt; x &lt; 3 (estremi esclusi).'},
+ {q:'Risolvi: x² + 1 &gt; 0',
+  opts:['x &gt; −1','x &gt; 1','ogni x ∈ ℝ','nessuna soluzione'],ans:2,
+  exp:'Δ = −4 &lt; 0 e a &gt; 0: il trinomio è sempre positivo, la parabola non tocca mai l’asse x.'},
+ {q:'Risolvi: x² + 1 &lt; 0',
+  opts:['x &lt; −1','−1 &lt; x &lt; 1','nessuna soluzione','ogni x reale'],ans:2,
+  exp:'Un quadrato aumentato di 1 non può mai essere negativo: S = ∅.'},
+ {q:'Risolvi: x² − 2x + 1 &gt; 0',
+  opts:['ogni x ≠ 1','ogni x reale','x &gt; 1','nessuna soluzione'],ans:0,
+  exp:'Il trinomio è (x − 1)²: è positivo ovunque tranne in x = 1, dove vale 0.'},
+ {q:'Risolvi: −x² + 9 ≥ 0',
+  opts:['x ≤ −3 ∨ x ≥ 3','−3 ≤ x ≤ 3','x ≥ 3','nessuna soluzione'],ans:1,
+  exp:'Moltiplico per −1 invertendo il verso: x² − 9 ≤ 0, cioè valori interni: −3 ≤ x ≤ 3.'}
+],
+/* ---------- Sistemi: teoria ---------- */
+sist_t:[
+ {q:'Una soluzione di un sistema di due equazioni in due incognite è…',
+  opts:['un singolo numero','una coppia ordinata (x; y) che verifica entrambe le equazioni','una coppia che verifica almeno una delle equazioni','l’insieme dei coefficienti'],ans:1,
+  exp:'Le equazioni vanno soddisfatte contemporaneamente: serve una coppia (x; y) che le renda vere tutte e due.'},
+ {q:'Graficamente, risolvere un sistema lineare di due equazioni significa…',
+  opts:['trovare il punto di intersezione delle due rette','calcolare la pendenza delle due rette','trovare le intersezioni con gli assi','disegnare una parabola'],ans:0,
+  exp:'Ogni equazione è una retta: le soluzioni sono i punti comuni, cioè l’intersezione.'},
+ {q:'Se le due rette sono parallele e distinte, il sistema è…',
+  opts:['determinato','indeterminato','impossibile','di secondo grado'],ans:2,
+  exp:'Rette parallele distinte non hanno punti comuni: nessuna soluzione, sistema impossibile.'},
+ {q:'Se le due rette coincidono, il sistema è…',
+  opts:['impossibile','indeterminato: infinite soluzioni','determinato','senza significato'],ans:1,
+  exp:'Tutti i punti della retta verificano entrambe le equazioni: infinite soluzioni.'},
+ {q:'Con il metodo di Cramer, il sistema è determinato quando…',
+  opts:['D = 0','D ≠ 0','Dx = Dy','Dx = 0 e Dy = 0'],ans:1,
+  exp:'Se D ≠ 0 esiste un’unica soluzione: x = Dx/D e y = Dy/D.'},
+ {q:'Il determinante della matrice con righe (a, b) e (c, d) vale…',
+  opts:['ad + bc','ab − cd','ad − bc','ac − bd'],ans:2,
+  exp:'Prodotto della diagonale principale meno prodotto della diagonale secondaria: ad − bc.'},
+ {q:'In che cosa consiste il metodo di sostituzione?',
+  opts:['Si sommano le equazioni membro a membro','Si isola un’incognita in un’equazione e si sostituisce l’espressione ottenuta nell’altra','Si calcolano tre determinanti','Si disegnano le due rette su carta millimetrata'],ans:1,
+  exp:'Isolata un’incognita, la si sostituisce nell’altra equazione, che resta con una sola incognita.'},
+ {q:'In che cosa consiste il metodo di riduzione?',
+  opts:['Si moltiplicano le equazioni per numeri opportuni e si sommano o sottraggono membro a membro per eliminare un’incognita','Si pone y = 0 in entrambe le equazioni','Si dividono le equazioni membro a membro','Si eleva al quadrato la prima equazione'],ans:0,
+  exp:'Rendendo opposti (o uguali) i coefficienti di un’incognita, la somma (o differenza) delle equazioni la elimina.'},
+ {q:'Il grado di un sistema è…',
+  opts:['la somma dei gradi delle equazioni','il prodotto dei gradi delle equazioni','il massimo dei gradi delle equazioni','sempre uguale a 2'],ans:1,
+  exp:'Per esempio retta (grado 1) e parabola (grado 2) formano un sistema di grado 1 × 2 = 2.'},
+ {q:'Un sistema tra una retta e una parabola può avere al massimo…',
+  opts:['1 soluzione','2 soluzioni','3 soluzioni','sempre infinite soluzioni'],ans:1,
+  exp:'L’equazione risolvente è di secondo grado: al più due soluzioni, cioè al più due punti di intersezione.'}
+],
+/* ---------- Sistemi: calcolo ---------- */
+sisc:[
+ {q:'Risolvi: { x + y = 5 ; x − y = 1 }',
+  opts:['(3; 2)','(2; 3)','(4; 1)','(1; 4)'],ans:0,
+  exp:'Sommando le equazioni: 2x = 6 → x = 3; sottraendole: 2y = 4 → y = 2.'},
+ {q:'Risolvi: { y = 2x ; x + y = 9 }',
+  opts:['(3; 6)','(6; 3)','(2; 7)','(4; 5)'],ans:0,
+  exp:'Sostituendo y = 2x nella seconda: x + 2x = 9 → x = 3, quindi y = 6.'},
+ {q:'Risolvi: { 2x + y = 7 ; x − y = 2 }',
+  opts:['(2; 3)','(3; 1)','(1; 5)','(4; −1)'],ans:1,
+  exp:'Sommando le equazioni si elimina y: 3x = 9 → x = 3; dalla seconda y = x − 2 = 1.'},
+ {q:'Quanto vale D per il sistema { 3x + 2y = 5 ; x − y = 1 }?',
+  opts:['−5','5','−1','1'],ans:0,
+  exp:'D = 3·(−1) − 2·1 = −3 − 2 = −5.'},
+ {q:'Il sistema { x + y = 4 ; 2x + 2y = 8 } è…',
+  opts:['determinato','impossibile','indeterminato','risolto solo da (2; 2)'],ans:2,
+  exp:'La seconda equazione è la prima moltiplicata per 2: rette coincidenti, infinite soluzioni. (2; 2) è una soluzione ma non l’unica.'},
+ {q:'Il sistema { x + y = 3 ; x + y = 7 } è…',
+  opts:['indeterminato','impossibile','risolto da (3; 7)','risolto da (5; 2)'],ans:1,
+  exp:'La stessa somma x + y non può valere insieme 3 e 7: rette parallele distinte, S = ∅.'},
+ {q:'Risolvi: { x + 2y = 8 ; 3x − y = 3 }',
+  opts:['(2; 3)','(3; 2)','(4; 2)','(0; 4)'],ans:0,
+  exp:'Dalla seconda: y = 3x − 3; nella prima: x + 6x − 6 = 8 → 7x = 14 → x = 2, y = 3.'},
+ {q:'Con Cramer, nel sistema { 2x + y = 5 ; x − y = 1 }, quanto vale x?',
+  opts:['1','2','3','−2'],ans:1,
+  exp:'D = 2·(−1) − 1·1 = −3; Dx = 5·(−1) − 1·1 = −6; x = Dx/D = 2 (e y = 1).'},
+ {q:'Il sistema { y = x² ; y = x + 2 } ha come soluzioni…',
+  opts:['(2; 4) e (−1; 1)','(1; 1) e (2; 2)','solo (2; 4)','nessuna soluzione'],ans:0,
+  exp:'Risolvente: x² − x − 2 = 0, radici x = 2 e x = −1; le ordinate si ottengono da y = x + 2.'},
+ {q:'Nel sistema { y = x² ; y = 2x − 1 } la retta è…',
+  opts:['secante alla parabola (2 punti)','tangente alla parabola (1 punto)','esterna alla parabola (0 punti)','coincidente con la parabola'],ans:1,
+  exp:'Risolvente: x² − 2x + 1 = 0, cioè (x − 1)² = 0: Δ = 0, un solo punto di contatto (1; 1): tangente.'}
+]
+};
+</script>
+<script>
+'use strict';
+/* ================================================================
+   PARTE DOM: navigazione, quiz, grafici, simulazioni
+   ================================================================ */
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const ri=n=>Math.floor(Math.random()*n);
+
+/* ---------------- Navigazione ---------------- */
+const navBtns=$$('#mainNav button');
+function show(id){
+  $$('.scene').forEach(s=>s.classList.toggle('active',s.id===id));
+  navBtns.forEach(b=>b.classList.toggle('active',b.dataset.target===id));
+  if(location.hash!=='#'+id)history.replaceState(null,'','#'+id);
+  window.scrollTo(0,0);
+  requestAnimationFrame(redrawVisible);
+}
+navBtns.forEach(b=>b.addEventListener('click',()=>show(b.dataset.target)));
+$$('.home-card').forEach(b=>b.addEventListener('click',()=>show(b.dataset.target)));
+window.addEventListener('hashchange',()=>{
+  const id=location.hash.slice(1);
+  if(document.getElementById(id))show(id);
+});
+
+/* ---------------- Tabs ---------------- */
+let slMethod='graf';
+$$('.tabs').forEach(tb=>{
+  tb.addEventListener('click',e=>{
+    const btn=e.target.closest('.tab');if(!btn)return;
+    tb.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));
+    if(btn.dataset.qtab){
+      const card=tb.closest('.card');
+      card.querySelectorAll('.quiz').forEach(qz=>{qz.hidden=qz.dataset.quiz!==btn.dataset.qtab});
+    }
+    if(btn.dataset.met){slMethod=btn.dataset.met;slRenderSteps();}
+  });
+});
+
+/* ---------------- Motore quiz ---------------- */
+function shuffled(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){const j=ri(i+1);const t=a[i];a[i]=a[j];a[j]=t}
+  return a;
+}
+function initQuiz(el){
+  const data=QUIZZES[el.dataset.quiz];
+  let i=0,score=0,order=null;
+  function qHTML(){
+    const q=data[i];
+    order=shuffled(q.opts.map((t,ix)=>({t,ix})));
+    el.innerHTML=
+      '<div class="quiz-hd"><span>Domanda '+(i+1)+' di '+data.length+'</span>'+
+      '<span class="score">Punteggio: '+score+'</span></div>'+
+      '<div class="quiz-bar"><i style="width:'+(i/data.length*100)+'%"></i></div>'+
+      '<p class="quiz-q">'+q.q+'</p>'+
+      '<div class="quiz-opts">'+order.map((o,k)=>
+        '<button class="quiz-btn" data-k="'+k+'">'+o.t+'</button>').join('')+'</div>'+
+      '<div class="quiz-ft"></div>';
+    el.querySelectorAll('.quiz-btn').forEach(b=>
+      b.addEventListener('click',()=>answer(+b.dataset.k)));
+  }
+  function answer(k){
+    const q=data[i],right=order[k].ix===q.ans;
+    if(right)score++;
+    el.querySelectorAll('.quiz-btn').forEach((b,j)=>{
+      b.disabled=true;
+      if(order[j].ix===q.ans)b.classList.add('correct');
+      else if(j===k)b.classList.add('wrong');
+    });
+    el.querySelector('.quiz-hd .score').textContent='Punteggio: '+score;
+    el.querySelector('.quiz-bar i').style.width=((i+1)/data.length*100)+'%';
+    const ft=el.querySelector('.quiz-ft');
+    ft.innerHTML='<div class="quiz-exp '+(right?'ok':'no')+'"><strong>'+
+      (right?'Esatto.':'Non è corretto.')+'</strong> '+q.exp+'</div>'+
+      '<button class="btn btn-primary quiz-next">'+
+      (i<data.length-1?'Avanti':'Vedi il risultato')+'</button>';
+    ft.querySelector('.quiz-next').addEventListener('click',()=>{
+      i++;if(i<data.length)qHTML();else end();
+    });
+  }
+  function end(){
+    const msg=score>=9?'Eccellente: padroneggi l’argomento.':
+      score>=7?'Molto bene: ancora un piccolo sforzo per la perfezione.':
+      score>=5?'Sufficiente: rileggi le spiegazioni degli errori e riprova.':
+      'Riparti dalla teoria e dalla simulazione, poi riprova il quiz.';
+    el.innerHTML='<div class="quiz-end"><div class="big">'+score+' / '+data.length+
+      '</div><p>'+msg+'</p><button class="btn btn-primary">Ricomincia</button></div>';
+    el.querySelector('button').addEventListener('click',()=>{i=0;score=0;qHTML()});
+  }
+  qHTML();
+}
+$$('.quiz[data-quiz]').forEach(initQuiz);
+
+/* ---------------- Grafici su canvas ---------------- */
+function niceStep(v){
+  const p=Math.pow(10,Math.floor(Math.log10(v)));const m=v/p;
+  return(m<1.5?1:m<3.5?2:m<7.5?5:10)*p;
+}
+class Plot{
+  constructor(c){this.c=c;this.g=c.getContext('2d');this.w=640;this.h=400;
+    this.x1=-10;this.x2=10;this.y1=-10;this.y2=10}
+  fit(){
+    const w=this.c.clientWidth||640;
+    const h=Math.max(240,Math.min(400,Math.round(w*0.62)));
+    const r=window.devicePixelRatio||1;
+    this.c.width=Math.round(w*r);this.c.height=Math.round(h*r);
+    this.c.style.height=h+'px';
+    this.g.setTransform(r,0,0,r,0,0);
+    this.w=w;this.h=h;
+  }
+  view(x1,x2,y1,y2){this.x1=x1;this.x2=x2;this.y1=y1;this.y2=y2}
+  X(x){return(x-this.x1)/(this.x2-this.x1)*this.w}
+  Y(y){return this.h-(y-this.y1)/(this.y2-this.y1)*this.h}
+  ix(px){return this.x1+px/this.w*(this.x2-this.x1)}
+  axes(){
+    const g=this.g;
+    g.clearRect(0,0,this.w,this.h);
+    const sx=niceStep((this.x2-this.x1)/9),sy=niceStep((this.y2-this.y1)/7);
+    g.lineWidth=1;g.strokeStyle='#eef1f6';
+    g.beginPath();
+    for(let x=Math.ceil(this.x1/sx)*sx;x<=this.x2+1e-9;x+=sx){
+      const px=this.X(x);g.moveTo(px,0);g.lineTo(px,this.h);
+    }
+    for(let y=Math.ceil(this.y1/sy)*sy;y<=this.y2+1e-9;y+=sy){
+      const py=this.Y(y);g.moveTo(0,py);g.lineTo(this.w,py);
+    }
+    g.stroke();
+    const y0=this.Y(0),x0=this.X(0);
+    g.strokeStyle='#9ca3af';g.lineWidth=1.4;
+    g.beginPath();
+    if(y0>=0&&y0<=this.h){g.moveTo(0,y0);g.lineTo(this.w,y0);
+      g.moveTo(this.w-8,y0-4);g.lineTo(this.w,y0);g.lineTo(this.w-8,y0+4);}
+    if(x0>=0&&x0<=this.w){g.moveTo(x0,this.h);g.lineTo(x0,0);
+      g.moveTo(x0-4,8);g.lineTo(x0,0);g.lineTo(x0+4,8);}
+    g.stroke();
+    g.font='10.5px Inter,Roboto,system-ui,sans-serif';g.fillStyle='#9ca3af';
+    g.textAlign='center';
+    const ty=Math.min(Math.max(y0+13,12),this.h-4);
+    for(let x=Math.ceil(this.x1/sx)*sx;x<=this.x2+1e-9;x+=sx){
+      if(Math.abs(x)<sx/2)continue;
+      g.fillText(fmt(x,2),this.X(x),ty);
+    }
+    g.textAlign='left';
+    const tx=Math.min(Math.max(x0+5,3),this.w-26);
+    for(let y=Math.ceil(this.y1/sy)*sy;y<=this.y2+1e-9;y+=sy){
+      if(Math.abs(y)<sy/2)continue;
+      g.fillText(fmt(y,2),tx,this.Y(y)-3);
+    }
+  }
+  plotFn(f,color,width,dash){
+    const g=this.g;g.save();
+    g.strokeStyle=color;g.lineWidth=width||2.6;
+    if(dash)g.setLineDash(dash);
+    g.beginPath();let pen=false;
+    for(let px=0;px<=this.w;px+=2){
+      const y=f(this.ix(px));
+      if(!isFinite(y)){pen=false;continue}
+      const py=this.Y(y);
+      if(py<-3000||py>3000){pen=false;continue}
+      if(!pen){g.moveTo(px,py);pen=true}else g.lineTo(px,py);
+    }
+    g.stroke();g.restore();
+  }
+  plotFnSign(f,posColor,negColor,width){
+    const g=this.g;g.save();g.lineWidth=width||3;
+    let path=[],cur=0; // 1 pos, -1 neg
+    const flush=()=>{
+      if(path.length>1){
+        g.strokeStyle=cur>0?posColor:negColor;
+        g.beginPath();g.moveTo(path[0][0],path[0][1]);
+        for(let i=1;i<path.length;i++)g.lineTo(path[i][0],path[i][1]);
+        g.stroke();
+      }
+      path=[];
+    };
+    let prev=null;
+    for(let px=0;px<=this.w;px+=2){
+      const x=this.ix(px),y=f(x);
+      if(!isFinite(y)){flush();prev=null;continue}
+      const s=y>0?1:(y<0?-1:cur||1);
+      const py=Math.max(-3000,Math.min(3000,this.Y(y)));
+      if(prev&&s!==cur&&cur!==0){
+        const t=prev[2]/(prev[2]-y);
+        const cx=prev[0]+(px-prev[0])*t,cy=this.Y(0);
+        path.push([cx,cy]);flush();path.push([cx,cy]);
+      }
+      cur=s;path.push([px,py]);prev=[px,py,y];
+    }
+    flush();g.restore();
+  }
+  band(xa,xb,color){
+    const g=this.g;g.save();g.fillStyle=color;
+    const A=Math.max(0,this.X(xa)),B=Math.min(this.w,this.X(xb));
+    if(B>A)g.fillRect(A,0,B-A,this.h);
+    g.restore();
+  }
+  point(x,y,color,label,dx,dy){
+    const g=this.g,px=this.X(x),py=this.Y(y);
+    g.save();
+    g.fillStyle=color;g.strokeStyle='#fff';g.lineWidth=2;
+    g.beginPath();g.arc(px,py,5.2,0,7);g.fill();g.stroke();
+    if(label){
+      g.font='bold 12px Inter,Roboto,system-ui,sans-serif';
+      g.textAlign='left';
+      const lx=px+(dx===undefined?8:dx),ly=py+(dy===undefined?-9:dy);
+      g.lineWidth=3.5;g.strokeStyle='rgba(255,255,255,.9)';
+      g.strokeText(label,lx,ly);g.fillStyle=color;g.fillText(label,lx,ly);
+    }
+    g.restore();
+  }
+  vline(x,color,dash){
+    const g=this.g;g.save();g.strokeStyle=color;g.lineWidth=1.5;
+    if(dash)g.setLineDash(dash);
+    g.beginPath();g.moveTo(this.X(x),0);g.lineTo(this.X(x),this.h);g.stroke();g.restore();
+  }
+  label(x,y,text,color,dx,dy){
+    const g=this.g;g.save();
+    g.font='bold 12px Inter,Roboto,system-ui,sans-serif';g.textAlign='left';
+    const lx=this.X(x)+(dx||0),ly=this.Y(y)+(dy||0);
+    g.lineWidth=3.5;g.strokeStyle='rgba(255,255,255,.9)';
+    g.strokeText(text,lx,ly);g.fillStyle=color;g.fillText(text,lx,ly);
+    g.restore();
+  }
+  axisThick(pxA,pxB){
+    const g=this.g,y=this.Y(0);
+    g.strokeStyle='#2563eb';g.lineWidth=6;g.lineCap='round';
+    g.beginPath();g.moveTo(Math.max(2,pxA),y);g.lineTo(Math.min(this.w-2,pxB),y);g.stroke();
+  }
+  arrowOut(side){
+    const g=this.g,y=this.Y(0);
+    g.fillStyle='#2563eb';g.beginPath();
+    if(side==='r'){g.moveTo(this.w-1,y);g.lineTo(this.w-12,y-6.5);g.lineTo(this.w-12,y+6.5);}
+    else{g.moveTo(1,y);g.lineTo(12,y-6.5);g.lineTo(12,y+6.5);}
+    g.closePath();g.fill();
+  }
+  dotAxis(x,closed){
+    const g=this.g,px=this.X(x),y=this.Y(0);
+    g.save();g.lineWidth=2.6;g.strokeStyle='#2563eb';
+    g.fillStyle=closed?'#2563eb':'#fff';
+    g.beginPath();g.arc(px,y,5.6,0,7);g.fill();g.stroke();g.restore();
+  }
+  solRayRight(xa,closed){this.axisThick(this.X(xa),this.w-6);this.arrowOut('r');this.dotAxis(xa,closed)}
+  solRayLeft(xb,closed){this.axisThick(6,this.X(xb));this.arrowOut('l');this.dotAxis(xb,closed)}
+  solSeg(xa,xb,closed){this.axisThick(this.X(xa),this.X(xb));this.dotAxis(xa,closed);this.dotAxis(xb,closed)}
+  solAll(){this.axisThick(6,this.w-6);this.arrowOut('l');this.arrowOut('r')}
+}
+const SIMS=[];
+function regSim(canvas,draw){SIMS.push({canvas,draw})}
+function redrawVisible(){
+  SIMS.forEach(s=>{if(s.canvas.offsetParent!==null)s.draw()});
+}
+let rszT=null;
+window.addEventListener('resize',()=>{
+  clearTimeout(rszT);rszT=setTimeout(redrawVisible,120);
+});
+const BAND='rgba(37,99,235,.08)';
+const COLPOS='#10b981',COLNEG='#ef4444',COLP='#2563eb',COLA='#f59e0b',COLS='#10b981';
+
+/* ================================================================
+   SIMULAZIONE: bilancia animata
+   ================================================================ */
+const SVGNS='http://www.w3.org/2000/svg';
+function svgEl(tag,attrs,parent){
+  const e=document.createElementNS(SVGNS,tag);
+  for(const k in attrs)e.setAttribute(k,attrs[k]);
+  if(parent)parent.appendChild(e);
+  return e;
+}
+const bil={st:null,busy:false,steps:0};
+const bilSvg=$('#bilSvg');
+let bilBeam,bilPanL,bilPanR,bilItemsL,bilItemsR;
+function bilBuild(){
+  svgEl('path',{d:'M270 96 L290 96 L285 290 L275 290 Z',fill:'#cbd5e1'},bilSvg);
+  svgEl('rect',{x:196,y:290,width:168,height:14,rx:7,fill:'#94a3b8'},bilSvg);
+  bilBeam=svgEl('g',{'class':'beam-g'},bilSvg);
+  bilBeam.style.transformOrigin='280px 90px';
+  svgEl('rect',{x:84,y:84,width:392,height:11,rx:5.5,fill:'#1e40af'},bilBeam);
+  svgEl('circle',{cx:92,cy:89.5,r:4,fill:'#93c5fd'},bilBeam);
+  svgEl('circle',{cx:468,cy:89.5,r:4,fill:'#93c5fd'},bilBeam);
+  svgEl('circle',{cx:280,cy:90,r:8,fill:'#475569'},bilSvg);
+  bilPanL=svgEl('g',{'class':'pan'},bilSvg);
+  bilPanR=svgEl('g',{'class':'pan'},bilSvg);
+  [bilPanL,bilPanR].forEach(p=>{
+    svgEl('line',{x1:0,y1:0,x2:0,y2:96,stroke:'#64748b','stroke-width':2.5},p);
+    svgEl('path',{d:'M-80 96 A80 30 0 0 0 80 96 Z',fill:'#e2e8f0',stroke:'#94a3b8','stroke-width':2},p);
+  });
+  bilItemsL=svgEl('g',{},bilPanL);
+  bilItemsR=svgEl('g',{},bilPanR);
+  bilPose(0);
+}
+function bilPose(deg){
+  const t=deg*Math.PI/180;
+  const lx=280-188*Math.cos(t),ly=90-188*Math.sin(t);
+  const rx=280+188*Math.cos(t),ry=90+188*Math.sin(t);
+  bilBeam.style.transform='rotate('+deg+'deg)';
+  bilPanL.style.transform='translate('+lx+'px,'+ly+'px)';
+  bilPanR.style.transform='translate('+rx+'px,'+ry+'px)';
+}
+function bilWobble(){
+  bilPose(2.2);setTimeout(()=>bilPose(0),420);
+}
+function bilItem(parent,kind,cx,cy){
+  const g=svgEl('g',{'class':'item '+(kind==='x'?'ix':'iu')},parent);
+  if(kind==='x'){
+    svgEl('rect',{x:cx-18,y:cy-13,width:36,height:26,rx:6,fill:'#2563eb'},g);
+    const t=svgEl('text',{x:cx,y:cy+5.5,'text-anchor':'middle',fill:'#fff',
+      'font-size':15,'font-weight':700,'font-style':'italic','font-family':'Georgia,serif'},g);
+    t.textContent='x';
+  }else{
+    svgEl('circle',{cx:cx,cy:cy,r:12,fill:'#f59e0b'},g);
+    const t=svgEl('text',{x:cx,y:cy+4.5,'text-anchor':'middle',fill:'#fff',
+      'font-size':12,'font-weight':700,'font-family':'Inter,system-ui,sans-serif'},g);
+    t.textContent='1';
+  }
+  return g;
+}
+function bilRenderPan(g,st){
+  while(g.firstChild)g.removeChild(g.firstChild);
+  const xRows=Math.ceil(st.x/4);
+  for(let i=0;i<st.x;i++){
+    const row=Math.floor(i/4),inRow=Math.min(4,st.x-row*4),col=i%4;
+    const cx=(col-(inRow-1)/2)*40,cy=96-16-row*30;
+    bilItem(g,'x',cx,cy);
+  }
+  for(let i=0;i<st.u;i++){
+    const row=Math.floor(i/6),inRow=Math.min(6,st.u-row*6),col=i%6;
+    const cx=(col-(inRow-1)/2)*27,cy=96-14-xRows*30-row*26;
+    bilItem(g,'u',cx,cy);
+  }
+}
+function bilSideStr(s){
+  const parts=[];
+  if(s.x>0)parts.push(s.x===1?'x':s.x+'x');
+  if(s.u>0)parts.push(String(s.u));
+  return parts.length?parts.join(' + '):'0';
+}
+function bilEqStr(){return bilSideStr(bil.st.l)+' = '+bilSideStr(bil.st.r)}
+function bilRender(){
+  bilRenderPan(bilItemsL,bil.st.l);
+  bilRenderPan(bilItemsR,bil.st.r);
+  $('#bilEq').textContent=bilEqStr();
+  bilButtons();
+}
+function bilButtons(){
+  const s=bil.st,done=s.solved,b=bil.busy;
+  $('#bilRemX').disabled=b||done||!(s.l.x>0&&s.r.x>0);
+  $('#bilRemU').disabled=b||done||!(s.l.u>0&&s.r.u>0);
+  $('#bilDiv').disabled=b||done||!(s.l.u===0&&s.r.x===0&&s.l.x>1&&s.r.u%s.l.x===0);
+  $('#bilAuto').disabled=b||done;
+}
+function bilLog(before,after,desc,pr){
+  const li=document.createElement('li');
+  li.innerHTML='<span class="eqline">'+before+'</span> &nbsp;→&nbsp; <span class="eqline">'+after+
+    '</span><span class="badge '+(pr===1?'b1':'b2')+'">'+pr+'° principio</span><br>'+
+    '<span class="step-note">'+desc+'</span>';
+  $('#bilSteps').appendChild(li);
+}
+function bilCheckDone(){
+  const s=bil.st;
+  if(s.l.x===1&&s.l.u===0&&s.r.x===0){
+    s.solved=true;
+    const o=s.orig,val=s.r.u;
+    const lv=o.a*o.s+o.b,rv=o.c*o.s+o.d;
+    const lstr=o.a+' · '+o.s+(o.b?' + '+o.b:'')+' = '+lv;
+    const rstr=(o.c?o.c+' · '+o.s+(o.d?' + '+o.d:''):String(o.d))+' = '+rv;
+    $('#bilDone').hidden=false;
+    $('#bilDone').innerHTML=
+      '<div class="sol-box"><span class="t">Soluzione</span><span class="eqline" style="font-size:1.25em">x = '+val+'</span></div>'+
+      '<h3>Verifica nell’equazione iniziale: '+o.a+'x'+(o.b?' + '+o.b:'')+' = '+(o.c?o.c+'x'+(o.d?' + '+o.d:''):o.d)+'</h3>'+
+      '<div class="formula">primo membro: '+lstr+'<br>secondo membro: '+rstr+'</div>'+
+      '<div class="note-ok">I due membri valgono entrambi '+lv+': l’uguaglianza è vera, quindi x = '+val+' è corretta.</div>';
+    bilButtons();
+  }
+}
+function bilAnimateRemove(items,after){
+  bil.busy=true;bilButtons();
+  items.forEach(it=>it&&it.classList.add('out'));
+  setTimeout(()=>{
+    after();
+    bil.busy=false;
+    bilWobble();
+    bilRender();
+    bilCheckDone();
+  },440);
+}
+function bilOpRemX(){
+  const s=bil.st;if(!(s.l.x>0&&s.r.x>0)||s.solved||bil.busy)return;
+  const before=bilEqStr();
+  const li=[...bilItemsL.querySelectorAll('.ix')].pop();
+  const riq=[...bilItemsR.querySelectorAll('.ix')].pop();
+  bilAnimateRemove([li,riq],()=>{
+    s.l.x--;s.r.x--;
+    bilLog(before,bilEqStr(),'Tolgo una x da ciascun piatto: l’equilibrio si conserva.',1);
+  });
+}
+function bilOpRemU(){
+  const s=bil.st;if(!(s.l.u>0&&s.r.u>0)||s.solved||bil.busy)return;
+  const before=bilEqStr();
+  const li=[...bilItemsL.querySelectorAll('.iu')].pop();
+  const riq=[...bilItemsR.querySelectorAll('.iu')].pop();
+  bilAnimateRemove([li,riq],()=>{
+    s.l.u--;s.r.u--;
+    bilLog(before,bilEqStr(),'Tolgo un’unità da ciascun piatto: l’equilibrio si conserva.',1);
+  });
+}
+function bilOpDiv(){
+  const s=bil.st;
+  if(!(s.l.u===0&&s.r.x===0&&s.l.x>1&&s.r.u%s.l.x===0)||s.solved||bil.busy)return;
+  const before=bilEqStr(),n=s.l.x,keep=s.r.u/n;
+  const xs=[...bilItemsL.querySelectorAll('.ix')].slice(1);
+  const us=[...bilItemsR.querySelectorAll('.iu')].slice(keep);
+  bilAnimateRemove(xs.concat(us),()=>{
+    s.l.x=1;s.r.u=keep;
+    bilLog(before,bilEqStr(),'Divido il contenuto di entrambi i piatti per '+n+'.',2);
+  });
+}
+function bilOpAuto(){
+  const s=bil.st;if(s.solved||bil.busy)return;
+  if(s.l.x>0&&s.r.x>0)bilOpRemX();
+  else if(s.l.u>0&&s.r.u>0)bilOpRemU();
+  else bilOpDiv();
+}
+function bilNew(){
+  let g=null;
+  for(let t=0;t<300&&!g;t++){
+    const s=2+ri(4),a=2+ri(3),c=ri(Math.min(3,a)),b=ri(7),d=b+(a-c)*s;
+    if(d<=12&&a+b<=10&&c+d<=12)g={a,b,c,d,s};
+  }
+  if(!g)g={a:2,b:1,c:0,d:7,s:3};
+  bil.st={l:{x:g.a,u:g.b},r:{x:g.c,u:g.d},orig:g,solved:false};
+  $('#bilSteps').innerHTML='';
+  $('#bilDone').hidden=true;
+  $('#bilDone').innerHTML='';
+  bilRender();
+  bilWobble();
+}
+bilBuild();
+$('#bilNew').addEventListener('click',bilNew);
+$('#bilAuto').addEventListener('click',bilOpAuto);
+$('#bilRemX').addEventListener('click',bilOpRemX);
+$('#bilRemU').addEventListener('click',bilOpRemU);
+$('#bilDiv').addEventListener('click',bilOpDiv);
+bilNew();
+
+/* ================================================================
+   SIMULAZIONE: risolutore passo passo
+   ================================================================ */
+function substHtml(L,x){
+  let s='';
+  if(L.a.n!==0){
+    if(L.a.n===1&&L.a.d===1)s='('+x.html()+')';
+    else if(L.a.n===-1&&L.a.d===1)s='−('+x.html()+')';
+    else s=L.a.html()+' · ('+x.html()+')';
+  }
+  if(L.b.n!==0||s===''){
+    if(s==='')s=L.b.html();
+    else s+=(L.b.n<0?' − ':' + ')+L.b.abs().html();
+  }
+  return s;
+}
+function rsRun(){
+  const src=$('#rsInput').value,field=$('#rsField'),out=$('#rsOut');
+  try{
+    const pe=parseLinEq(src),L=pe.L,R=pe.R;
+    field.classList.remove('invalid');
+    const res=solveLin(L,R);
+    let h='<ol class="steps">';
+    h+='<li><span class="step-note">Svolgo i calcoli e riduco i termini simili in ciascun membro.</span><br>'+
+       '<span class="eqline">'+linHtml(L)+' = '+linHtml(R)+'</span></li>';
+    h+='<li><span class="step-note">Porto i termini con la x nel primo membro e i numeri nel secondo: chi cambia membro cambia segno.</span>'+
+       '<span class="badge b1">1° principio</span><br>'+
+       '<span class="eqline">'+linHtml(lin(res.A,F0()))+' = '+res.B.html()+'</span></li>';
+    if(res.type==='det'){
+      if(res.A.n===1&&res.A.d===1){
+        h+='<li><span class="step-note">Il coefficiente della x è già 1: la soluzione è immediata.</span><br>'+
+           '<span class="eqline">x = '+res.x.html()+'</span></li>';
+      }else{
+        h+='<li><span class="step-note">Divido entrambi i membri per '+res.A.html()+
+           ', il coefficiente della x'+(res.A.n<0?' (negativo: per le equazioni non cambia nulla)':'')+'.</span>'+
+           '<span class="badge b2">2° principio</span><br>'+
+           '<span class="eqline">x = '+res.x.html()+
+           (res.x.isInt()?'':' ≈ '+fmt(res.x.num(),3))+'</span></li>';
+      }
+      h+='</ol>';
+      const v=L.a.mul(res.x).add(L.b);
+      h+='<div class="sol-box"><span class="t">Soluzione</span><span class="eqline" style="font-size:1.2em">x = '+res.x.html()+'</span></div>';
+      h+='<h3>Verifica</h3><div class="formula">primo membro: '+substHtml(L,res.x)+' = '+v.html()+
+         '<br>secondo membro: '+substHtml(R,res.x)+' = '+v.html()+'</div>'+
+         '<div class="note-ok">I due membri assumono lo stesso valore '+v.html()+': la soluzione è corretta.</div>';
+    }else if(res.type==='ind'){
+      h+='</ol><div class="note-warn"><strong>0·x = 0.</strong> Qualsiasi valore di x rende vera l’uguaglianza: '+
+         'l’equazione è <strong>indeterminata</strong> (identità), S = ℝ.</div>';
+    }else{
+      h+='</ol><div class="note-err"><strong>0·x = '+res.B.html()+'.</strong> Nessun valore di x moltiplicato per 0 può dare '+
+         res.B.html()+': l’equazione è <strong>impossibile</strong>, S = ∅.</div>';
+    }
+    out.innerHTML=h;
+  }catch(e){
+    field.classList.add('invalid');
+    $('#rsErr').innerHTML='Equazione non valida: '+(e.msg||'controlla la sintassi.');
+    out.innerHTML='';
+  }
+}
+const RS_EX=['3(x - 2) = x + 4','5x + 3 = 2x + 12','7 - 2x = 1 - x','x/2 + 1 = 5',
+  '2(x + 1) - 3 = x - (1 - x)','4x + 5 = 4x - 7','3(x + 1) = 3x + 3','-2x = 8'];
+let rsExI=0;
+$('#rsSolve').addEventListener('click',rsRun);
+$('#rsInput').addEventListener('keydown',e=>{if(e.key==='Enter')rsRun()});
+$('#rsEx').addEventListener('click',()=>{
+  $('#rsInput').value=RS_EX[rsExI++%RS_EX.length];rsRun();
+});
+rsRun();
+
+/* ================================================================
+   SIMULAZIONE: parabola interattiva (equazioni di 2° grado)
+   ================================================================ */
+function trinHtml(a,b,c){
+  let s=(a===1?'':a===-1?'−':fmtInt(a))+'x²';
+  if(b!==0)s+=(b<0?' − ':' + ')+(Math.abs(b)===1?'':Math.abs(b))+'x';
+  if(c!==0)s+=(c<0?' − ':' + ')+Math.abs(c);
+  return s;
+}
+function parDraw(p,a,b,c,signColors){
+  const f=x=>a*x*x+b*x+c;
+  const xv=-b/(2*a),yv=f(xv);
+  const q=quadExact(a,b,c);
+  const xs=[0,xv];
+  if(q.n===2){xs.push(q.x1v,q.x2v)}
+  let lo=Math.min.apply(null,xs)-2.5,hi=Math.max.apply(null,xs)+2.5;
+  if(hi-lo<9){const m=(hi+lo)/2;lo=m-4.5;hi=m+4.5}
+  const cand=[yv,0,f(lo),f(hi)];
+  let ylo=Math.min.apply(null,cand),yhi=Math.max.apply(null,cand);
+  const pad=(yhi-ylo)*0.12+1;
+  ylo=Math.max(ylo-pad,-60);yhi=Math.min(yhi+pad,60);
+  if(yhi-ylo<8){const m=(yhi+ylo)/2;ylo=m-4;yhi=m+4}
+  p.fit();p.view(lo,hi,ylo,yhi);p.axes();
+  return{f,xv,yv,q};
+}
+const pbPlot=new Plot($('#pbPlot'));
+let pbLastA=1;
+function pbVals(){
+  return{a:+$('#pbA').value,b:+$('#pbB').value,c:+$('#pbC').value};
+}
+function pbDraw(){
+  const v=pbVals(),a=v.a,b=v.b,c=v.c;
+  const r=parDraw(pbPlot,a,b,c);
+  pbPlot.vline(r.xv,'#9ca3af',[5,4]);
+  pbPlot.plotFn(r.f,COLP,3);
+  if(r.q.n===2){
+    pbPlot.point(r.q.x1v,0,COLA,'x₁',-20,-10);
+    pbPlot.point(r.q.x2v,0,COLA,'x₂',10,-10);
+  }
+  if(r.q.n===1)pbPlot.point(r.q.x0v,0,COLA,'x₁=x₂',8,-12);
+  pbPlot.point(r.xv,r.yv,COLS,'V');
+}
+function pbUpdate(){
+  const v=pbVals(),a=v.a,b=v.b,c=v.c;
+  $('#pbAv').textContent=fmtInt(a);
+  $('#pbBv').textContent=fmtInt(b);
+  $('#pbCv').textContent=fmtInt(c);
+  $('#pbEq').textContent=(trinHtml(a,b,c)+' = 0').replace(/−/g,'−');
+  const q=quadExact(a,b,c);
+  $('#pbDelta').textContent=fmtInt(q.D);
+  $('#pbConc').textContent=a>0?'verso l’alto':'verso il basso';
+  const xvF=new Frac(-b,2*a),yvF=new Frac(-q.D,4*a);
+  $('#pbVert').innerHTML='('+xvF.html()+'; '+yvF.html()+')';
+  const cb=$('#pbCase');
+  if(q.n===2){cb.className='case-banner c2';
+    cb.innerHTML='Δ &gt; 0: due soluzioni reali distinte — la parabola attraversa l’asse x in due punti';}
+  else if(q.n===1){cb.className='case-banner c1';
+    cb.innerHTML='Δ = 0: due soluzioni coincidenti — la parabola è tangente all’asse x nel vertice';}
+  else{cb.className='case-banner c0';
+    cb.innerHTML='Δ &lt; 0: nessuna soluzione reale — la parabola non tocca l’asse x';}
+  let h='<div class="formula">Δ = b² − 4ac = ('+fmtInt(b)+')² − 4·('+fmtInt(a)+')·('+fmtInt(c)+') = '+fmtInt(q.D)+'</div>';
+  if(q.n===2){
+    h+='<div class="formula">x₁,₂ = <span class="frac"><span class="nu">−b ± '+sqrtHtml('Δ')+'</span><span class="de">2a</span></span> = '+
+       '<span class="frac"><span class="nu">'+fmtInt(-b)+' ± '+sqrtHtml(fmtInt(q.D))+'</span><span class="de">'+fmtInt(2*a)+'</span></span>'+
+       (q.rational?' = <span class="frac"><span class="nu">'+fmtInt(-b)+' ± '+q.sqK+'</span><span class="de">'+fmtInt(2*a)+'</span></span>':'')+
+       '</div>';
+    if(q.rational)h+='<div class="sol-box"><span class="t">Soluzioni</span><span class="eqline">x₁ = '+q.x1h+' &nbsp;&nbsp; x₂ = '+q.x2h+'</span></div>';
+    else h+='<div class="sol-box"><span class="t">Soluzioni</span><span class="eqline">x₁,₂ = '+q.xph+'</span><br><span class="step-note">valori approssimati: x₁ ≈ '+fmt(q.x1v)+', &nbsp;x₂ ≈ '+fmt(q.x2v)+'</span></div>';
+  }else if(q.n===1){
+    h+='<div class="formula">x₁ = x₂ = <span class="frac"><span class="nu">−b</span><span class="de">2a</span></span> = '+q.x0h+'</div>';
+    h+='<div class="sol-box"><span class="t">Soluzione doppia</span><span class="eqline">x = '+q.x0h+'</span></div>';
+  }else{
+    h+='<div class="note-err">Essendo Δ &lt; 0, non esiste in ℝ la radice quadrata di '+fmtInt(q.D)+': l’equazione non ha soluzioni reali.</div>';
+  }
+  $('#pbSteps').innerHTML=h;
+  if($('#pbPlot').offsetParent!==null)pbDraw();
+}
+$('#pbA').addEventListener('input',()=>{
+  let v=+$('#pbA').value;
+  if(v===0){v=pbLastA>0?-1:1;$('#pbA').value=v}
+  pbLastA=v;pbUpdate();
+});
+$('#pbB').addEventListener('input',pbUpdate);
+$('#pbC').addEventListener('input',pbUpdate);
+regSim($('#pbPlot'),pbDraw);
+pbUpdate();
+
+/* ================================================================
+   SIMULAZIONE: disequazioni di 1° grado
+   ================================================================ */
+function readFrac(id,errEl,cond){
+  const el=$('#'+id),f=Frac.dec(el.value);
+  const ok=f!==null&&(!cond||cond(f));
+  el.classList.toggle('bad',!ok);
+  return ok?f:null;
+}
+const d1Plot=new Plot($('#d1Plot'));
+let d1Data=null;
+function d1Draw(){
+  if(!d1Data)return;
+  const a=d1Data.a.num(),b=d1Data.b.num(),x0=d1Data.x0v,v2=d1Data.v2;
+  const f=x=>a*x+b;
+  const lo=x0-6,hi=x0+6;
+  const cand=[0,f(lo),f(hi)];
+  let ylo=Math.min.apply(null,cand),yhi=Math.max.apply(null,cand);
+  const pad=(yhi-ylo)*0.12+1;ylo-=pad;yhi+=pad;
+  d1Plot.fit();d1Plot.view(lo,hi,ylo,yhi);d1Plot.axes();
+  if(v2==='gt'||v2==='ge')d1Plot.band(x0,hi,BAND);
+  else d1Plot.band(lo,x0,BAND);
+  d1Plot.plotFnSign(f,COLPOS,COLNEG,3);
+  const closed=(v2==='ge'||v2==='le');
+  if(v2==='gt'||v2==='ge')d1Plot.solRayRight(x0,closed);
+  else d1Plot.solRayLeft(x0,closed);
+  d1Plot.label(x0,0,'x₀ = '+fmt(x0),'#1f2937',9,21);
+}
+function d1Update(){
+  const err=$('#d1Err');
+  const a=readFrac('d1A',err,f=>f.n!==0),b=readFrac('d1B',err);
+  if(!a||!b){
+    err.textContent=!a&&$('#d1A').value!==''&&Frac.dec($('#d1A').value)&&Frac.dec($('#d1A').value).n===0?
+      'Il coefficiente a deve essere diverso da zero.':'Inserisci coefficienti numerici validi (a ≠ 0).';
+    err.classList.add('show');return;
+  }
+  err.classList.remove('show');
+  const vk=$('#d1V').value;
+  const r=diseq1Solve(a,b,vk),x0h=r.x0.html();
+  d1Data={a,b,x0:r.x0,x0v:r.x0.num(),v2:r.v2};
+  $('#d1Eq').innerHTML=linHtml(lin(a,b))+' '+VERSI[vk].sym+' 0';
+  let h='<ol class="steps">';
+  h+='<li><span class="step-note">Porto il termine noto al secondo membro.</span><span class="badge b1">1° principio</span><br>'+
+     '<span class="eqline">'+linHtml(lin(a,F0()))+' '+VERSI[vk].sym+' '+b.neg().html()+'</span></li>';
+  if(r.inverted){
+    h+='<li><span class="step-note">Divido per a = '+a.html()+', che è <strong>negativo</strong>: il verso <strong>si inverte</strong>.</span><span class="badge b2">2° principio</span><br>'+
+       '<span class="eqline">x '+VERSI[r.v2].sym+' '+x0h+'</span></li>';
+  }else{
+    h+='<li><span class="step-note">Divido per a = '+a.html()+', che è positivo: il verso non cambia.</span><span class="badge b2">2° principio</span><br>'+
+       '<span class="eqline">x '+VERSI[r.v2].sym+' '+x0h+'</span></li>';
+  }
+  h+='</ol>';
+  $('#d1Steps').innerHTML=h;
+  const up=a.n>0;
+  const cells=up?[['x &lt; '+x0h,'−','neg'],[x0h,'0','zero'],['x &gt; '+x0h,'+','pos']]
+               :[['x &lt; '+x0h,'+','pos'],[x0h,'0','zero'],['x &gt; '+x0h,'−','neg']];
+  $('#d1Strip').innerHTML=cells.map(c=>
+    '<div class="col"><span class="v">'+c[0]+'</span><span class="s '+c[2]+'">'+c[1]+'</span></div>').join('');
+  const ss=solSet1(r.v2,x0h);
+  $('#d1Sol').innerHTML='<div class="sol-box"><span class="t">Insieme soluzione</span>'+
+    '<span class="eqline">'+ss.ineq+'</span><br><span class="eqline">S = '+ss.interval+'</span></div>';
+  if($('#d1Plot').offsetParent!==null)d1Draw();
+}
+['d1A','d1B'].forEach(id=>$('#'+id).addEventListener('input',d1Update));
+$('#d1V').addEventListener('change',d1Update);
+regSim($('#d1Plot'),d1Draw);
+d1Update();
+
+/* ================================================================
+   SIMULAZIONE: disequazioni di 2° grado
+   ================================================================ */
+function readInt(id,nonzero){
+  const el=$('#'+id),v=Number(el.value);
+  const ok=Number.isInteger(v)&&Math.abs(v)<=99&&(!nonzero||v!==0);
+  el.classList.toggle('bad',!ok);
+  return ok?v:null;
+}
+const d2Plot=new Plot($('#d2Plot'));
+let d2Data=null;
+function d2Draw(){
+  if(!d2Data)return;
+  const a=d2Data.a,b=d2Data.b,c=d2Data.c,r=d2Data.r,q=r.q;
+  const pr=parDraw(d2Plot,a,b,c);
+  const lo=d2Plot.x1,hi=d2Plot.x2;
+  if(r.kind==='inside')d2Plot.band(q.x1v,q.x2v,BAND);
+  else if(r.kind==='outside'){d2Plot.band(lo,q.x1v,BAND);d2Plot.band(q.x2v,hi,BAND)}
+  else if(r.kind==='all'||r.kind==='allExcept')d2Plot.band(lo,hi,BAND);
+  d2Plot.plotFnSign(pr.f,COLPOS,COLNEG,3);
+  if(r.kind==='inside')d2Plot.solSeg(q.x1v,q.x2v,r.incl);
+  else if(r.kind==='outside'){d2Plot.solRayLeft(q.x1v,r.incl);d2Plot.solRayRight(q.x2v,r.incl)}
+  else if(r.kind==='all')d2Plot.solAll();
+  else if(r.kind==='allExcept'){d2Plot.solAll();d2Plot.dotAxis(q.x0v,false)}
+  else if(r.kind==='point')d2Plot.dotAxis(q.x0v,true);
+  if(q.n===2){
+    d2Plot.point(q.x1v,0,COLA,'x₁',-20,-10);
+    d2Plot.point(q.x2v,0,COLA,'x₂',10,-10);
+  }
+  if(q.n===1)d2Plot.point(q.x0v,0,COLA,'x₀',8,-12);
+}
+function d2Update(){
+  const err=$('#d2Err');
+  const a=readInt('d2A',true),b=readInt('d2B'),c=readInt('d2C');
+  if(a===null||b===null||c===null){
+    err.textContent='Usa coefficienti interi con a ≠ 0 (valori fino a ±99).';
+    err.classList.add('show');return;
+  }
+  err.classList.remove('show');
+  const vk=$('#d2V').value;
+  const r=diseq2Solve(a,b,c,vk),q=r.q;
+  d2Data={a,b,c,r};
+  $('#d2Eq').innerHTML=trinHtml(a,b,c)+' '+VERSI[vk].sym+' 0';
+  $('#d2Delta').textContent=fmtInt(q.D);
+  $('#d2Conc').textContent=a>0?'verso l’alto':'verso il basso';
+  $('#d2Roots').innerHTML=q.n===2?(q.rational?q.x1h+' ; '+q.x2h:'≈ '+fmt(q.x1v)+' ; '+fmt(q.x2v)):
+    q.n===1?q.x0h+' (doppia)':'nessuna';
+  const sOut=a>0?['+','pos']:['−','neg'],sIn=a>0?['−','neg']:['+','pos'];
+  let cells;
+  if(q.n===2)cells=[['x &lt; x₁',sOut],['x₁',['0','zero']],['x₁ &lt; x &lt; x₂',sIn],['x₂',['0','zero']],['x &gt; x₂',sOut]];
+  else if(q.n===1)cells=[['x &lt; x₀',sOut],['x₀',['0','zero']],['x &gt; x₀',sOut]];
+  else cells=[['per ogni x',sOut]];
+  $('#d2Strip').innerHTML=cells.map(c=>
+    '<div class="col"><span class="v">'+c[0]+'</span><span class="s '+c[1][1]+'">'+c[1][0]+'</span></div>').join('');
+  const ss=solSet2(r);
+  const lbl=r.kind==='inside'?'valori interni alle radici':
+    r.kind==='outside'?'valori esterni alle radici':
+    r.kind==='all'?'la disequazione è sempre verificata':
+    r.kind==='none'?'la disequazione non è mai verificata':
+    r.kind==='allExcept'?'tutti i valori tranne la radice doppia':'solo la radice doppia';
+  $('#d2Sol').innerHTML='<div class="sol-box"><span class="t">Insieme soluzione — '+lbl+'</span>'+
+    '<span class="eqline">'+ss.ineq+'</span><br><span class="eqline">'+ss.interval+'</span></div>';
+  if($('#d2Plot').offsetParent!==null)d2Draw();
+}
+['d2A','d2B','d2C'].forEach(id=>$('#'+id).addEventListener('input',d2Update));
+$('#d2V').addEventListener('change',d2Update);
+regSim($('#d2Plot'),d2Draw);
+d2Update();
+
+/* ================================================================
+   SIMULAZIONE: sistema lineare 2x2
+   ================================================================ */
+function linXY(a,b,c){
+  let s='';
+  if(a.n!==0)s=(a.n===1&&a.d===1)?'x':(a.n===-1&&a.d===1)?'−x':a.html()+'x';
+  if(b.n!==0){
+    const bt=(Math.abs(b.n)===1&&b.d===1)?'y':b.abs().html()+'y';
+    s=s?(s+(b.n<0?' − ':' + ')+bt):((b.n<0?'−':'')+bt);
+  }
+  if(!s)s='0';
+  return s+' = '+c.html();
+}
+function detHtml(a,b,c,d){
+  return'<span class="det"><span>'+a.html()+'</span><span>'+b.html()+'</span><span>'+
+    c.html()+'</span><span>'+d.html()+'</span></span>';
+}
+const slPlot=new Plot($('#slPlot'));
+let slData=null;
+function slDraw(){
+  if(!slData)return;
+  const d=slData;
+  const cx=d.cd.type==='det'?d.cd.x.num():0,cy=d.cd.type==='det'?d.cd.y.num():0;
+  slPlot.fit();
+  const half=7,ratio=slPlot.h/slPlot.w;
+  slPlot.view(cx-half,cx+half,cy-half*ratio,cy+half*ratio);
+  slPlot.axes();
+  const eqs=[[d.A1,d.B1,d.C1,COLP],[d.A2,d.B2,d.C2,COLA]];
+  eqs.forEach(e=>{
+    const a=e[0].num(),b=e[1].num(),c=e[2].num();
+    if(e[1].n!==0)slPlot.plotFn(x=>(c-a*x)/b,e[3],2.8);
+    else{
+      const g=slPlot.g,px=slPlot.X(c/a);
+      g.save();g.strokeStyle=e[3];g.lineWidth=2.8;
+      g.beginPath();g.moveTo(px,0);g.lineTo(px,slPlot.h);g.stroke();g.restore();
+    }
+  });
+  if(d.cd.type==='det')
+    slPlot.point(cx,cy,COLS,'P('+fmt(cx)+'; '+fmt(cy)+')',10,-10);
+}
+function slStepsHtml(){
+  const d=slData;if(!d)return'';
+  const cd=d.cd;
+  const A1=d.A1,B1=d.B1,C1=d.C1,A2=d.A2,B2=d.B2,C2=d.C2;
+  const names=['x','y'];
+  if(slMethod==='graf'){
+    let h='<p class="hint" style="margin-top:.6rem">Ogni equazione rappresenta una retta. Scritte in forma esplicita:</p>';
+    const ex=[[A1,B1,C1,'1ª'],[A2,B2,C2,'2ª']].map(e=>{
+      if(e[1].n!==0){
+        const m=e[0].neg().div(e[1]),qq=e[2].div(e[1]);
+        return'<span class="eqline">'+e[3]+': &nbsp;y = '+linHtml(lin(m,qq))+'</span>';
+      }
+      return'<span class="eqline">'+e[3]+': &nbsp;x = '+e[2].div(e[0]).html()+' (retta verticale)</span>';
+    });
+    h+='<div class="formula">'+ex[0]+'<br>'+ex[1]+'</div>';
+    if(cd.type==='det'){
+      h+='<p>Le rette si intersecano in un punto: leggendone le coordinate sul grafico si trova la soluzione del sistema.</p>'+
+        '<div class="sol-box"><span class="t">Soluzione</span><span class="eqline">P('+cd.x.html()+'; '+cd.y.html()+')</span></div>';
+    }else if(cd.type==='imp'){
+      h+='<div class="note-err">Le rette sono <strong>parallele e distinte</strong>: nessun punto comune, sistema impossibile.</div>';
+    }else{
+      h+='<div class="note-warn">Le rette sono <strong>coincidenti</strong>: infiniti punti comuni, sistema indeterminato.</div>';
+    }
+    return h;
+  }
+  if(slMethod==='cram'){
+    const pH=f=>f.n<0?'('+f.html()+')':f.html();
+    let h='<div class="formula">D = '+detHtml(A1,B1,A2,B2)+' = '+pH(A1)+'·'+pH(B2)+' − '+pH(B1)+'·'+pH(A2)+' = '+cd.D.html()+'</div>';
+    if(cd.type==='det'){
+      h+='<div class="formula">D<sub>x</sub> = '+detHtml(C1,B1,C2,B2)+' = '+cd.Dx.html()+
+         ' &nbsp;&nbsp; D<sub>y</sub> = '+detHtml(A1,C1,A2,C2)+' = '+cd.Dy.html()+'</div>';
+      h+='<div class="formula">x = <span class="frac"><span class="nu">D<sub>x</sub></span><span class="de">D</span></span> = '+cd.x.html()+
+         ' &nbsp;&nbsp;&nbsp; y = <span class="frac"><span class="nu">D<sub>y</sub></span><span class="de">D</span></span> = '+cd.y.html()+'</div>';
+      h+='<div class="sol-box"><span class="t">Soluzione</span><span class="eqline">('+cd.x.html()+'; '+cd.y.html()+')</span></div>';
+    }else{
+      h+='<div class="formula">D<sub>x</sub> = '+cd.Dx.html()+' &nbsp;&nbsp; D<sub>y</sub> = '+cd.Dy.html()+'</div>';
+      h+=cd.type==='imp'?
+        '<div class="note-err">D = 0 con D<sub>x</sub> o D<sub>y</sub> diversi da 0: sistema <strong>impossibile</strong>.</div>':
+        '<div class="note-warn">D = D<sub>x</sub> = D<sub>y</sub> = 0: sistema <strong>indeterminato</strong>.</div>';
+    }
+    return h;
+  }
+  if(slMethod==='sost'){
+    const cands=[[1,0,A1],[1,1,B1],[2,0,A2],[2,1,B2]].filter(c=>c[2].n!==0);
+    cands.sort((u,v)=>{
+      const u1=(Math.abs(u[2].n)===1&&u[2].d===1)?0:1,v1=(Math.abs(v[2].n)===1&&v[2].d===1)?0:1;
+      return u1-v1||Math.abs(u[2].num())-Math.abs(v[2].num());
+    });
+    const pv=cands[0],ei=pv[0],vi=pv[1];
+    const eq=ei===1?[A1,B1,C1]:[A2,B2,C2],oq=ei===1?[A2,B2,C2]:[A1,B1,C1];
+    const coef=eq[vi],oco=eq[1-vi],kn=eq[2];
+    const vn=names[vi],on=names[1-vi];
+    const p=kn.div(coef),qq=oco.neg().div(coef);
+    const expr=lin(qq,p);
+    let h='<ol class="steps">';
+    h+='<li><span class="step-note">Isolo '+vn+' nella '+ei+'ª equazione.</span><br>'+
+       '<span class="eqline">'+vn+' = '+linHtml(expr,on)+'</span></li>';
+    const cv=oq[vi],cov=oq[1-vi],ck=oq[2];
+    const kk=cv.mul(qq).add(cov),rr=ck.sub(cv.mul(p));
+    let sostStr;
+    if(cv.n===0)sostStr='la '+(ei===1?2:1)+'ª equazione non contiene '+vn+': resta '+linXY(ei===1?A2:A1,ei===1?B2:B1,ei===1?C2:C1);
+    else sostStr=(cv.n===1&&cv.d===1?'':cv.n===-1&&cv.d===1?'−':cv.html()+'·')+'('+linHtml(expr,on)+')'+
+      (cov.n!==0?((cov.n<0?' − ':' + ')+((Math.abs(cov.n)===1&&cov.d===1)?on:cov.abs().html()+on)):'')+' = '+ck.html();
+    h+='<li><span class="step-note">Sostituisco l’espressione nell’altra equazione.</span><br>'+
+       '<span class="eqline">'+sostStr+'</span></li>';
+    if(kk.n===0){
+      h+='</ol>';
+      h+=rr.n===0?'<div class="note-warn">Si ottiene 0 = 0: identità, sistema <strong>indeterminato</strong> (rette coincidenti).</div>':
+        '<div class="note-err">Si ottiene 0·'+on+' = '+rr.html()+': impossibile (rette parallele distinte).</div>';
+      return h;
+    }
+    const ov=rr.div(kk);
+    h+='<li><span class="step-note">Risolvo l’equazione in '+on+'.</span><br>'+
+       '<span class="eqline">'+linHtml(lin(kk,F0()),on)+' = '+rr.html()+' &nbsp;→&nbsp; '+on+' = '+ov.html()+'</span></li>';
+    const vv=qq.mul(ov).add(p);
+    h+='<li><span class="step-note">Sostituisco '+on+' = '+ov.html()+' nell’espressione del passo 1.</span><br>'+
+       '<span class="eqline">'+vn+' = '+vv.html()+'</span></li></ol>';
+    const px=vi===0?vv:ov,py=vi===0?ov:vv;
+    h+='<div class="sol-box"><span class="t">Soluzione</span><span class="eqline">('+px.html()+'; '+py.html()+')</span></div>';
+    return h;
+  }
+  /* riduzione */
+  function elim(vi){
+    const vn=names[vi],on=names[1-vi];
+    const c1=vi===0?A1:B1,c2=vi===0?A2:B2;
+    const o1=vi===0?B1:A1,o2=vi===0?B2:A2;
+    let h='<h3>Elimino '+vn+' (per trovare '+on+')</h3>';
+    if(c1.n===0||c2.n===0){
+      const idx=c1.n===0?1:2;
+      const oc=c1.n===0?o1:o2,kc=c1.n===0?C1:C2;
+      h+='<p class="step-note">La '+idx+'ª equazione non contiene '+vn+': fornisce direttamente '+on+'.</p>';
+      if(oc.n===0)return{html:h+'<div class="note-err">Equazione degenere.</div>',val:null};
+      const val=kc.div(oc);
+      h+='<div class="formula">'+linXY(vi===0?new Frac(0):oc,vi===0?oc:new Frac(0),kc).replace('0x + ','').replace(' + 0y','')+
+         ' &nbsp;→&nbsp; '+on+' = '+val.html()+'</div>';
+      return{html:h,val};
+    }
+    const m1=c2,m2=c1;
+    const n1=[A1.mul(m1),B1.mul(m1),C1.mul(m1)],n2=[A2.mul(m2),B2.mul(m2),C2.mul(m2)];
+    const skip=m1.eq(F1())&&m2.eq(F1());
+    if(!skip)h+='<p class="step-note">Moltiplico la 1ª equazione per '+m1.html()+' e la 2ª per '+m2.html()+
+      ', così i coefficienti di '+vn+' diventano uguali.</p>'+
+      '<div class="formula">'+linXY(n1[0],n1[1],n1[2])+'<br>'+linXY(n2[0],n2[1],n2[2])+'</div>';
+    const ko=(vi===0?n1[1].sub(n2[1]):n1[0].sub(n2[0])),kr=n1[2].sub(n2[2]);
+    h+='<p class="step-note">Sottraggo membro a membro: '+vn+' si elimina.</p>';
+    if(ko.n===0){
+      h+='<div class="formula">0·'+on+' = '+kr.html()+'</div>';
+      return{html:h,val:null,deg:kr.n===0?'ind':'imp'};
+    }
+    const val=kr.div(ko);
+    h+='<div class="formula">'+linHtml(lin(ko,F0()),on)+' = '+kr.html()+' &nbsp;→&nbsp; '+on+' = '+val.html()+'</div>';
+    return{html:h,val};
+  }
+  if(cd.type!=='det'){
+    const e=elim(1);
+    let h=e.html;
+    h+=cd.type==='imp'?'<div class="note-err">Il sistema è <strong>impossibile</strong>: rette parallele distinte.</div>':
+      '<div class="note-warn">Il sistema è <strong>indeterminato</strong>: rette coincidenti, infinite soluzioni.</div>';
+    return h;
+  }
+  const ey=elim(0),ex=elim(1);
+  let h=ey.html+ex.html;
+  h+='<div class="sol-box"><span class="t">Soluzione</span><span class="eqline">('+cd.x.html()+'; '+cd.y.html()+')</span></div>';
+  return h;
+}
+function slRenderSteps(){
+  if(slData)$('#slSteps').innerHTML=slStepsHtml();
+}
+function slUpdate(){
+  const err=$('#slErr');
+  const A1=readFrac('slA1'),B1=readFrac('slB1'),C1=readFrac('slC1'),
+        A2=readFrac('slA2'),B2=readFrac('slB2'),C2=readFrac('slC2');
+  if(!A1||!B1||!C1||!A2||!B2||!C2){
+    err.textContent='Inserisci sei coefficienti numerici validi.';
+    err.classList.add('show');return;
+  }
+  if((A1.n===0&&B1.n===0)||(A2.n===0&&B2.n===0)){
+    err.textContent='In ogni equazione almeno uno tra i coefficienti di x e y deve essere diverso da zero.';
+    err.classList.add('show');
+    [['slA1',A1],['slB1',B1]].forEach(p=>{if(A1.n===0&&B1.n===0)$('#'+p[0]).classList.add('bad')});
+    [['slA2',A2],['slB2',B2]].forEach(p=>{if(A2.n===0&&B2.n===0)$('#'+p[0]).classList.add('bad')});
+    return;
+  }
+  err.classList.remove('show');
+  const cd=cramerData(A1,B1,C1,A2,B2,C2);
+  slData={A1,B1,C1,A2,B2,C2,cd};
+  $('#slEq').innerHTML='{ '+linXY(A1,B1,C1)+' ; &nbsp;'+linXY(A2,B2,C2)+' }';
+  const cb=$('#slCase');
+  if(cd.type==='det'){cb.className='case-banner c2';
+    cb.innerHTML='Sistema <strong>determinato</strong>: le rette si intersecano in un solo punto';}
+  else if(cd.type==='imp'){cb.className='case-banner c0';
+    cb.innerHTML='Sistema <strong>impossibile</strong>: rette parallele distinte';}
+  else{cb.className='case-banner c1';
+    cb.innerHTML='Sistema <strong>indeterminato</strong>: rette coincidenti, infinite soluzioni';}
+  slRenderSteps();
+  if($('#slPlot').offsetParent!==null)slDraw();
+}
+['slA1','slB1','slC1','slA2','slB2','slC2'].forEach(id=>
+  $('#'+id).addEventListener('input',slUpdate));
+regSim($('#slPlot'),slDraw);
+slUpdate();
+
+/* ================================================================
+   SIMULAZIONE: retta e parabola
+   ================================================================ */
+const spPlot=new Plot($('#spPlot'));
+let spData=null;
+function spDraw(){
+  if(!spData)return;
+  const d=spData,f=x=>d.a*x*x+d.b*x+d.c,g=x=>d.m*x+d.q;
+  const xv=-d.b/(2*d.a);
+  const xs=[0,xv];
+  if(d.qe.n===2)xs.push(d.qe.x1v,d.qe.x2v);
+  if(d.qe.n===1)xs.push(d.qe.x0v);
+  let lo=Math.min.apply(null,xs)-3,hi=Math.max.apply(null,xs)+3;
+  if(hi-lo<9){const mm=(hi+lo)/2;lo=mm-4.5;hi=mm+4.5}
+  const cand=[f(xv),0,d.q,f(lo),f(hi),g(lo),g(hi)];
+  let ylo=Math.min.apply(null,cand),yhi=Math.max.apply(null,cand);
+  const pad=(yhi-ylo)*0.12+1;
+  ylo=Math.max(ylo-pad,-60);yhi=Math.min(yhi+pad,60);
+  spPlot.fit();spPlot.view(lo,hi,ylo,yhi);spPlot.axes();
+  spPlot.plotFn(f,COLP,3);
+  spPlot.plotFn(g,COLA,2.6);
+  if(d.qe.n===2){
+    spPlot.point(d.qe.x1v,g(d.qe.x1v),COLS,'A('+fmt(d.qe.x1v)+'; '+fmt(g(d.qe.x1v))+')',10,-10);
+    spPlot.point(d.qe.x2v,g(d.qe.x2v),COLS,'B('+fmt(d.qe.x2v)+'; '+fmt(g(d.qe.x2v))+')',10,16);
+  }
+  if(d.qe.n===1)spPlot.point(d.qe.x0v,g(d.qe.x0v),COLS,'T('+fmt(d.qe.x0v)+'; '+fmt(g(d.qe.x0v))+')',10,-10);
+}
+function spUpdate(){
+  const err=$('#spErr');
+  const a=readInt('spA',true),b=readInt('spB'),c=readInt('spC'),
+        m=readInt('spM'),q=readInt('spQ');
+  if(a===null||b===null||c===null||m===null||q===null){
+    err.textContent='Usa coefficienti interi con a ≠ 0 (valori fino a ±99).';
+    err.classList.add('show');return;
+  }
+  err.classList.remove('show');
+  const B=b-m,C=c-q;
+  const qe=quadExact(a,B,C);
+  spData={a,b,c,m,q,qe};
+  const rettaStr=(m===0?String(q):linHtml(lin(new Frac(m),new Frac(q))));
+  $('#spEq').innerHTML='{ y = '+trinHtml(a,b,c)+' ; &nbsp;y = '+rettaStr+' }';
+  const cb=$('#spCase');
+  if(qe.n===2){cb.className='case-banner c2';
+    cb.innerHTML='Δ &gt; 0: retta <strong>secante</strong> — due punti di intersezione';}
+  else if(qe.n===1){cb.className='case-banner c1';
+    cb.innerHTML='Δ = 0: retta <strong>tangente</strong> — un solo punto di contatto';}
+  else{cb.className='case-banner c0';
+    cb.innerHTML='Δ &lt; 0: retta <strong>esterna</strong> — nessuna intersezione';}
+  let h='<ol class="steps">';
+  h+='<li><span class="step-note">Per sostituzione eguaglio le due espressioni di y.</span><br>'+
+     '<span class="eqline">'+trinHtml(a,b,c)+' = '+rettaStr+'</span></li>';
+  h+='<li><span class="step-note">Porto tutto al primo membro: equazione risolvente.</span><br>'+
+     '<span class="eqline">'+trinHtml(a,B,C)+' = 0</span></li>';
+  h+='<li><span class="step-note">Calcolo il discriminante della risolvente.</span><br>'+
+     '<span class="eqline">Δ = ('+fmtInt(B)+')² − 4·('+fmtInt(a)+')·('+fmtInt(C)+') = '+fmtInt(qe.D)+'</span></li>';
+  if(qe.n===2){
+    let y1h,y2h;
+    if(qe.rational){
+      const mF=new Frac(m),qF=new Frac(q);
+      y1h=mF.mul(qe.x1).add(qF).html();y2h=mF.mul(qe.x2).add(qF).html();
+      h+='<li><span class="step-note">Risolvo e calcolo le ordinate con y = mx + q.</span><br>'+
+         '<span class="eqline">x₁ = '+qe.x1h+' → y₁ = '+y1h+'; &nbsp; x₂ = '+qe.x2h+' → y₂ = '+y2h+'</span></li></ol>';
+      h+='<div class="sol-box"><span class="t">Intersezioni</span><span class="eqline">A('+qe.x1h+'; '+y1h+') &nbsp;e&nbsp; B('+qe.x2h+'; '+y2h+')</span></div>';
+    }else{
+      h+='<li><span class="step-note">Risolvo con la formula.</span><br>'+
+         '<span class="eqline">x₁,₂ = '+qe.xph+'</span></li></ol>';
+      h+='<div class="sol-box"><span class="t">Intersezioni (approssimate)</span><span class="eqline">A('+fmt(qe.x1v)+'; '+fmt(m*qe.x1v+q)+') &nbsp;e&nbsp; B('+fmt(qe.x2v)+'; '+fmt(m*qe.x2v+q)+')</span></div>';
+    }
+  }else if(qe.n===1){
+    const y0=new Frac(m).mul(qe.x0).add(new Frac(q));
+    h+='<li><span class="step-note">Soluzione doppia: punto di tangenza.</span><br>'+
+       '<span class="eqline">x = '+qe.x0h+' → y = '+y0.html()+'</span></li></ol>';
+    h+='<div class="sol-box"><span class="t">Punto di tangenza</span><span class="eqline">T('+qe.x0h+'; '+y0.html()+')</span></div>';
+  }else{
+    h+='</ol><div class="note-err">La risolvente non ha soluzioni reali: retta e parabola non si incontrano, S = ∅.</div>';
+  }
+  $('#spSteps').innerHTML=h;
+  if($('#spPlot').offsetParent!==null)spDraw();
+}
+['spA','spB','spC','spM','spQ'].forEach(id=>$('#'+id).addEventListener('input',spUpdate));
+regSim($('#spPlot'),spDraw);
+spUpdate();
+
+/* ---------------- Avvio ---------------- */
+const initId=location.hash.slice(1);
+show(document.getElementById(initId)?initId:'home');
+</script>
+</body>
+</html>

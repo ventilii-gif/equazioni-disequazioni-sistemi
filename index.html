@@ -679,10 +679,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       <details>
         <summary>Esempio guidato 1 — caso indeterminato</summary>
         <div class="acc-body">
-          <p>Risolvi al variare di <em>k</em> l'equazione: <span class="eqline">(k − 3)x = 2k − 6</span></p>
-          <p><strong>Passo 1.</strong> Riscrivi in forma A(k)·x = B(k):</p>
-          <div class="formula">(k − 3)x = 2(k − 3)
-            <span class="why">B(k) = 2k − 6 = 2(k − 3) ha lo stesso fattore del coefficiente</span>
+          <p>Risolvi al variare di <em>k</em> l'equazione: <span class="eqline">kx + 6 = 3x + 2k</span></p>
+          <p><strong>Passo 1.</strong> Porta i termini con la x al primo membro e i termini noti al secondo, poi raccogli la x (forma A(k)·x = B(k)):</p>
+          <div class="formula">kx − 3x = 2k − 6 &nbsp;&nbsp;⟹&nbsp;&nbsp; (k − 3)x = 2(k − 3)
+            <span class="why">a destra 2k − 6 = 2(k − 3): stesso fattore del coefficiente</span>
           </div>
           <p><strong>Passo 2.</strong> Cerca il valore di <em>k</em> che <strong>annulla</strong> il coefficiente A(k) = k − 3 (è il valore critico da discutere a parte):</p>
           <p>A(k) = 0 ⟺ k = 3.</p>
@@ -735,7 +735,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       <div class="ctrl-pane">
         <p class="hint" style="margin-top:0">Scegli l'equazione da analizzare:</p>
         <div class="tabs" id="litEqTabs">
-          <button class="tab active" data-lit="A">(k−3)x = 2k−6</button>
+          <button class="tab active" data-lit="A">kx+6 = 3x+2k</button>
           <button class="tab" data-lit="B">(k+2)x = k+5</button>
           <button class="tab" data-lit="C">(k²−1)x = k−1</button>
         </div>
@@ -2977,7 +2977,9 @@ spUpdate();
     A:{
       A:k=>k-3, B:k=>2*k-6,
       labelA:'k − 3', labelB:'2k − 6',
+      raw:'kx + 6 = 3x + 2k',
       latex:'(k − 3)x = 2k − 6',
+      reduce:'kx − 3x = 2k − 6 &nbsp;⟹&nbsp; (k − 3)x = 2k − 6',
       note:'Nota: 2k − 6 = 2(k − 3): stesso fattore del coefficiente.'
     },
     B:{
@@ -3018,7 +3020,9 @@ spUpdate();
 
     let html='<div class="lit-eq-display" style="font-size:1.08em;padding:.5rem .9rem;background:var(--primary-soft);border-left:3px solid var(--color-primary);border-radius:0 8px 8px 0;margin-bottom:.6rem">'
       +'<b style="font-family:inherit;font-size:.78em;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">Equazione</b><br>'
-      +e.latex+'</div>';
+      +(e.raw||e.latex)+'</div>';
+
+    if(e.reduce)html+='<div class="lit-step">Riduco a forma A(k)·x = B(k): '+e.reduce+'</div>';
 
     html+='<div class="lit-step">'+coefLabel+coefHtml+'&nbsp;&nbsp;&nbsp;<b>B(k) = '+e.labelB+'</b> → '+fmtInt(Bv)+'</div>';
 

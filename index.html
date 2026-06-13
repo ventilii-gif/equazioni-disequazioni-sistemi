@@ -684,7 +684,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
           <div class="formula">(k − 3)x = 2(k − 3)
             <span class="why">B(k) = 2k − 6 = 2(k − 3) ha lo stesso fattore del coefficiente</span>
           </div>
-          <p><strong>Passo 2.</strong> Studia il segno del coefficiente A(k) = k − 3:</p>
+          <p><strong>Passo 2.</strong> Cerca il valore di <em>k</em> che <strong>annulla</strong> il coefficiente A(k) = k − 3 (è il valore critico da discutere a parte):</p>
           <p>A(k) = 0 ⟺ k = 3.</p>
           <p><strong>Passo 3a.</strong> Se <em>k ≠ 3</em>: divido per (k − 3):</p>
           <div class="formula">x = 2(k − 3)/(k − 3) = 2 &nbsp;&nbsp;&nbsp; ⟹ &nbsp;&nbsp; S = {2}</div>
@@ -1909,8 +1909,8 @@ lit_t:[
   opts:['determinata con x = 3/4','indeterminata','impossibile: 0·x = 3','determinata con x = 0'],ans:2,
   exp:'k = 2: A(2) = 0 e B(2) = 3 ≠ 0 → 0·x = 3 → impossibile (S = ∅).'},
  {q:'In un’equazione letterale con A(k) = (k − 1)², il valore critico è unico. Al valore critico, per classificare l’equazione occorre…',
-  opts:['verificare il segno di B(k) nel valore critico','risolvere l’equazione numericamente','derivare rispetto a k','calcolare il discriminante'],ans:0,
-  exp:'Una volta trovato il valore critico (k = 1), si sostituisce in B(k): se B(1) = 0 l’equazione è indeterminata, altrimenti è impossibile.'}
+  opts:['verificare se B(k) è nullo o diverso da zero nel valore critico','risolvere l’equazione numericamente','derivare rispetto a k','calcolare il discriminante'],ans:0,
+  exp:'Una volta trovato il valore critico (k = 1), si sostituisce in B(k): se B(1) = 0 l’equazione è indeterminata, altrimenti (B ≠ 0) è impossibile. Conta solo se è nullo, non il suo segno.'}
 ],
 /* ---------- Equazioni letterali: calcolo ---------- */
 lit_c:[
@@ -2975,27 +2975,19 @@ spUpdate();
 (function(){
   const LIT_EQS={
     A:{
-      label:'(k − 3)x = 2k − 6',
       A:k=>k-3, B:k=>2*k-6,
-      Ahtml:k=>{const v=k-3;return v===0?'<span class="coeff-zero">0</span>':'<span class="coeff-blink">'+(v>0?v:(v===-1?'−':v)+'')+'</span>'},
-      Atext:k=>'('+'k − 3)  per k = '+k+': '+(k-3),
-      Btext:k=>'2k − 6  per k = '+k+': '+(2*k-6),
       labelA:'k − 3', labelB:'2k − 6',
       latex:'(k − 3)x = 2k − 6',
       note:'Nota: 2k − 6 = 2(k − 3): stesso fattore del coefficiente.'
     },
     B:{
-      label:'(k + 2)x = k + 5',
       A:k=>k+2, B:k=>k+5,
-      Ahtml:k=>{const v=k+2;return v===0?'<span class="coeff-zero">0</span>':'<span class="coeff-blink">'+(v>0?v:(v===-1?'−':''+v))+'</span>'},
       labelA:'k + 2', labelB:'k + 5',
       latex:'(k + 2)x = k + 5',
       note:''
     },
     C:{
-      label:'(k² − 1)x = k − 1',
       A:k=>k*k-1, B:k=>k-1,
-      Ahtml:k=>{const v=k*k-1;return v===0?'<span class="coeff-zero">0</span>':'<span class="coeff-blink">'+v+'</span>'},
       labelA:'k² − 1', labelB:'k − 1',
       latex:'(k² − 1)x = k − 1',
       note:'Nota: k² − 1 = (k − 1)(k + 1) si annulla per k = 1 e k = −1.'
@@ -3034,7 +3026,6 @@ spUpdate();
 
     if(Av!==0){
       const sol=fracSimple(Bv,Av);
-      const solStr=sol?(sol.d===1?fmtInt(sol.n):fmtInt(sol.n)+'/'+sol.d):'—';
       html+='<div class="lit-step">Coefficiente ≠ 0 → divisione lecita</div>';
       html+='<div class="lit-case det">Equazione <b>determinata</b>&emsp;'
         +'x = '+e.labelB+' / ('+e.labelA+') = '+fmtInt(Bv)+' / '+fmtInt(Av)+' = '

@@ -297,6 +297,38 @@ footer{border-top:1px solid var(--border);background:var(--surface);
   .card{padding:.95rem .9rem}
   .coef{width:4.6em}
 }
+
+/* ===================== Equazioni letterali ===================== */
+@keyframes coeff-pulse{
+  0%,100%{background:var(--accent-soft);color:var(--accent-deep);box-shadow:none}
+  50%{background:var(--color-accent);color:#fff;box-shadow:0 0 0 3px rgba(245,158,11,.35)}
+}
+.coeff-blink{
+  display:inline-block;
+  animation:coeff-pulse 1s ease-in-out infinite;
+  border-radius:5px;
+  padding:.08em .35em;
+  font-weight:700;
+  font-family:var(--font-math);
+  cursor:default;
+}
+.coeff-zero{
+  animation:none;
+  background:var(--error-soft);
+  color:var(--error-deep);
+  border-radius:5px;
+  padding:.08em .35em;
+  font-weight:700;
+  font-family:var(--font-math);
+}
+.lit-case{border-radius:10px;padding:.65rem 1rem;margin:.6rem 0;font-size:.94em;font-weight:600}
+.lit-case.det{background:var(--success-soft);border:1px solid #a7f3d0;color:var(--success-deep)}
+.lit-case.ind{background:var(--primary-soft);border:1px solid #bfdbfe;color:var(--color-secondary)}
+.lit-case.imp{background:var(--error-soft);border:1px solid #fca5a5;color:var(--error-deep)}
+.lit-eq-display{font-family:var(--font-math);font-size:1.12em;line-height:2.1;margin:.4rem 0}
+.lit-step{border-left:3px solid var(--border);padding:.3rem .7rem .3rem .75rem;
+  margin:.3rem 0;font-size:.92em;color:var(--color-text);font-family:var(--font-math)}
+.lit-step+.lit-step{border-color:var(--color-primary)}
 </style>
 </head>
 <body>
@@ -311,6 +343,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
   <div class="wrap" id="mainNav">
     <button data-target="home" class="active">Home</button>
     <button data-target="eq1">Equazioni di 1° grado</button>
+    <button data-target="eq1lit">Eq. letterali</button>
     <button data-target="eq2">Equazioni di 2° grado</button>
     <button data-target="diseq">Disequazioni</button>
     <button data-target="sist">Sistemi</button>
@@ -329,7 +362,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
        (in schede richiudibili), una o più <strong>simulazioni</strong> da esplorare cambiando i
        parametri, e la palestra <strong>«Prova tu»</strong> con 10 domande di teoria e
        10 esercizi di calcolo a risposta chiusa, con correzione e spiegazione immediate.</p>
-    <div class="chips"><em>Teoria</em><em>Simulazioni interattive</em><em>80 domande con feedback</em><em>Funziona anche da mobile</em></div>
+    <div class="chips"><em>Teoria</em><em>Simulazioni interattive</em><em>100 domande con feedback</em><em>Funziona anche da mobile</em></div>
   </div>
 
   <div class="home-grid">
@@ -343,6 +376,17 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </svg>
       <strong>Equazioni di 1° grado</strong>
       <span>Bilancia animata, principi di equivalenza, risolutore passo passo e verifica della soluzione.</span>
+    </button>
+    <button class="home-card" data-target="eq1lit">
+      <svg class="ico" viewBox="0 0 56 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <text x="5" y="38" font-size="22" font-family="serif" stroke="none" fill="currentColor" font-style="italic">k</text>
+        <path d="M24 38h28M24 22h28" opacity=".35"/>
+        <rect x="22" y="10" width="14" height="20" rx="3" stroke="#f59e0b" stroke-width="2.8" fill="#fef3c7" opacity=".9"/>
+        <text x="25" y="25" font-size="13" font-family="serif" stroke="none" fill="#b45309" font-style="italic">k</text>
+        <path d="M40 20h14"/>
+      </svg>
+      <strong>Equazioni letterali</strong>
+      <span>Coefficiente parametrico, discussione per casi, equazioni indeterminate e impossibili.</span>
     </button>
     <button class="home-card" data-target="eq2">
       <svg class="ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
@@ -559,6 +603,161 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     </div>
     <div class="quiz" id="qz-eq1t" data-quiz="eq1t"></div>
     <div class="quiz" id="qz-eq1c" data-quiz="eq1c" hidden></div>
+  </div>
+</section>
+<!-- ============================================================
+     EQUAZIONI LETTERALI DI 1° GRADO
+============================================================ -->
+<section class="scene" id="eq1lit">
+  <div class="page-head">
+    <h2>Equazioni letterali di 1° grado</h2>
+    <p class="lead">Coefficienti con un parametro: la discussione sistematica rivela quando l'equazione è determinata, indeterminata o impossibile.</p>
+  </div>
+
+  <p class="sec-label">Teoria</p>
+  <div class="card">
+    <div class="accordion">
+
+      <details open>
+        <summary>Che cos'è un'equazione letterale</summary>
+        <div class="acc-body">
+          <p>Un'<strong>equazione letterale</strong> è un'equazione di primo grado in <span class="eqline">x</span>
+             i cui <strong>coefficienti dipendono da un parametro</strong> (di solito indicato con
+             <span class="eqline">k</span>, <span class="eqline">a</span> o <span class="eqline">m</span>).
+             A seconda del valore del parametro, la stessa equazione può comportarsi in modo
+             radicalmente diverso.</p>
+          <div class="formula center">
+            (<em>k</em> − 2)x = <em>k</em> + 1
+            <span class="why">equazione in x con parametro k: per ogni valore di k si ottiene un'equazione numerica</span>
+          </div>
+          <p>L'obiettivo della <strong>discussione</strong> è classificare l'equazione per ogni possibile
+             valore del parametro, distinguendo sempre tre casi fondamentali.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Forma generale e procedura</summary>
+        <div class="acc-body">
+          <p>Dopo aver raccolto tutti i termini contenenti <span class="eqline">x</span> a sinistra
+             e i termini noti (in <span class="eqline">k</span>) a destra, si arriva alla
+             <strong>forma ridotta</strong>:</p>
+          <div class="formula center">
+            A(<em>k</em>) · x = B(<em>k</em>)
+            <span class="why">A(k) = coefficiente di x (dipende dal parametro); B(k) = termine noto (dipende dal parametro)</span>
+          </div>
+          <p>Il passo critico è la <strong>divisione per A(k)</strong>: è lecita solo se A(k) ≠ 0.
+             La discussione consiste nel risolvere separatamente:</p>
+          <ol>
+            <li><strong>A(k) ≠ 0:</strong> si divide e si ottiene l'unica soluzione
+                <span class="eqline">x = B(k) / A(k)</span>.</li>
+            <li><strong>A(k) = 0 e B(k) = 0:</strong> l'equazione diventa
+                <span class="eqline">0 · x = 0</span>, identità vera per ogni <span class="eqline">x</span>
+                → equazione <strong>indeterminata</strong> (S = ℝ).</li>
+            <li><strong>A(k) = 0 e B(k) ≠ 0:</strong> l'equazione diventa
+                <span class="eqline">0 · x = B(k) ≠ 0</span>, mai verificata
+                → equazione <strong>impossibile</strong> (S = ∅).</li>
+          </ol>
+          <div class="note-warn">Il coefficiente A(k) va sempre verificato prima di dividere.
+            Dividere per un'espressione che potrebbe essere zero è un errore concettuale grave.</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Tavola dei casi</summary>
+        <div class="acc-body">
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Condizione sul parametro</th><th>A(k)</th><th>B(k)</th><th>Tipo</th><th>Soluzione</th></tr>
+            <tr><td>k ≠ valore critico</td><td class="m">≠ 0</td><td class="m">qualsiasi</td><td><strong>Determinata</strong></td><td class="m">x = B(k)/A(k)</td></tr>
+            <tr><td>k = valore critico</td><td class="m">= 0</td><td class="m">= 0</td><td><strong>Indeterminata</strong></td><td>S = ℝ</td></tr>
+            <tr><td>k = valore critico</td><td class="m">= 0</td><td class="m">≠ 0</td><td><strong>Impossibile</strong></td><td>S = ∅</td></tr>
+          </table></div>
+          <p>Se A(k) = 0 ha <em>più soluzioni</em> (es. A(k) = k² − 1 si annulla per k = ±1),
+             ogni valore critico va analizzato separatamente.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Esempio guidato 1 — caso indeterminato</summary>
+        <div class="acc-body">
+          <p>Risolvi al variare di <em>k</em> l'equazione: <span class="eqline">(k − 3)x = 2k − 6</span></p>
+          <p><strong>Passo 1.</strong> Riscrivi in forma A(k)·x = B(k):</p>
+          <div class="formula">(k − 3)x = 2(k − 3)
+            <span class="why">B(k) = 2k − 6 = 2(k − 3) ha lo stesso fattore del coefficiente</span>
+          </div>
+          <p><strong>Passo 2.</strong> Studia il segno del coefficiente A(k) = k − 3:</p>
+          <p>A(k) = 0 ⟺ k = 3.</p>
+          <p><strong>Passo 3a.</strong> Se <em>k ≠ 3</em>: divido per (k − 3):</p>
+          <div class="formula">x = 2(k − 3)/(k − 3) = 2 &nbsp;&nbsp;&nbsp; ⟹ &nbsp;&nbsp; S = {2}</div>
+          <p><strong>Passo 3b.</strong> Se <em>k = 3</em>: A(3) = 0 e B(3) = 0 → 0·x = 0</p>
+          <div class="note-ok">Equazione <strong>indeterminata</strong>: S = ℝ (ogni reale è soluzione).</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Esempio guidato 2 — caso impossibile</summary>
+        <div class="acc-body">
+          <p>Risolvi al variare di <em>k</em> l'equazione: <span class="eqline">(k + 2)x = k + 5</span></p>
+          <p><strong>Passo 1.</strong> A(k) = k + 2, B(k) = k + 5 (già in forma ridotta).</p>
+          <p><strong>Passo 2.</strong> A(k) = 0 ⟺ k = −2.</p>
+          <p><strong>Passo 3a.</strong> Se <em>k ≠ −2</em>:</p>
+          <div class="formula">x = (k + 5)/(k + 2) &nbsp;&nbsp;&nbsp; ⟹ &nbsp;&nbsp; S = {(k+5)/(k+2)}</div>
+          <p><strong>Passo 3b.</strong> Se <em>k = −2</em>: A(−2) = 0 e B(−2) = −2 + 5 = 3 ≠ 0 → 0·x = 3</p>
+          <div class="note-err">Equazione <strong>impossibile</strong>: S = ∅ (nessun valore di x soddisfa 0 = 3).</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Due valori critici: tutti e tre i casi in una sola equazione</summary>
+        <div class="acc-body">
+          <p>Risolvi al variare di <em>k</em>: <span class="eqline">(k² − 1)x = k − 1</span></p>
+          <p>A(k) = k² − 1 = (k − 1)(k + 1). Si annulla per k = 1 e k = −1.</p>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>k</th><th>A(k)</th><th>B(k) = k − 1</th><th>Tipo</th><th>Soluzione</th></tr>
+            <tr><td class="m">k = 1</td><td class="m">0</td><td class="m">0</td><td>Indeterminata</td><td>S = ℝ</td></tr>
+            <tr><td class="m">k = −1</td><td class="m">0</td><td class="m">−2</td><td>Impossibile</td><td>S = ∅</td></tr>
+            <tr><td class="m">k ≠ ±1</td><td class="m">≠ 0</td><td class="m">k − 1</td><td>Determinata</td><td class="m">x = (k−1)/((k−1)(k+1)) = 1/(k+1)</td></tr>
+          </table></div>
+          <div class="note-ok">Nota: per k ≠ ±1 si può semplificare il fattore (k − 1) perché in quel caso k − 1 ≠ 0.</div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <p class="sec-label">Simulazione · Discussione del parametro</p>
+  <div class="card">
+    <h2>Effetto di k sul coefficiente di x</h2>
+    <p class="lead">Scegli un'equazione e inserisci il valore di k: il coefficiente di x lampeggia finché k non lo annulla, mostrando quale caso si presenta.</p>
+    <div class="sim-layout">
+      <div class="sim-pane" style="align-self:start">
+        <div id="litSteps"></div>
+      </div>
+      <div class="ctrl-pane">
+        <p class="hint" style="margin-top:0">Scegli l'equazione da analizzare:</p>
+        <div class="tabs" id="litEqTabs">
+          <button class="tab active" data-lit="A">(k−3)x = 2k−6</button>
+          <button class="tab" data-lit="B">(k+2)x = k+5</button>
+          <button class="tab" data-lit="C">(k²−1)x = k−1</button>
+        </div>
+        <p class="hint" style="margin-top:.8rem">Inserisci il valore del parametro k:</p>
+        <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+          <input type="number" id="litK" value="0" step="1" style="width:6em">
+          <button class="btn btn-primary" id="litSolveBtn">Calcola</button>
+        </div>
+        <p class="hint" style="margin-top:.5rem">Prova k = 3 per la prima equazione, k = −2 per la seconda, k = 1 o k = −1 per la terza.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-label">Prova tu</p>
+  <div class="card">
+    <h2>Palestra di autovalutazione</h2>
+    <div class="tabs">
+      <button class="tab active" data-qtab="lit_t">Quiz di teoria (10)</button>
+      <button class="tab" data-qtab="lit_c">Quiz di calcolo (10)</button>
+    </div>
+    <div class="quiz" id="qz-lit_t" data-quiz="lit_t"></div>
+    <div class="quiz" id="qz-lit_c" data-quiz="lit_c" hidden></div>
   </div>
 </section>
 <!-- ============================================================
@@ -1679,6 +1878,72 @@ sisc:[
  {q:'Nel sistema { y = x² ; y = 2x − 1 } la retta è…',
   opts:['secante alla parabola (2 punti)','tangente alla parabola (1 punto)','esterna alla parabola (0 punti)','coincidente con la parabola'],ans:1,
   exp:'Risolvente: x² − 2x + 1 = 0, cioè (x − 1)² = 0: Δ = 0, un solo punto di contatto (1; 1): tangente.'}
+],
+/* ---------- Equazioni letterali: teoria ---------- */
+lit_t:[
+ {q:'Che cos’è un’equazione letterale di primo grado?',
+  opts:['Un’equazione in cui l’incognita compare al quadrato','Un’equazione in cui i coefficienti dipendono da un parametro','Un’equazione senza soluzioni','Un sistema di due equazioni'],ans:1,
+  exp:'Il termine «letterale» indica che i coefficienti contengono una o più lettere (parametri); per ogni valore del parametro si ottiene un’equazione numerica ordinaria.'},
+ {q:'Nell’equazione (k − 2)x = 5, per quale valore di k il coefficiente di x è zero?',
+  opts:['k = 0','k = 5','k = 2','k = −2'],ans:2,
+  exp:'Il coefficiente di x è k − 2; si annulla quando k − 2 = 0, cioè k = 2.'},
+ {q:'Se il coefficiente A(k) di x è zero e il termine noto B(k) è anch’esso zero, l’equazione è…',
+  opts:['determinata con soluzione x = 0','impossibile: S = ∅','indeterminata: S = ℝ','priva di senso matematico'],ans:2,
+  exp:'0·x = 0 è un’identità vera per ogni valore reale di x: l’insieme delle soluzioni è ℝ.'},
+ {q:'Se il coefficiente A(k) di x è zero ma il termine noto B(k) ≠ 0, l’equazione è…',
+  opts:['determinata con x = 0','indeterminata: S = ℝ','impossibile: S = ∅','determinata con x = B(k)'],ans:2,
+  exp:'0·x = B(k) ≠ 0 non è mai verificata: nessun numero moltiplicato per zero dà un valore non nullo.'},
+ {q:'La «discussione» di un’equazione letterale consiste nel…',
+  opts:['verificare la soluzione per k = 0','trovare il valore di k per cui l’equazione è più facile','analizzare tutti i casi in base al valore del parametro, distinguendo quando il coefficiente si annulla','calcolare la derivata rispetto a k'],ans:2,
+  exp:'Discutere significa classificare l’equazione (determinata, indeterminata, impossibile) al variare del parametro, partendo dall’annullamento del coefficiente di x.'},
+ {q:'Perché non si può dividere entrambi i membri per A(k) senza prima verificare che A(k) ≠ 0?',
+  opts:['perché la divisione vale solo per numeri interi','perché dividere per zero non è definito','perché cambierebbe il grado dell’equazione','perché si dovrebbe anche dividere il parametro'],ans:1,
+  exp:'La divisione per zero è un’operazione non definita: se A(k) = 0 bisogna analizzare separatamente il termine noto.'},
+ {q:'L’equazione kx = k ha, per k ≠ 0, soluzione…',
+  opts:['x = 0','x = k','x = 1','x = k²'],ans:2,
+  exp:'Dividendo per k ≠ 0: x = k/k = 1.'},
+ {q:'Quanti valori critici del parametro ha l’equazione (k² − 4)x = 3?',
+  opts:['Nessuno','Uno: k = 2','Due: k = 2 e k = −2','Infiniti'],ans:2,
+  exp:'k² − 4 = (k − 2)(k + 2) si annulla per k = 2 e k = −2: due valori critici, entrambi da analizzare.'},
+ {q:'L’equazione (k² − 4)x = 3, al valore critico k = 2, è…',
+  opts:['determinata con x = 3/4','indeterminata','impossibile: 0·x = 3','determinata con x = 0'],ans:2,
+  exp:'k = 2: A(2) = 0 e B(2) = 3 ≠ 0 → 0·x = 3 → impossibile (S = ∅).'},
+ {q:'In un’equazione letterale con A(k) = (k − 1)², il valore critico è unico. Al valore critico, per classificare l’equazione occorre…',
+  opts:['verificare il segno di B(k) nel valore critico','risolvere l’equazione numericamente','derivare rispetto a k','calcolare il discriminante'],ans:0,
+  exp:'Una volta trovato il valore critico (k = 1), si sostituisce in B(k): se B(1) = 0 l’equazione è indeterminata, altrimenti è impossibile.'}
+],
+/* ---------- Equazioni letterali: calcolo ---------- */
+lit_c:[
+ {q:'Per l’equazione (k − 1)x = 3k − 3, per k = 1 si ottiene…',
+  opts:['x = 3','x = 0','equazione impossibile: S = ∅','equazione indeterminata: S = ℝ'],ans:3,
+  exp:'k = 1: A(1) = 0 e B(1) = 3·1 − 3 = 0 → 0·x = 0 → indeterminata.'},
+ {q:'Per l’equazione (k − 1)x = 3k − 3, per k ≠ 1 la soluzione è…',
+  opts:['x = 3','x = k','x = k − 1','x = 1/(k−1)'],ans:0,
+  exp:'(k − 1)x = 3(k − 1); per k ≠ 1 si divide: x = 3(k − 1)/(k − 1) = 3.'},
+ {q:'Per l’equazione (k + 3)x = 2k − 1, per k = −3 si ottiene…',
+  opts:['x = −7','equazione impossibile: 0·x = −7','equazione indeterminata','x = 7'],ans:1,
+  exp:'k = −3: A(−3) = 0 e B(−3) = 2·(−3) − 1 = −7 ≠ 0 → 0·x = −7 → impossibile.'},
+ {q:'Per l’equazione (a − 3)x = 2a − 6, per a ≠ 3 la soluzione è…',
+  opts:['x = 2','x = a − 3','x = 2(a−3)','x = a'],ans:0,
+  exp:'2a − 6 = 2(a − 3); per a ≠ 3: x = 2(a − 3)/(a − 3) = 2.'},
+ {q:'Per l’equazione (m − 1)x = m² − 1, per m = 1 l’equazione è…',
+  opts:['determinata con x = 1','determinata con x = 0','impossibile','indeterminata: S = ℝ'],ans:3,
+  exp:'m = 1: A(1) = 0 e B(1) = 1 − 1 = 0 → 0·x = 0 → indeterminata.'},
+ {q:'Per l’equazione (m − 1)x = m² − 1, per m ≠ 1 la soluzione è…',
+  opts:['x = m − 1','x = m + 1','x = m²','x = 1/(m+1)'],ans:1,
+  exp:'m² − 1 = (m − 1)(m + 1); per m ≠ 1: x = (m − 1)(m + 1)/(m − 1) = m + 1.'},
+ {q:'Per l’equazione 2kx = k + 2, per k = 0 si ottiene…',
+  opts:['x = 0','x = 1','equazione impossibile: 0·x = 2','equazione indeterminata'],ans:2,
+  exp:'k = 0: A(0) = 0 e B(0) = 2 ≠ 0 → 0·x = 2 → impossibile.'},
+ {q:'I valori critici del parametro per l’equazione (k² − 9)x = k − 3 sono…',
+  opts:['k = 3 soltanto','k = −3 soltanto','k = 3 e k = −3','k = 0'],ans:2,
+  exp:'k² − 9 = (k − 3)(k + 3): si annulla per k = 3 e k = −3; entrambi sono valori critici.'},
+ {q:'Per l’equazione (k² − 9)x = k − 3, per k = 3 l’equazione è…',
+  opts:['determinata con x = 0','impossibile','indeterminata: S = ℝ','determinata con x = 1/6'],ans:2,
+  exp:'k = 3: A(3) = 0 e B(3) = 0 → 0·x = 0 → indeterminata.'},
+ {q:'Per l’equazione (k² − 9)x = k − 3, per k = −3 l’equazione è…',
+  opts:['indeterminata','determinata con x = −1/6','impossibile: 0·x = −6','determinata con x = −6'],ans:2,
+  exp:'k = −3: A(−3) = 0 e B(−3) = −3 − 3 = −6 ≠ 0 → 0·x = −6 → impossibile.'}
 ]
 };
 </script>
@@ -2703,6 +2968,105 @@ function spUpdate(){
 ['spA','spB','spC','spM','spQ'].forEach(id=>$('#'+id).addEventListener('input',spUpdate));
 regSim($('#spPlot'),spDraw);
 spUpdate();
+
+/* ================================================================
+   SIMULAZIONE: equazioni letterali
+   ================================================================ */
+(function(){
+  const LIT_EQS={
+    A:{
+      label:'(k − 3)x = 2k − 6',
+      A:k=>k-3, B:k=>2*k-6,
+      Ahtml:k=>{const v=k-3;return v===0?'<span class="coeff-zero">0</span>':'<span class="coeff-blink">'+(v>0?v:(v===-1?'−':v)+'')+'</span>'},
+      Atext:k=>'('+'k − 3)  per k = '+k+': '+(k-3),
+      Btext:k=>'2k − 6  per k = '+k+': '+(2*k-6),
+      labelA:'k − 3', labelB:'2k − 6',
+      latex:'(k − 3)x = 2k − 6',
+      note:'Nota: 2k − 6 = 2(k − 3): stesso fattore del coefficiente.'
+    },
+    B:{
+      label:'(k + 2)x = k + 5',
+      A:k=>k+2, B:k=>k+5,
+      Ahtml:k=>{const v=k+2;return v===0?'<span class="coeff-zero">0</span>':'<span class="coeff-blink">'+(v>0?v:(v===-1?'−':''+v))+'</span>'},
+      labelA:'k + 2', labelB:'k + 5',
+      latex:'(k + 2)x = k + 5',
+      note:''
+    },
+    C:{
+      label:'(k² − 1)x = k − 1',
+      A:k=>k*k-1, B:k=>k-1,
+      Ahtml:k=>{const v=k*k-1;return v===0?'<span class="coeff-zero">0</span>':'<span class="coeff-blink">'+v+'</span>'},
+      labelA:'k² − 1', labelB:'k − 1',
+      latex:'(k² − 1)x = k − 1',
+      note:'Nota: k² − 1 = (k − 1)(k + 1) si annulla per k = 1 e k = −1.'
+    }
+  };
+
+  let currentEq='A';
+
+  function fracSimple(num,den){
+    if(den===0)return null;
+    const g=gcd(Math.abs(num),Math.abs(den));
+    let n=num/g, d=den/g;
+    if(d<0){n=-n;d=-d;}
+    return{n,d,html:d===1?fmtInt(n):fmtInt(n)+'<span class="frac" style="font-size:.85em"><span class="nu">'+Math.abs(n)+'</span><span class="de">'+d+'</span></span>'};
+  }
+
+  function litSolve(eq,k){
+    const e=LIT_EQS[eq];
+    const A=e.A(k), B=e.B(k);
+    const Av=Number.isInteger(k)?A:Math.round(A*1e9)/1e9;
+    const Bv=Number.isInteger(k)?B:Math.round(B*1e9)/1e9;
+
+    const coefHtml=Av===0
+      ?'<span class="coeff-zero">0</span>'
+      :'<span class="coeff-blink">'+fmtInt(Av)+'</span>';
+
+    const coefLabel='<b>A(k) = '+e.labelA+'</b> → per k = '+fmtInt(k)+': ';
+
+    let html='<div class="lit-eq-display" style="font-size:1.08em;padding:.5rem .9rem;background:var(--primary-soft);border-left:3px solid var(--color-primary);border-radius:0 8px 8px 0;margin-bottom:.6rem">'
+      +'<b style="font-family:inherit;font-size:.78em;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">Equazione</b><br>'
+      +e.latex+'</div>';
+
+    html+='<div class="lit-step">'+coefLabel+coefHtml+'&nbsp;&nbsp;&nbsp;<b>B(k) = '+e.labelB+'</b> → '+fmtInt(Bv)+'</div>';
+
+    if(e.note)html+='<p class="hint" style="font-size:.82em;margin:.3rem 0 .2rem">'+e.note+'</p>';
+
+    if(Av!==0){
+      const sol=fracSimple(Bv,Av);
+      const solStr=sol?(sol.d===1?fmtInt(sol.n):fmtInt(sol.n)+'/'+sol.d):'—';
+      html+='<div class="lit-step">Coefficiente ≠ 0 → divisione lecita</div>';
+      html+='<div class="lit-case det">Equazione <b>determinata</b>&emsp;'
+        +'x = '+e.labelB+' / ('+e.labelA+') = '+fmtInt(Bv)+' / '+fmtInt(Av)+' = '
+        +(sol?sol.html:fmtInt(Bv/Av))
+        +'&emsp;→&emsp;S = {&thinsp;'+(sol?sol.html:fmtInt(Bv/Av))+'&thinsp;}</div>';
+    } else if(Bv===0){
+      html+='<div class="lit-step">Coefficiente = 0 e termine noto = 0 → 0·x = 0, vera per ogni x</div>';
+      html+='<div class="lit-case ind">Equazione <b>indeterminata</b>&emsp;S = ℝ</div>';
+    } else {
+      html+='<div class="lit-step">Coefficiente = 0 ma termine noto = '+fmtInt(Bv)+' ≠ 0 → 0·x = '+fmtInt(Bv)+', mai vera</div>';
+      html+='<div class="lit-case imp">Equazione <b>impossibile</b>&emsp;S = ∅</div>';
+    }
+    return html;
+  }
+
+  function litUpdate(){
+    const kRaw=$('#litK').value;
+    const k=parseFloat(kRaw);
+    if(!isFinite(k)){$('#litSteps').innerHTML='<p class="coef-err">Inserisci un numero valido per k.</p>';return;}
+    $('#litSteps').innerHTML=litSolve(currentEq,k);
+  }
+
+  $('#litEqTabs').addEventListener('click',e=>{
+    const btn=e.target.closest('.tab');if(!btn||!btn.dataset.lit)return;
+    $('#litEqTabs').querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));
+    currentEq=btn.dataset.lit;
+    litUpdate();
+  });
+  $('#litSolveBtn').addEventListener('click',litUpdate);
+  $('#litK').addEventListener('keydown',e=>{if(e.key==='Enter')litUpdate();});
+  litUpdate();
+})();
 
 /* ---------------- Avvio ---------------- */
 const initId=location.hash.slice(1);

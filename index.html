@@ -696,9 +696,12 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       <details>
         <summary>Esempio guidato 2 — caso impossibile</summary>
         <div class="acc-body">
-          <p>Risolvi al variare di <em>k</em> l'equazione: <span class="eqline">(k + 2)x = k + 5</span></p>
-          <p><strong>Passo 1.</strong> A(k) = k + 2, B(k) = k + 5 (già in forma ridotta).</p>
-          <p><strong>Passo 2.</strong> A(k) = 0 ⟺ k = −2.</p>
+          <p>Risolvi al variare di <em>k</em> l'equazione: <span class="eqline">kx − k = 5 − 2x</span></p>
+          <p><strong>Passo 1.</strong> Porta i termini con la x al primo membro e i termini noti al secondo, poi raccogli la x (forma A(k)·x = B(k)):</p>
+          <div class="formula">kx + 2x = k + 5 &nbsp;&nbsp;⟹&nbsp;&nbsp; (k + 2)x = k + 5
+            <span class="why">A(k) = k + 2, &nbsp; B(k) = k + 5</span>
+          </div>
+          <p><strong>Passo 2.</strong> Cerca il valore di <em>k</em> che annulla il coefficiente A(k) = k + 2:&nbsp; A(k) = 0 ⟺ k = −2.</p>
           <p><strong>Passo 3a.</strong> Se <em>k ≠ −2</em>:</p>
           <div class="formula">x = (k + 5)/(k + 2) &nbsp;&nbsp;&nbsp; ⟹ &nbsp;&nbsp; S = {(k+5)/(k+2)}</div>
           <p><strong>Passo 3b.</strong> Se <em>k = −2</em>: A(−2) = 0 e B(−2) = −2 + 5 = 3 ≠ 0 → 0·x = 3</p>
@@ -709,8 +712,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       <details>
         <summary>Due valori critici: tutti e tre i casi in una sola equazione</summary>
         <div class="acc-body">
-          <p>Risolvi al variare di <em>k</em>: <span class="eqline">(k² − 1)x = k − 1</span></p>
-          <p>A(k) = k² − 1 = (k − 1)(k + 1). Si annulla per k = 1 e k = −1.</p>
+          <p>Risolvi al variare di <em>k</em>: <span class="eqline">k²x − k = x − 1</span></p>
+          <p><strong>Passo 1.</strong> Porta i termini con la x al primo membro e i numeri (in k) al secondo, poi raccogli la x:</p>
+          <div class="formula">k²x − x = k − 1 &nbsp;&nbsp;⟹&nbsp;&nbsp; (k² − 1)x = k − 1</div>
+          <p><strong>Passo 2.</strong> A(k) = k² − 1 = (k − 1)(k + 1) si annulla per k = 1 e k = −1: due valori critici da discutere separatamente.</p>
           <div class="tbl-wrap"><table class="tbl">
             <tr><th>k</th><th>A(k)</th><th>B(k) = k − 1</th><th>Tipo</th><th>Soluzione</th></tr>
             <tr><td class="m">k = 1</td><td class="m">0</td><td class="m">0</td><td>Indeterminata</td><td>S = ℝ</td></tr>
@@ -736,8 +741,8 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         <p class="hint" style="margin-top:0">Scegli l'equazione da analizzare:</p>
         <div class="tabs" id="litEqTabs">
           <button class="tab active" data-lit="A">kx+6 = 3x+2k</button>
-          <button class="tab" data-lit="B">(k+2)x = k+5</button>
-          <button class="tab" data-lit="C">(k²−1)x = k−1</button>
+          <button class="tab" data-lit="B">kx−k = 5−2x</button>
+          <button class="tab" data-lit="C">k²x−k = x−1</button>
         </div>
         <p class="hint" style="margin-top:.8rem">Inserisci il valore del parametro k:</p>
         <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
@@ -2985,13 +2990,17 @@ spUpdate();
     B:{
       A:k=>k+2, B:k=>k+5,
       labelA:'k + 2', labelB:'k + 5',
+      raw:'kx − k = 5 − 2x',
       latex:'(k + 2)x = k + 5',
+      reduce:'kx + 2x = k + 5 &nbsp;⟹&nbsp; (k + 2)x = k + 5',
       note:''
     },
     C:{
       A:k=>k*k-1, B:k=>k-1,
       labelA:'k² − 1', labelB:'k − 1',
+      raw:'k²x − k = x − 1',
       latex:'(k² − 1)x = k − 1',
+      reduce:'k²x − x = k − 1 &nbsp;⟹&nbsp; (k² − 1)x = k − 1',
       note:'Nota: k² − 1 = (k − 1)(k + 1) si annulla per k = 1 e k = −1.'
     }
   };

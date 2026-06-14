@@ -125,6 +125,14 @@ table.tbl{border-collapse:collapse;width:100%;font-size:.88em;min-width:430px}
 .tbl td{padding:.45rem .65rem;border-bottom:1px solid var(--border);vertical-align:top}
 .tbl tr:last-child td{border-bottom:none}
 .tbl .m{font-family:var(--font-math)}
+.sl-tbls{display:flex;gap:.9rem;flex-wrap:wrap;margin:.45rem 0 .1rem}
+.val-tbl{border-collapse:collapse;font-family:var(--font-math);font-size:.92em}
+.val-tbl caption{caption-side:top;font-family:"Inter","Roboto",system-ui,sans-serif;
+  font-size:.72em;font-weight:700;color:var(--muted);letter-spacing:.04em;
+  text-align:left;margin-bottom:.25rem}
+.val-tbl th{background:var(--primary-soft);color:var(--color-secondary);font-weight:700;
+  padding:.3rem .55rem;border:1px solid var(--border)}
+.val-tbl td{padding:.3rem .6rem;border:1px solid var(--border);text-align:center;min-width:2.7em}
 
 /* ===================== Bottoni ===================== */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
@@ -1194,6 +1202,40 @@ footer{border-top:1px solid var(--border);background:var(--surface);
             <span class="frac"><span class="nu">b₁</span><span class="de">b₂</span></span> =
             <span class="frac"><span class="nu">c₁</span><span class="de">c₂</span></span> indeterminato
           </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Metodo grafico</summary>
+        <div class="acc-body">
+          <p>Il <strong>metodo grafico</strong> traduce il sistema in un disegno: si tracciano le due
+             rette nello stesso piano cartesiano e si <strong>leggono le coordinate del punto in cui si
+             incontrano</strong>. È il metodo che rende visibile il significato di «soluzione».</p>
+          <ol>
+            <li><strong>Esplicito la y</strong> in ciascuna equazione, portandola nella forma
+                <span class="eqline">y = mx + q</span> (se il coefficiente di y è nullo si ottiene una
+                <strong>retta verticale</strong> <span class="eqline">x = costante</span>).</li>
+            <li><strong>Costruisco una tabella di valori</strong>: per ogni retta bastano
+                <strong>due punti</strong> (due rette passano per due punti). Conviene scegliere
+                ascisse comode, ad esempio <span class="eqline">x = 0</span> e un valore che dia
+                un'ordinata intera.</li>
+            <li><strong>Traccio le due rette</strong> unendo i rispettivi punti ed estendendole.</li>
+            <li><strong>Leggo l'intersezione</strong>: le coordinate <span class="eqline">(x; y)</span>
+                del punto comune sono la soluzione del sistema.</li>
+            <li><strong>Verifico</strong> sostituendo i valori trovati nelle due equazioni di partenza.</li>
+          </ol>
+          <p>La posizione reciproca delle rette dà subito il tipo di sistema:</p>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Posizione delle rette</th><th>Sistema</th><th>Lettura grafica</th></tr>
+            <tr><td><strong>incidenti</strong></td><td>determinato</td><td>un punto di intersezione</td></tr>
+            <tr><td><strong>parallele distinte</strong></td><td>impossibile</td><td>non si incontrano mai</td></tr>
+            <tr><td><strong>coincidenti</strong></td><td>indeterminato</td><td>si sovrappongono: infiniti punti</td></tr>
+          </table></div>
+          <div class="formula">{ y = 2x ;&nbsp; x + y = 9 }
+            &nbsp;→&nbsp; y = 2x &nbsp;e&nbsp; y = −x + 9 &nbsp;→&nbsp; si incontrano in (3; 6)</div>
+          <div class="note-warn">Il metodo grafico è <strong>intuitivo ma poco preciso</strong>: se la
+            soluzione non ha coordinate intere, dal disegno si ottiene solo una stima. Per il valore
+            esatto si usa un metodo algebrico (sostituzione, riduzione o Cramer).</div>
         </div>
       </details>
 
@@ -2729,28 +2771,49 @@ function slDraw(){
   if(d.cd.type==='det')
     slPlot.point(cx,cy,COLS,'P('+fmt(cx)+'; '+fmt(cy)+')',10,-10);
 }
+function slValTable(e){
+  const A=e[0],B=e[1],C=e[2],name=e[3];
+  let xs,ys,note='';
+  if(B.n!==0){
+    const m=A.neg().div(B),qq=C.div(B);
+    const x0=new Frac(0),x1=new Frac(m.d>1?m.d:2);
+    xs=[x0,x1];ys=[m.mul(x0).add(qq),m.mul(x1).add(qq)];
+  }else{
+    const xc=C.div(A);
+    xs=[xc,xc];ys=[new Frac(0),new Frac(2)];note=' (verticale)';
+  }
+  return'<table class="val-tbl"><caption>'+name+' retta'+note+'</caption>'+
+    '<tr><th>x</th><td>'+xs[0].html()+'</td><td>'+xs[1].html()+'</td></tr>'+
+    '<tr><th>y</th><td>'+ys[0].html()+'</td><td>'+ys[1].html()+'</td></tr></table>';
+}
 function slStepsHtml(){
   const d=slData;if(!d)return'';
   const cd=d.cd;
   const A1=d.A1,B1=d.B1,C1=d.C1,A2=d.A2,B2=d.B2,C2=d.C2;
   const names=['x','y'];
   if(slMethod==='graf'){
-    let h='<p class="hint" style="margin-top:.6rem">Ogni equazione rappresenta una retta. Scritte in forma esplicita:</p>';
-    const ex=[[A1,B1,C1,'1ª'],[A2,B2,C2,'2ª']].map(e=>{
+    const lines=[[A1,B1,C1,'1ª'],[A2,B2,C2,'2ª']];
+    let h='<ol class="steps">';
+    h+='<li><span class="step-note">Esplicito la y in ciascuna equazione (forma y = mx + q).</span><br>';
+    const ex=lines.map(e=>{
       if(e[1].n!==0){
         const m=e[0].neg().div(e[1]),qq=e[2].div(e[1]);
         return'<span class="eqline">'+e[3]+': &nbsp;y = '+linHtml(lin(m,qq))+'</span>';
       }
       return'<span class="eqline">'+e[3]+': &nbsp;x = '+e[2].div(e[0]).html()+' (retta verticale)</span>';
     });
-    h+='<div class="formula">'+ex[0]+'<br>'+ex[1]+'</div>';
+    h+=ex[0]+'<br>'+ex[1]+'</li>';
+    h+='<li><span class="step-note">Costruisco una tabella di valori: due punti per ogni retta.</span>'+
+       '<div class="sl-tbls">'+slValTable(lines[0])+slValTable(lines[1])+'</div></li>';
+    h+='<li><span class="step-note">Traccio le due rette e leggo il punto comune sul grafico qui a fianco.</span></li>';
+    h+='</ol>';
     if(cd.type==='det'){
-      h+='<p>Le rette si intersecano in un punto: leggendone le coordinate sul grafico si trova la soluzione del sistema.</p>'+
-        '<div class="sol-box"><span class="t">Soluzione</span><span class="eqline">P('+cd.x.html()+'; '+cd.y.html()+')</span></div>';
+      h+='<div class="sol-box"><span class="t">Soluzione (intersezione)</span><span class="eqline">P('+cd.x.html()+'; '+cd.y.html()+')</span></div>'+
+        '<p class="hint">Verifica: sostituendo P nelle due equazioni di partenza, entrambe risultano vere.</p>';
     }else if(cd.type==='imp'){
-      h+='<div class="note-err">Le rette sono <strong>parallele e distinte</strong>: nessun punto comune, sistema impossibile.</div>';
+      h+='<div class="note-err">Le rette sono <strong>parallele e distinte</strong> (stessa direzione, posizioni diverse): nessun punto comune → sistema impossibile.</div>';
     }else{
-      h+='<div class="note-warn">Le rette sono <strong>coincidenti</strong>: infiniti punti comuni, sistema indeterminato.</div>';
+      h+='<div class="note-warn">Le due rette si <strong>sovrappongono</strong> (stessa direzione e stessa posizione): infiniti punti comuni → sistema indeterminato.</div>';
     }
     return h;
   }

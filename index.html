@@ -1385,6 +1385,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         </div>
         <p class="coef-err" id="spErr">—</p>
         <div class="case-banner cn" id="spCase">—</div>
+        <div class="tabs" style="margin-top:.6rem">
+          <button class="tab active" data-met2="graf">Grafico</button>
+          <button class="tab" data-met2="sost">Sostituzione</button>
+        </div>
         <div id="spSteps"></div>
       </div>
     </div>
@@ -2019,7 +2023,7 @@ window.addEventListener('hashchange',()=>{
 });
 
 /* ---------------- Tabs ---------------- */
-let slMethod='graf';
+let slMethod='graf',spMethod='graf';
 $$('.tabs').forEach(tb=>{
   tb.addEventListener('click',e=>{
     const btn=e.target.closest('.tab');if(!btn)return;
@@ -2029,6 +2033,7 @@ $$('.tabs').forEach(tb=>{
       card.querySelectorAll('.quiz').forEach(qz=>{qz.hidden=qz.dataset.quiz!==btn.dataset.qtab});
     }
     if(btn.dataset.met){slMethod=btn.dataset.met;slRenderSteps();}
+    if(btn.dataset.met2){spMethod=btn.dataset.met2;spRenderSteps();}
   });
 });
 
@@ -2992,7 +2997,7 @@ function spUpdate(){
   err.classList.remove('show');
   const B=b-m,C=c-q;
   const qe=quadExact(a,B,C);
-  spData={a,b,c,m,q,qe};
+  spData={a,b,c,m,q,B,C,qe};
   const rettaStr=(m===0?String(q):linHtml(lin(new Frac(m),new Frac(q))));
   $('#spEq').innerHTML='{ y = '+trinHtml(a,b,c)+' ; &nbsp;y = '+rettaStr+' }';
   const cb=$('#spCase');
@@ -3002,6 +3007,58 @@ function spUpdate(){
     cb.innerHTML='Δ = 0: retta <strong>tangente</strong> — un solo punto di contatto';}
   else{cb.className='case-banner c0';
     cb.innerHTML='Δ &lt; 0: retta <strong>esterna</strong> — nessuna intersezione';}
+  spRenderSteps();
+  if($('#spPlot').offsetParent!==null)spDraw();
+}
+function spRenderSteps(){if(spData)$('#spSteps').innerHTML=spStepsHtml();}
+function spIntersHtml(){
+  const d=spData,qe=d.qe,m=d.m,q=d.q;
+  if(qe.n===2){
+    if(qe.rational){
+      const mF=new Frac(m),qF=new Frac(q);
+      const y1h=mF.mul(qe.x1).add(qF).html(),y2h=mF.mul(qe.x2).add(qF).html();
+      return'<div class="sol-box"><span class="t">Intersezioni</span><span class="eqline">A('+qe.x1h+'; '+y1h+') &nbsp;e&nbsp; B('+qe.x2h+'; '+y2h+')</span></div>';
+    }
+    return'<div class="sol-box"><span class="t">Intersezioni (approssimate)</span><span class="eqline">A('+fmt(qe.x1v)+'; '+fmt(m*qe.x1v+q)+') &nbsp;e&nbsp; B('+fmt(qe.x2v)+'; '+fmt(m*qe.x2v+q)+')</span></div>';
+  }
+  if(qe.n===1){
+    const y0=new Frac(m).mul(qe.x0).add(new Frac(q));
+    return'<div class="sol-box"><span class="t">Punto di tangenza</span><span class="eqline">T('+qe.x0h+'; '+y0.html()+')</span></div>';
+  }
+  return'<div class="note-err">La risolvente non ha soluzioni reali: retta e parabola non si incontrano, S = ∅.</div>';
+}
+function spParabTable(a,b,c){
+  const xvF=new Frac(-b,2*a),aF=new Frac(a),bF=new Frac(b),cF=new Frac(c);
+  const yvF=aF.mul(xvF).mul(xvF).add(bF.mul(xvF)).add(cF);
+  const xc=Math.round(xvF.num());
+  let xr='<tr><th>x</th>',yr='<tr><th>y</th>';
+  for(let i=xc-2;i<=xc+2;i++){
+    xr+='<td>'+fmtInt(i)+'</td>';yr+='<td>'+fmtInt(a*i*i+b*i+c)+'</td>';
+  }
+  return{table:'<table class="val-tbl"><caption>parabola</caption>'+xr+'</tr>'+yr+'</tr></table>',
+    xv:xvF.html(),yv:yvF.html()};
+}
+function spLineTable(m,q){
+  return'<table class="val-tbl"><caption>retta</caption>'+
+    '<tr><th>x</th><td>0</td><td>2</td></tr>'+
+    '<tr><th>y</th><td>'+fmtInt(q)+'</td><td>'+fmtInt(2*m+q)+'</td></tr></table>';
+}
+function spStepsHtml(){
+  const d=spData;if(!d)return'';
+  const a=d.a,b=d.b,c=d.c,m=d.m,q=d.q,B=d.B,C=d.C,qe=d.qe;
+  const rettaStr=(m===0?String(q):linHtml(lin(new Frac(m),new Frac(q))));
+  if(spMethod==='graf'){
+    const pt=spParabTable(a,b,c);
+    let h='<ol class="steps">';
+    h+='<li><span class="step-note">Trovo il vertice della parabola e l’asse di simmetria.</span><br>'+
+       '<span class="eqline">x<sub>V</sub> = −b/(2a) = '+pt.xv+'; &nbsp; y<sub>V</sub> = '+pt.yv+'</span></li>';
+    h+='<li><span class="step-note">Tabella di valori: per la parabola scelgo ascisse intorno al vertice (le ordinate sono simmetriche); per la retta bastano due punti.</span>'+
+       '<div class="sl-tbls">'+pt.table+spLineTable(m,q)+'</div></li>';
+    h+='<li><span class="step-note">Traccio parabola e retta e leggo i punti comuni sul grafico qui a fianco.</span></li>';
+    h+='</ol>';
+    h+=spIntersHtml();
+    return h;
+  }
   let h='<ol class="steps">';
   h+='<li><span class="step-note">Per sostituzione eguaglio le due espressioni di y.</span><br>'+
      '<span class="eqline">'+trinHtml(a,b,c)+' = '+rettaStr+'</span></li>';
@@ -3010,28 +3067,23 @@ function spUpdate(){
   h+='<li><span class="step-note">Calcolo il discriminante della risolvente.</span><br>'+
      '<span class="eqline">Δ = ('+fmtInt(B)+')² − 4·('+fmtInt(a)+')·('+fmtInt(C)+') = '+fmtInt(qe.D)+'</span></li>';
   if(qe.n===2){
-    let y1h,y2h;
     if(qe.rational){
       const mF=new Frac(m),qF=new Frac(q);
-      y1h=mF.mul(qe.x1).add(qF).html();y2h=mF.mul(qe.x2).add(qF).html();
+      const y1h=mF.mul(qe.x1).add(qF).html(),y2h=mF.mul(qe.x2).add(qF).html();
       h+='<li><span class="step-note">Risolvo e calcolo le ordinate con y = mx + q.</span><br>'+
          '<span class="eqline">x₁ = '+qe.x1h+' → y₁ = '+y1h+'; &nbsp; x₂ = '+qe.x2h+' → y₂ = '+y2h+'</span></li></ol>';
-      h+='<div class="sol-box"><span class="t">Intersezioni</span><span class="eqline">A('+qe.x1h+'; '+y1h+') &nbsp;e&nbsp; B('+qe.x2h+'; '+y2h+')</span></div>';
     }else{
       h+='<li><span class="step-note">Risolvo con la formula.</span><br>'+
          '<span class="eqline">x₁,₂ = '+qe.xph+'</span></li></ol>';
-      h+='<div class="sol-box"><span class="t">Intersezioni (approssimate)</span><span class="eqline">A('+fmt(qe.x1v)+'; '+fmt(m*qe.x1v+q)+') &nbsp;e&nbsp; B('+fmt(qe.x2v)+'; '+fmt(m*qe.x2v+q)+')</span></div>';
     }
   }else if(qe.n===1){
-    const y0=new Frac(m).mul(qe.x0).add(new Frac(q));
     h+='<li><span class="step-note">Soluzione doppia: punto di tangenza.</span><br>'+
-       '<span class="eqline">x = '+qe.x0h+' → y = '+y0.html()+'</span></li></ol>';
-    h+='<div class="sol-box"><span class="t">Punto di tangenza</span><span class="eqline">T('+qe.x0h+'; '+y0.html()+')</span></div>';
+       '<span class="eqline">x = '+qe.x0h+'</span></li></ol>';
   }else{
-    h+='</ol><div class="note-err">La risolvente non ha soluzioni reali: retta e parabola non si incontrano, S = ∅.</div>';
+    h+='</ol>';
   }
-  $('#spSteps').innerHTML=h;
-  if($('#spPlot').offsetParent!==null)spDraw();
+  h+=spIntersHtml();
+  return h;
 }
 ['spA','spB','spC','spM','spQ'].forEach(id=>$('#'+id).addEventListener('input',spUpdate));
 regSim($('#spPlot'),spDraw);

@@ -133,6 +133,7 @@ table.tbl{border-collapse:collapse;width:100%;font-size:.88em;min-width:430px}
 .val-tbl th{background:var(--primary-soft);color:var(--color-secondary);font-weight:700;
   padding:.3rem .55rem;border:1px solid var(--border)}
 .val-tbl td{padding:.3rem .6rem;border:1px solid var(--border);text-align:center;min-width:2.7em}
+.cdot{display:inline-block;width:.66em;height:.66em;border-radius:2px;margin-right:.34em}
 
 /* ===================== Bottoni ===================== */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
@@ -2244,6 +2245,11 @@ class Plot{
   solRayLeft(xb,closed){this.axisThick(6,this.X(xb));this.arrowOut('l');this.dotAxis(xb,closed)}
   solSeg(xa,xb,closed){this.axisThick(this.X(xa),this.X(xb));this.dotAxis(xa,closed);this.dotAxis(xb,closed)}
   solAll(){this.axisThick(6,this.w-6);this.arrowOut('l');this.arrowOut('r')}
+  dot(x,y,color,r){
+    const g=this.g,px=this.X(x),py=this.Y(y);
+    g.save();g.fillStyle=color;g.strokeStyle='#fff';g.lineWidth=1.6;
+    g.beginPath();g.arc(px,py,r||3.6,0,7);g.fill();g.stroke();g.restore();
+  }
 }
 const SIMS=[];
 function regSim(canvas,draw){SIMS.push({canvas,draw})}
@@ -2773,23 +2779,28 @@ function slDraw(){
       g.beginPath();g.moveTo(px,0);g.lineTo(px,slPlot.h);g.stroke();g.restore();
     }
   });
+  if(slMethod==='graf')eqs.forEach(e=>{
+    const p=linTwoPoints(e[0],e[1],e[2]);
+    p.xs.forEach((xf,i)=>slPlot.dot(xf.num(),p.ys[i].num(),e[3]));
+  });
   if(d.cd.type==='det')
     slPlot.point(cx,cy,COLS,'P('+fmt(cx)+'; '+fmt(cy)+')',10,-10);
 }
-function slValTable(e){
-  const A=e[0],B=e[1],C=e[2],name=e[3];
-  let xs,ys,note='';
+function linTwoPoints(A,B,C){
   if(B.n!==0){
     const m=A.neg().div(B),qq=C.div(B);
     const x0=new Frac(0),x1=new Frac(m.d>1?m.d:2);
-    xs=[x0,x1];ys=[m.mul(x0).add(qq),m.mul(x1).add(qq)];
-  }else{
-    const xc=C.div(A);
-    xs=[xc,xc];ys=[new Frac(0),new Frac(2)];note=' (verticale)';
+    return{xs:[x0,x1],ys:[m.mul(x0).add(qq),m.mul(x1).add(qq)],vertical:false};
   }
-  return'<table class="val-tbl"><caption>'+name+' retta'+note+'</caption>'+
-    '<tr><th>x</th><td>'+xs[0].html()+'</td><td>'+xs[1].html()+'</td></tr>'+
-    '<tr><th>y</th><td>'+ys[0].html()+'</td><td>'+ys[1].html()+'</td></tr></table>';
+  const xc=C.div(A);
+  return{xs:[xc,xc],ys:[new Frac(0),new Frac(2)],vertical:true};
+}
+function cdot(c){return'<span class="cdot" style="background:'+c+'"></span>'}
+function slValTable(e){
+  const p=linTwoPoints(e[0],e[1],e[2]);
+  return'<table class="val-tbl"><caption>'+cdot(e[4])+e[3]+' retta'+(p.vertical?' (verticale)':'')+'</caption>'+
+    '<tr><th>x</th><td>'+p.xs[0].html()+'</td><td>'+p.xs[1].html()+'</td></tr>'+
+    '<tr><th>y</th><td>'+p.ys[0].html()+'</td><td>'+p.ys[1].html()+'</td></tr></table>';
 }
 function slStepsHtml(){
   const d=slData;if(!d)return'';
@@ -2797,7 +2808,7 @@ function slStepsHtml(){
   const A1=d.A1,B1=d.B1,C1=d.C1,A2=d.A2,B2=d.B2,C2=d.C2;
   const names=['x','y'];
   if(slMethod==='graf'){
-    const lines=[[A1,B1,C1,'1ª'],[A2,B2,C2,'2ª']];
+    const lines=[[A1,B1,C1,'1ª',COLP],[A2,B2,C2,'2ª',COLA]];
     let h='<ol class="steps">';
     h+='<li><span class="step-note">Esplicito la y in ciascuna equazione (forma y = mx + q).</span><br>';
     const ex=lines.map(e=>{
@@ -2980,6 +2991,12 @@ function spDraw(){
   spPlot.fit();spPlot.view(lo,hi,ylo,yhi);spPlot.axes();
   spPlot.plotFn(f,COLP,3);
   spPlot.plotFn(g,COLA,2.6);
+  if(spMethod==='graf'){
+    const pp=spParabPts(d.a,d.b,d.c);
+    pp.pts.forEach(p=>spPlot.dot(p.x,p.y,COLP));
+    spLinePts(d.m,d.q).forEach(p=>spPlot.dot(p.x,p.y,COLA));
+    spPlot.point(pp.xv,pp.yv,COLP,'V',-14,16);
+  }
   if(d.qe.n===2){
     spPlot.point(d.qe.x1v,g(d.qe.x1v),COLS,'A('+fmt(d.qe.x1v)+'; '+fmt(g(d.qe.x1v))+')',10,-10);
     spPlot.point(d.qe.x2v,g(d.qe.x2v),COLS,'B('+fmt(d.qe.x2v)+'; '+fmt(g(d.qe.x2v))+')',10,16);
@@ -3027,21 +3044,27 @@ function spIntersHtml(){
   }
   return'<div class="note-err">La risolvente non ha soluzioni reali: retta e parabola non si incontrano, S = ∅.</div>';
 }
-function spParabTable(a,b,c){
+function spParabPts(a,b,c){
   const xvF=new Frac(-b,2*a),aF=new Frac(a),bF=new Frac(b),cF=new Frac(c);
   const yvF=aF.mul(xvF).mul(xvF).add(bF.mul(xvF)).add(cF);
   const xc=Math.round(xvF.num());
+  const pts=[];
+  for(let i=xc-2;i<=xc+2;i++)pts.push({x:i,y:a*i*i+b*i+c});
+  return{xvF,yvF,xv:xvF.num(),yv:yvF.num(),pts};
+}
+function spLinePts(m,q){return[{x:0,y:q},{x:2,y:2*m+q}]}
+function spParabTable(a,b,c){
+  const pp=spParabPts(a,b,c);
   let xr='<tr><th>x</th>',yr='<tr><th>y</th>';
-  for(let i=xc-2;i<=xc+2;i++){
-    xr+='<td>'+fmtInt(i)+'</td>';yr+='<td>'+fmtInt(a*i*i+b*i+c)+'</td>';
-  }
-  return{table:'<table class="val-tbl"><caption>parabola</caption>'+xr+'</tr>'+yr+'</tr></table>',
-    xv:xvF.html(),yv:yvF.html()};
+  pp.pts.forEach(p=>{xr+='<td>'+fmtInt(p.x)+'</td>';yr+='<td>'+fmtInt(p.y)+'</td>'});
+  return{table:'<table class="val-tbl"><caption>'+cdot(COLP)+'parabola</caption>'+xr+'</tr>'+yr+'</tr></table>',
+    xv:pp.xvF.html(),yv:pp.yvF.html()};
 }
 function spLineTable(m,q){
-  return'<table class="val-tbl"><caption>retta</caption>'+
-    '<tr><th>x</th><td>0</td><td>2</td></tr>'+
-    '<tr><th>y</th><td>'+fmtInt(q)+'</td><td>'+fmtInt(2*m+q)+'</td></tr></table>';
+  const lp=spLinePts(m,q);
+  return'<table class="val-tbl"><caption>'+cdot(COLA)+'retta</caption>'+
+    '<tr><th>x</th><td>'+fmtInt(lp[0].x)+'</td><td>'+fmtInt(lp[1].x)+'</td></tr>'+
+    '<tr><th>y</th><td>'+fmtInt(lp[0].y)+'</td><td>'+fmtInt(lp[1].y)+'</td></tr></table>';
 }
 function spStepsHtml(){
   const d=spData;if(!d)return'';

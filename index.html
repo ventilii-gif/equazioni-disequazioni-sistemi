@@ -354,6 +354,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     <button data-target="eq1">Equazioni di 1° grado</button>
     <button data-target="eq1lit">Eq. letterali</button>
     <button data-target="eq2">Equazioni di 2° grado</button>
+    <button data-target="eq2lit">Eq. 2° letterali</button>
     <button data-target="diseq">Disequazioni</button>
     <button data-target="sist">Sistemi</button>
   </div>
@@ -371,7 +372,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
        (in schede richiudibili), una o più <strong>simulazioni</strong> da esplorare cambiando i
        parametri, e la palestra <strong>«Prova tu»</strong> con 10 domande di teoria e
        10 esercizi di calcolo a risposta chiusa, con correzione e spiegazione immediate.</p>
-    <div class="chips"><em>Teoria</em><em>Simulazioni interattive</em><em>100 domande con feedback</em><em>Funziona anche da mobile</em></div>
+    <div class="chips"><em>Teoria</em><em>Simulazioni interattive</em><em>120 domande con feedback</em><em>Funziona anche da mobile</em></div>
   </div>
 
   <div class="home-grid">
@@ -406,6 +407,17 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </svg>
       <strong>Equazioni di 2° grado</strong>
       <span>Parabola interattiva, discriminante, costruzione della formula risolutiva e lettura grafica.</span>
+    </button>
+    <button class="home-card" data-target="eq2lit">
+      <svg class="ico" viewBox="0 0 52 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 36h44M26 44V8" opacity=".35"/>
+        <path d="M11 12q15 56 30 0"/>
+        <text x="2" y="26" font-size="13" font-family="serif" stroke="none" fill="currentColor" font-style="italic">k</text>
+        <circle cx="17.5" cy="36" r="2.4" fill="#f59e0b" stroke="none"/>
+        <circle cx="34.5" cy="36" r="2.4" fill="#f59e0b" stroke="none"/>
+      </svg>
+      <strong>Equazioni letterali di 2° grado</strong>
+      <span>Discussione completa: grado, segno del discriminante, accettabilità e ordine delle radici.</span>
     </button>
     <button class="home-card" data-target="diseq">
       <svg class="ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
@@ -946,6 +958,195 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     </div>
     <div class="quiz" id="qz-eq2t" data-quiz="eq2t"></div>
     <div class="quiz" id="qz-eq2c" data-quiz="eq2c" hidden></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EQUAZIONI LETTERALI DI 2° GRADO
+============================================================ -->
+<section class="scene" id="eq2lit">
+  <div class="page-head">
+    <h2>Equazioni letterali di 2° grado</h2>
+    <p class="lead">La discussione di un'equazione parametrica di secondo grado: controllo del grado, positività del discriminante, intervallo di accettabilità e ordine delle soluzioni.</p>
+  </div>
+
+  <p class="sec-label">Teoria</p>
+  <div class="card">
+    <div class="accordion">
+
+      <details open>
+        <summary>Che cos'è e come si imposta la discussione</summary>
+        <div class="acc-body">
+          <p>Un'<strong>equazione letterale di 2° grado</strong> ha la forma
+             <span class="eqline">a(k)·x² + b(k)·x + c(k) = 0</span>, dove i coefficienti
+             dipendono da un <strong>parametro</strong> <span class="eqline">k</span>.
+             Discuterla significa stabilire, <strong>al variare di k</strong>, di che tipo è
+             l'equazione, quante soluzioni reali ha e come sono fatte.</p>
+          <p>La discussione completa segue quattro controlli, nell'ordine:</p>
+          <ol>
+            <li><strong>Controllo del grado</strong> — il coefficiente <span class="eqline">a(k)</span>
+                di x² può annullarsi: l'equazione non è più di 2° grado.</li>
+            <li><strong>Positività del discriminante</strong> — il segno di
+                <span class="eqline">Δ(k)</span> decide quante soluzioni reali esistono.</li>
+            <li><strong>Intervallo di accettabilità</strong> — l'insieme dei valori di k
+                ammissibili (grado corretto, soluzioni reali, eventuali vincoli del problema).</li>
+            <li><strong>Ordine e segno delle soluzioni</strong> — confronto tra le radici con
+                somma e prodotto.</li>
+          </ol>
+        </div>
+      </details>
+
+      <details>
+        <summary>1) Controllo del grado</summary>
+        <div class="acc-body">
+          <p>Prima di applicare la formula risolutiva bisogna assicurarsi che l'equazione sia
+             <strong>davvero di secondo grado</strong>, cioè che il coefficiente di
+             <span class="eqline">x²</span> sia diverso da zero:</p>
+          <div class="formula center">
+            <span class="coeff-blink">a(k)</span> ≠ 0
+            <span class="why">condizione perché l'equazione resti di 2° grado: il coefficiente di x² va sempre verificato</span>
+          </div>
+          <p>Se per qualche valore <span class="eqline">a(k) = 0</span>, l'equazione
+             <strong>abbassa il grado</strong> e si discute come equazione di grado inferiore:</p>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Condizione</th><th>Tipo</th><th>Soluzioni</th></tr>
+            <tr><td class="m">a(k) ≠ 0</td><td>2° grado</td><td>si passa al discriminante</td></tr>
+            <tr><td class="m">a(k) = 0, b(k) ≠ 0</td><td>1° grado</td><td class="m">una sola: x = −c/b</td></tr>
+            <tr><td class="m">a(k) = 0, b(k) = 0, c(k) ≠ 0</td><td>impossibile</td><td>S = ∅</td></tr>
+            <tr><td class="m">a(k) = 0, b(k) = 0, c(k) = 0</td><td>indeterminata</td><td>S = ℝ</td></tr>
+          </table></div>
+          <div class="note-warn">Dimenticare questo controllo è l'errore più frequente:
+            si applica la formula risolutiva a un'equazione che, per quel valore di k, è di primo grado.</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>2) Positività del discriminante</summary>
+        <div class="acc-body">
+          <p>Per <span class="eqline">a(k) ≠ 0</span> si calcola il discriminante
+             <span class="eqline">Δ(k) = b(k)² − 4·a(k)·c(k)</span>, che in generale è
+             un'espressione (spesso un trinomio) <strong>nel parametro k</strong>. Il suo segno
+             stabilisce il numero di soluzioni reali:</p>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th class="m">Δ(k)</th><th>Soluzioni reali</th></tr>
+            <tr><td class="m">Δ &gt; 0</td><td>due distinte</td></tr>
+            <tr><td class="m">Δ = 0</td><td>due coincidenti (una doppia)</td></tr>
+            <tr><td class="m">Δ &lt; 0</td><td>nessuna (soluzioni complesse)</td></tr>
+          </table></div>
+          <p>Si <strong>studia quindi il segno di Δ(k)</strong>: se Δ(k) è un trinomio di 2° grado
+             in k, se ne cercano gli zeri e si applica la regola dei segni della parabola. Gli zeri
+             di Δ(k) sono i valori di k che danno la <strong>soluzione doppia</strong> (tangenza).</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>3) Intervallo di accettabilità</summary>
+        <div class="acc-body">
+          <p>L'<strong>intervallo di accettabilità</strong> del parametro è l'insieme dei valori di
+             k che rendono l'equazione conforme a tutte le condizioni richieste. Per avere
+             <strong>due soluzioni reali come equazione di 2° grado</strong> si intersecano:</p>
+          <div class="formula center">
+            a(k) ≠ 0 &nbsp;&nbsp;∧&nbsp;&nbsp; Δ(k) ≥ 0
+            <span class="why">grado corretto e soluzioni reali: l'intersezione dà i k ammissibili</span>
+          </div>
+          <p>Nei <strong>problemi</strong> si aggiungono vincoli sulle soluzioni (per esempio
+             una lunghezza deve essere positiva, oppure le radici devono cadere in un certo
+             intervallo): ogni vincolo restringe l'insieme dei k accettabili. La soluzione finale è
+             l'<strong>intersezione di tutte le condizioni</strong>, di solito rappresentata su uno
+             schema grafico con gli intervalli sovrapposti.</p>
+          <div class="note-ok">L'intervallo di accettabilità si scrive con la notazione degli
+            insiemi: ad esempio <span class="eqline">k ≤ −1 ∨ k ≥ 2</span> diventa
+            <span class="eqline">S = (−∞; −1] ∪ [2; +∞)</span>.</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>4) Ordine e segno delle soluzioni</summary>
+        <div class="acc-body">
+          <p>Quando le soluzioni sono reali si studia come sono disposte. Le relazioni tra radici e
+             coefficienti (somma e prodotto) permettono di farlo <strong>senza risolvere</strong>:</p>
+          <div class="formula center">
+            S = x₁ + x₂ = −<span class="frac"><span class="nu">b</span><span class="de">a</span></span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            P = x₁ · x₂ = <span class="frac"><span class="nu">c</span><span class="de">a</span></span>
+          </div>
+          <p>Dal segno di S e P (regola dei segni di Cartesio) si deduce il segno delle radici:</p>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th class="m">P</th><th class="m">S</th><th>Segno delle radici (reali)</th></tr>
+            <tr><td class="m">P &gt; 0</td><td class="m">S &gt; 0</td><td>entrambe positive</td></tr>
+            <tr><td class="m">P &gt; 0</td><td class="m">S &lt; 0</td><td>entrambe negative</td></tr>
+            <tr><td class="m">P &lt; 0</td><td class="m">qualsiasi</td><td>discordi (una positiva, una negativa)</td></tr>
+          </table></div>
+          <p>Per stabilire <strong>quale radice è maggiore</strong> conviene sempre ordinarle come
+             <span class="eqline">x₁ ≤ x₂</span>; quando le radici sono note esplicitamente in k,
+             si confronta direttamente, ricordando che il loro ordine può cambiare con il parametro.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Esempio guidato — discussione completa</summary>
+        <div class="acc-body">
+          <p>Discuti al variare di <em>k</em>: <span class="eqline">kx² − (k + 1)x + 1 = 0</span></p>
+          <p><strong>1) Grado.</strong> Il coefficiente di x² è <span class="coeff-blink">k</span>.
+             Se <em>k = 0</em>: resta <span class="eqline">−x + 1 = 0 → x = 1</span> (1° grado).
+             Per <em>k ≠ 0</em> l'equazione è di 2° grado.</p>
+          <p><strong>2) Discriminante.</strong>
+             <span class="eqline">Δ = (k + 1)² − 4k = k² − 2k + 1 = (k − 1)²</span>.
+             È un quadrato: <span class="eqline">Δ ≥ 0</span> per ogni k, e
+             <span class="eqline">Δ = 0</span> solo per <em>k = 1</em> (radice doppia x = 1).</p>
+          <p><strong>3) Accettabilità.</strong> Soluzioni reali per ogni <em>k ≠ 0</em>.</p>
+          <p><strong>4) Soluzioni e ordine.</strong> L'equazione si fattorizza:
+             <span class="eqline">(x − 1)(kx − 1) = 0</span>, quindi
+             <span class="eqline">x₁ = 1</span> e <span class="eqline">x₂ = 1/k</span>.</p>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Valore di k</th><th>Tipo</th><th>Soluzioni</th><th>Ordine</th></tr>
+            <tr><td class="m">k = 0</td><td>1° grado</td><td class="m">x = 1</td><td>—</td></tr>
+            <tr><td class="m">k = 1</td><td>2° grado, Δ = 0</td><td class="m">x = 1 (doppia)</td><td class="m">x₁ = x₂</td></tr>
+            <tr><td class="m">k &gt; 1</td><td>2° grado, Δ &gt; 0</td><td class="m">1 e 1/k</td><td class="m">1/k &lt; 1</td></tr>
+            <tr><td class="m">0 &lt; k &lt; 1</td><td>2° grado, Δ &gt; 0</td><td class="m">1 e 1/k</td><td class="m">1/k &gt; 1</td></tr>
+            <tr><td class="m">k &lt; 0</td><td>2° grado, Δ &gt; 0</td><td class="m">1 e 1/k</td><td class="m">1/k &lt; 0 &lt; 1</td></tr>
+          </table></div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <p class="sec-label">Simulazione · Discussione al variare di k</p>
+  <div class="card">
+    <h2>Discussione di un'equazione parametrica</h2>
+    <p class="lead">Scegli un'equazione e un valore di k: l'app esegue i quattro controlli. Il coefficiente di x² lampeggia finché k non lo annulla, abbassando il grado.</p>
+    <div class="sim-layout">
+      <div class="sim-pane" style="align-self:start">
+        <div id="lit2Steps"></div>
+      </div>
+      <div class="ctrl-pane">
+        <p class="hint" style="margin-top:0">Scegli l'equazione da discutere:</p>
+        <div class="tabs" id="lit2Tabs">
+          <button class="tab active" data-lit2="A">kx² − (k+1)x + 1 = 0</button>
+          <button class="tab" data-lit2="B">x² − 2kx + (k+2) = 0</button>
+          <button class="tab" data-lit2="C">(k−1)x² − (2k−1)x + k = 0</button>
+        </div>
+        <div class="lit-case ind" id="lit2Acc" style="margin-top:.7rem">—</div>
+        <p class="hint" style="margin-top:.5rem">Inserisci il valore del parametro k:</p>
+        <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+          <input type="number" id="lit2K" value="2" step="1" style="width:6em">
+          <button class="btn btn-primary" id="lit2Btn">Discuti</button>
+        </div>
+        <p class="hint" style="margin-top:.5rem">Prova k = 0 (A) o k = 1 (C) per abbassare il grado; k = 1 (A) per Δ = 0; valori in −1 &lt; k &lt; 2 (B) per Δ &lt; 0.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-label">Prova tu</p>
+  <div class="card">
+    <h2>Palestra di autovalutazione</h2>
+    <div class="tabs">
+      <button class="tab active" data-qtab="lit2_t">Quiz di teoria (10)</button>
+      <button class="tab" data-qtab="lit2_c">Quiz di calcolo (10)</button>
+    </div>
+    <div class="quiz" id="qz-lit2_t" data-quiz="lit2_t"></div>
+    <div class="quiz" id="qz-lit2_c" data-quiz="lit2_c" hidden></div>
   </div>
 </section>
 
@@ -1996,6 +2197,72 @@ lit_c:[
  {q:'Per l’equazione (k² − 9)x = k − 3, per k = −3 l’equazione è…',
   opts:['indeterminata','determinata con x = −1/6','impossibile: 0·x = −6','determinata con x = −6'],ans:2,
   exp:'k = −3: A(−3) = 0 e B(−3) = −3 − 3 = −6 ≠ 0 → 0·x = −6 → impossibile.'}
+],
+/* ---------- Equazioni letterali di 2° grado: teoria ---------- */
+lit2_t:[
+ {q:'Che cos’è un’equazione letterale di 2° grado?',
+  opts:['Un’equazione di 2° grado priva di termine noto','Un’equazione di 2° grado i cui coefficienti dipendono da un parametro','Un sistema di due equazioni di 2° grado','Un’equazione che ha sempre due soluzioni reali'],ans:1,
+  exp:'I coefficienti a, b, c contengono un parametro (per esempio k): per ogni valore di k si ottiene un’equazione numerica diversa.'},
+ {q:'Qual è il primo controllo nella discussione di un’equazione letterale di 2° grado?',
+  opts:['Calcolare subito il discriminante','Verificare che il coefficiente di x² sia diverso da zero','Trovare la somma delle radici','Calcolare il prodotto delle radici'],ans:1,
+  exp:'Se il coefficiente di x² si annulla, l’equazione non è più di 2° grado: il controllo del grado viene per primo.'},
+ {q:'Se a(k) = 0 ma b(k) ≠ 0, l’equazione diventa…',
+  opts:['di 2° grado con Δ = 0','di 1° grado, con una sola soluzione','impossibile','indeterminata'],ans:1,
+  exp:'Sparisce il termine in x²: resta b(k)·x + c(k) = 0, equazione di primo grado con soluzione x = −c/b.'},
+ {q:'Se a(k) = 0, b(k) = 0 e c(k) ≠ 0, l’equazione è…',
+  opts:['indeterminata','di 1° grado','impossibile (S = ∅)','di 2° grado'],ans:2,
+  exp:'Resta 0 = c(k) con c ≠ 0: nessun valore di x la verifica.'},
+ {q:'Per a(k) ≠ 0, che cosa stabilisce il segno del discriminante Δ(k)?',
+  opts:['Il grado dell’equazione','Il numero delle soluzioni reali','Il valore del parametro','Il segno del coefficiente di x²'],ans:1,
+  exp:'Δ > 0 → due soluzioni reali distinte; Δ = 0 → due coincidenti; Δ < 0 → nessuna soluzione reale.'},
+ {q:'Quando Δ(k) = 0 l’equazione (di 2° grado) ha…',
+  opts:['nessuna soluzione reale','due soluzioni reali distinte','due soluzioni reali coincidenti (una doppia)','infinite soluzioni'],ans:2,
+  exp:'Δ = 0 dà x₁ = x₂ = −b/(2a): un’unica soluzione contata due volte.'},
+ {q:'Se per certi valori di k risulta Δ(k) < 0, allora per quei valori…',
+  opts:['l’equazione ha due soluzioni reali','l’equazione non ha soluzioni reali','il grado si abbassa','l’equazione è indeterminata'],ans:1,
+  exp:'Con Δ < 0 le radici non sono reali: per quei k l’equazione non ammette soluzioni reali.'},
+ {q:'L’intervallo di accettabilità per avere due soluzioni reali come equazione di 2° grado è dato da…',
+  opts:['solo Δ(k) ≥ 0','solo a(k) ≠ 0','a(k) ≠ 0 e Δ(k) ≥ 0 contemporaneamente','a(k) = 0 e Δ(k) = 0'],ans:2,
+  exp:'Servono insieme il grado corretto (a ≠ 0) e soluzioni reali (Δ ≥ 0): si intersecano le due condizioni.'},
+ {q:'Per ax² + bx + c = 0 (a ≠ 0), somma e prodotto delle radici valgono…',
+  opts:['S = b/a, P = c/a','S = −b/a, P = c/a','S = −c/a, P = b/a','S = c/a, P = −b/a'],ans:1,
+  exp:'Relazioni di Viète: x₁ + x₂ = −b/a e x₁ · x₂ = c/a.'},
+ {q:'Se il prodotto delle radici reali è negativo (P < 0), le radici sono…',
+  opts:['entrambe positive','entrambe negative','discordi: una positiva e una negativa','coincidenti'],ans:2,
+  exp:'Un prodotto negativo richiede due fattori di segno opposto: le radici sono discordi.'}
+],
+/* ---------- Equazioni letterali di 2° grado: calcolo ---------- */
+lit2_c:[
+ {q:'Nell’equazione kx² − (k+1)x + 1 = 0, per k = 0 si ottiene…',
+  opts:['x = 1 (equazione di 1° grado)','due soluzioni reali','nessuna soluzione','x = 0 doppia'],ans:0,
+  exp:'k = 0 annulla il termine in x²: resta −x + 1 = 0 → x = 1.'},
+ {q:'Per kx² − (k+1)x + 1 = 0 (con k ≠ 0) il discriminante è…',
+  opts:['(k + 1)²','k² − 4','(k − 1)²','k² + 1'],ans:2,
+  exp:'Δ = (k+1)² − 4k = k² − 2k + 1 = (k − 1)²: è un quadrato, quindi Δ ≥ 0 per ogni k.'},
+ {q:'Le soluzioni di kx² − (k+1)x + 1 = 0 (k ≠ 0) sono…',
+  opts:['x = k e x = 1','x = 1 e x = 1/k','x = −1 e x = k','x = 1/k e x = −1/k'],ans:1,
+  exp:'Si fattorizza (x − 1)(kx − 1) = 0, da cui x = 1 e x = 1/k.'},
+ {q:'Per x² − 2kx + (k+2) = 0, per quali valori di k esistono soluzioni reali?',
+  opts:['per ogni k','solo per k = 2','k ≤ −1 ∨ k ≥ 2','−1 ≤ k ≤ 2'],ans:2,
+  exp:'Δ/4 = k² − k − 2 = (k − 2)(k + 1) ≥ 0 per k ≤ −1 oppure k ≥ 2.'},
+ {q:'Per x² − 2kx + (k+2) = 0, con k = 0 l’equazione…',
+  opts:['ha due soluzioni reali','non ha soluzioni reali (Δ < 0)','ha una soluzione doppia','è di 1° grado'],ans:1,
+  exp:'Δ/4 = 0 − 0 − 2 = −2 < 0 (k = 0 sta tra −1 e 2): nessuna soluzione reale.'},
+ {q:'Per x² − 2kx + (k+2) = 0, somma e prodotto delle radici sono…',
+  opts:['S = −2k, P = k + 2','S = 2k, P = k + 2','S = 2k, P = −(k + 2)','S = k, P = 2k'],ans:1,
+  exp:'S = −b/a = 2k e P = c/a = k + 2.'},
+ {q:'Nell’equazione (k−1)x² − (2k−1)x + k = 0, per k = 1 si ha…',
+  opts:['x = 1 (equazione di 1° grado)','due soluzioni coincidenti','nessuna soluzione','x = 0'],ans:0,
+  exp:'k = 1 annulla il coefficiente di x²: resta −x + 1 = 0 → x = 1.'},
+ {q:'Per (k−1)x² − (2k−1)x + k = 0 (con k ≠ 1) il discriminante vale…',
+  opts:['0','1','(2k − 1)²','k² − 1'],ans:1,
+  exp:'Δ = (2k−1)² − 4(k−1)k = 4k² − 4k + 1 − 4k² + 4k = 1: due soluzioni reali distinte per ogni k ≠ 1.'},
+ {q:'Per l’equazione x² − 2x + k = 0, due soluzioni reali distinte si hanno per…',
+  opts:['k > 1','k < 1','k = 1','ogni valore di k'],ans:1,
+  exp:'Δ/4 = 1 − k > 0 ⟺ k < 1.'},
+ {q:'Nell’equazione (k−3)x² + 2x − 1 = 0, quale valore di k abbassa il grado?',
+  opts:['k = 0','k = 3','k = 1','k = −3'],ans:1,
+  exp:'Il coefficiente di x² è k − 3: si annulla per k = 3, e l’equazione diventa 2x − 1 = 0.'}
 ]
 };
 </script>
@@ -3208,6 +3475,83 @@ spUpdate();
   $('#litSolveBtn').addEventListener('click',litUpdate);
   $('#litK').addEventListener('keydown',e=>{if(e.key==='Enter')litUpdate();});
   litUpdate();
+})();
+
+/* ================================================================
+   SIMULAZIONE: equazioni letterali di 2° grado
+   ================================================================ */
+(function(){
+  const EQS={
+    A:{sym:'kx² − (k+1)x + 1 = 0',a:k=>k,b:k=>-(k+1),c:k=>1,
+      deltaSym:'(k − 1)²',
+      acc:'Grado abbassato a k = 0. Per k ≠ 0: Δ = (k−1)² ≥ 0, soluzioni reali per ogni k.'},
+    B:{sym:'x² − 2kx + (k+2) = 0',a:k=>1,b:k=>-2*k,c:k=>k+2,
+      deltaSym:'4(k − 2)(k + 1)',
+      acc:'Grado sempre 2. Soluzioni reali (Δ ≥ 0) per k ≤ −1 ∨ k ≥ 2.'},
+    C:{sym:'(k−1)x² − (2k−1)x + k = 0',a:k=>k-1,b:k=>-(2*k-1),c:k=>k,
+      deltaSym:'1',
+      acc:'Grado abbassato a k = 1. Per k ≠ 1: Δ = 1 > 0, due soluzioni reali distinte.'}
+  };
+  let cur='A';
+  const SL='<p class="sec-label" style="margin:.7rem 0 .25rem">';
+
+  function disc(eq,k){
+    const e=EQS[eq],a=e.a(k),b=e.b(k),c=e.c(k);
+    const aHtml=a===0?'<span class="coeff-zero">0</span>':'<span class="coeff-blink">'+fmtInt(a)+'</span>';
+    let h='<div class="lit-eq-display" style="font-size:1.08em;padding:.5rem .9rem;background:var(--primary-soft);border-left:3px solid var(--color-primary);border-radius:0 8px 8px 0;margin-bottom:.5rem">'+
+      '<b style="font-family:inherit;font-size:.78em;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">Equazione</b><br>'+e.sym+'</div>';
+    h+='<div class="lit-step">Per k = '+fmtInt(k)+': &nbsp; a = '+aHtml+', &nbsp; b = '+fmtInt(b)+', &nbsp; c = '+fmtInt(c)+'</div>';
+    h+=SL+'1 · Controllo del grado</p>';
+    if(a===0){
+      if(b!==0){
+        const x=new Frac(-c,b);
+        h+='<div class="lit-step">a = 0: il termine in x² scompare → equazione di 1° grado ('+fmtInt(b)+'x + '+fmtInt(c)+' = 0).</div>';
+        h+='<div class="lit-case ind">Grado abbassato a <b>1° grado</b>: x = '+x.html()+' &nbsp;→&nbsp; S = {&thinsp;'+x.html()+'&thinsp;}</div>';
+      }else if(c!==0){
+        h+='<div class="lit-case imp">a = 0, b = 0, c ≠ 0 → 0 = '+fmtInt(c)+': <b>impossibile</b>, S = ∅</div>';
+      }else{
+        h+='<div class="lit-case ind">a = 0, b = 0, c = 0 → 0 = 0: <b>indeterminata</b>, S = ℝ</div>';
+      }
+      return h;
+    }
+    h+='<div class="lit-step">a = '+fmtInt(a)+' ≠ 0 → equazione di <b>2° grado</b>.</div>';
+    const qe=quadExact(a,b,c);
+    h+=SL+'2 · Positività del discriminante</p>';
+    h+='<div class="lit-step">Δ = b² − 4ac = ('+fmtInt(b)+')² − 4·('+fmtInt(a)+')·('+fmtInt(c)+') = <b>'+fmtInt(qe.D)+'</b> &nbsp; <span class="hint" style="display:inline">[Δ(k) = '+e.deltaSym+']</span></div>';
+    const segno=qe.D>0?'Δ &gt; 0: due soluzioni reali distinte':qe.D===0?'Δ = 0: due soluzioni reali coincidenti':'Δ &lt; 0: nessuna soluzione reale';
+    h+=SL+'3 · Intervallo di accettabilità</p>';
+    if(qe.D>=0)h+='<div class="lit-case det">'+segno+' → questo valore di k è <b>accettabile</b>.</div>';
+    else{h+='<div class="lit-case imp">'+segno+' → per questo k l’equazione <b>non ha radici reali</b>.</div>';return h;}
+    h+=SL+'4 · Ordine e segno delle soluzioni</p>';
+    if(qe.n===1){
+      h+='<div class="lit-step">Soluzione doppia (Δ = 0): x₁ = x₂ = '+qe.x0h+'.</div>';
+      h+='<div class="sol-box"><span class="t">Soluzione</span><span class="eqline">x = '+qe.x0h+' (doppia)</span></div>';
+      return h;
+    }
+    const S=new Frac(-b,a),P=new Frac(c,a),pn=P.num(),sn=S.num();
+    const segnoTxt=pn<0?'P &lt; 0 → radici <b>discordi</b> (una negativa e una positiva)':
+      pn===0?'P = 0 → una radice è <b>nulla</b>':
+      sn>0?'P &gt; 0 e S &gt; 0 → <b>entrambe positive</b>':'P &gt; 0 e S &lt; 0 → <b>entrambe negative</b>';
+    h+='<div class="lit-step">Radici ordinate: x₁ = '+qe.x1h+' ≤ x₂ = '+qe.x2h+'.<br>'+
+       'S = x₁ + x₂ = −b/a = '+S.html()+'; &nbsp; P = x₁ · x₂ = c/a = '+P.html()+'.</div>';
+    h+='<div class="lit-case det">'+segnoTxt+'</div>';
+    h+='<div class="sol-box"><span class="t">Soluzioni</span><span class="eqline">x₁ = '+qe.x1h+', &nbsp; x₂ = '+qe.x2h+'</span></div>';
+    return h;
+  }
+  function setAcc(){$('#lit2Acc').innerHTML='<b>Accettabilità (k):</b> '+EQS[cur].acc;}
+  function run(){
+    const k=parseFloat($('#lit2K').value);
+    if(!Number.isInteger(k)){$('#lit2Steps').innerHTML='<p class="coef-err show">Inserisci un valore intero di k.</p>';return;}
+    $('#lit2Steps').innerHTML=disc(cur,k);
+  }
+  $('#lit2Tabs').addEventListener('click',e=>{
+    const btn=e.target.closest('.tab');if(!btn||!btn.dataset.lit2)return;
+    $('#lit2Tabs').querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));
+    cur=btn.dataset.lit2;setAcc();run();
+  });
+  $('#lit2Btn').addEventListener('click',run);
+  $('#lit2K').addEventListener('keydown',e=>{if(e.key==='Enter')run();});
+  setAcc();run();
 })();
 
 /* ---------------- Avvio ---------------- */

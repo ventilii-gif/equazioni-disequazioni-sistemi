@@ -6,6 +6,16 @@
 <meta name="theme-color" content="#f9fafb">
 <meta name="description" content="App didattica interattiva: equazioni di primo e secondo grado, disequazioni e sistemi. Teoria, simulazioni e quiz di autovalutazione.">
 <title>Equazioni, disequazioni e sistemi · Matematica</title>
+<script>
+(function(){
+  var t=localStorage.getItem('theme');
+  if(t==='dark'||(t===null&&matchMedia('(prefers-color-scheme:dark)').matches)){
+    document.documentElement.setAttribute('data-theme','dark');
+    var m=document.querySelector('meta[name="theme-color"]');
+    if(m)m.setAttribute('content','#111827');
+  }
+}());
+</script>
 <style>
 /* ===================== Design system ===================== */
 :root{
@@ -338,6 +348,51 @@ footer{border-top:1px solid var(--border);background:var(--surface);
 .lit-step{border-left:3px solid var(--border);padding:.3rem .7rem .3rem .75rem;
   margin:.3rem 0;font-size:.92em;color:var(--color-text);font-family:var(--font-math)}
 .lit-step+.lit-step{border-color:var(--color-primary)}
+
+/* ===================== Pulsante tema ===================== */
+.theme-btn{background:none;border:1px solid var(--border);border-radius:8px;
+  padding:.42rem .5rem;cursor:pointer;color:var(--muted);line-height:0;
+  transition:background .15s,border-color .15s,color .15s;flex:0 0 auto}
+.theme-btn:hover{background:var(--primary-soft);border-color:var(--color-primary);
+  color:var(--color-secondary)}
+.theme-btn svg{width:18px;height:18px;display:block}
+.theme-btn .ico-sun{display:none}
+.theme-btn .ico-moon{display:block}
+[data-theme="dark"] .theme-btn .ico-sun{display:block}
+[data-theme="dark"] .theme-btn .ico-moon{display:none}
+
+/* ===================== Dark mode ===================== */
+[data-theme="dark"]{
+  --color-primary:#60a5fa;
+  --color-secondary:#93c5fd;
+  --color-accent:#fbbf24;
+  --color-success:#34d399;
+  --color-error:#f87171;
+  --color-bg:#111827;
+  --color-text:#f3f4f6;
+  --surface:#1f2937;
+  --border:#374151;
+  --muted:#9ca3af;
+  --primary-soft:#172554;
+  --accent-soft:#451a03;
+  --accent-deep:#fbbf24;
+  --success-soft:#064e3b;
+  --success-deep:#34d399;
+  --error-soft:#450a0a;
+  --error-deep:#f87171;
+  --shadow:0 1px 3px rgba(0,0,0,.5);
+}
+/* testi hardcoded che non usano variabili */
+[data-theme="dark"] .note-ok{color:#a7f3d0}
+[data-theme="dark"] .note-warn{color:#fde68a}
+[data-theme="dark"] .note-err{color:#fca5a5}
+[data-theme="dark"] .quiz-exp.ok{color:#a7f3d0}
+[data-theme="dark"] .quiz-exp.no{color:#fca5a5}
+[data-theme="dark"] .quiz-btn.correct{color:#a7f3d0}
+[data-theme="dark"] .accordion details[open]{border-color:#2d4a7a}
+/* inversione canvas: bianco→nero, tratti scuri→chiari, colori preservati */
+[data-theme="dark"] canvas.plot{filter:invert(1) hue-rotate(180deg)}
+[data-theme="dark"] svg.bil{filter:invert(1) hue-rotate(180deg)}
 </style>
 </head>
 <body>
@@ -345,6 +400,24 @@ footer{border-top:1px solid var(--border);background:var(--surface);
   <div class="wrap">
     <h1>Equazioni, disequazioni e sistemi</h1>
     <span class="sub">Matematica · Algebra · Biennio</span>
+    <button id="themeToggle" class="theme-btn" aria-label="Attiva tema scuro" title="Attiva tema scuro / chiaro">
+      <!-- luna: visibile in tema chiaro -->
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <!-- sole: visibile in tema scuro -->
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
   </div>
 </header>
 
@@ -3552,6 +3625,25 @@ spUpdate();
   $('#lit2Btn').addEventListener('click',run);
   $('#lit2K').addEventListener('keydown',e=>{if(e.key==='Enter')run();});
   setAcc();run();
+})();
+
+/* ---------------- Tema scuro / chiaro ---------------- */
+(function(){
+  const btn=document.getElementById('themeToggle');
+  const metaTheme=document.querySelector('meta[name="theme-color"]');
+  function applyTheme(dark){
+    document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+    btn.setAttribute('aria-label',dark?'Attiva tema chiaro':'Attiva tema scuro');
+    if(metaTheme)metaTheme.setAttribute('content',dark?'#111827':'#f9fafb');
+  }
+  const stored=localStorage.getItem('theme');
+  const prefersDark=matchMedia('(prefers-color-scheme:dark)').matches;
+  applyTheme(stored==='dark'||(stored===null&&prefersDark));
+  btn.addEventListener('click',function(){
+    const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+    applyTheme(!isDark);
+    localStorage.setItem('theme',isDark?'light':'dark');
+  });
 })();
 
 /* ---------------- Avvio ---------------- */

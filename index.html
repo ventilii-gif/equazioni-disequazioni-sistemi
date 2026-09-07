@@ -6,6 +6,9 @@
 <meta name="theme-color" content="#f9fafb">
 <meta name="description" content="App didattica interattiva: equazioni di primo e secondo grado, disequazioni e sistemi. Teoria, simulazioni e quiz di autovalutazione.">
 <title>Equazioni, disequazioni e sistemi · Matematica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
 <script>
 (function(){
   var t=localStorage.getItem('theme');
@@ -22,8 +25,8 @@
   --color-primary:#2563eb;      /* Blu scientifico */
   --color-secondary:#1e40af;
   --color-accent:#f59e0b;       /* Arancio per highlight */
-  --color-success:#10b981;      /* Verde */
-  --color-error:#ef4444;        /* Rosso */
+  --color-success:#1d70bf;      /* Verde */
+  --color-error:#d97706;        /* Rosso */
   --color-bg:#f9fafb;
   --color-text:#1f2937;
   --surface:#ffffff;
@@ -32,13 +35,14 @@
   --primary-soft:#eff6ff;
   --accent-soft:#fef3c7;
   --accent-deep:#b45309;
-  --success-soft:#d1fae5;
-  --success-deep:#047857;
-  --error-soft:#fee2e2;
-  --error-deep:#b91c1c;
+  --success-soft:#e7f0fa;
+  --success-deep:#12467e;
+  --error-soft:#fde4c8;
+  --error-deep:#b45309;
   --radius:12px;
   --shadow:0 1px 3px rgba(17,24,39,.07);
   --font-math:"Cambria Math","STIX Two Math","Times New Roman",serif;
+  --font-head:"Fraunces",Georgia,"Times New Roman",serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -53,13 +57,13 @@ header{background:var(--surface);border-bottom:1px solid var(--border);
   padding:.85rem 1rem .8rem}
 header .wrap{max-width:1000px;margin:0 auto;display:flex;align-items:baseline;
   justify-content:space-between;gap:.8rem;flex-wrap:wrap}
-header h1{font-size:clamp(1.12rem,3.8vw,1.45rem);font-weight:800;
+header h1{font-family:var(--font-head);font-size:clamp(1.12rem,3.8vw,1.45rem);font-weight:800;
   letter-spacing:-.02em;color:var(--color-text)}
 header .sub{color:var(--muted);font-size:.82em;font-weight:500}
 
 /* ===================== Nav ===================== */
 nav.main{background:var(--surface);border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:30;overflow-x:auto;
+  position:static;overflow-x:auto;
   scrollbar-width:thin;scrollbar-color:var(--border) transparent}
 nav.main .wrap{max-width:1000px;margin:0 auto;display:flex;gap:.4rem;padding:.55rem 1rem}
 nav.main button{flex:0 0 auto;background:var(--color-bg);border:1px solid var(--border);
@@ -76,7 +80,7 @@ section.scene{display:none}
 section.scene.active{display:block;animation:fadein .25s ease}
 @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 .page-head{margin:.2rem 0 1rem;border-left:4px solid var(--color-primary);padding-left:.75rem}
-.page-head h2{font-size:clamp(1.18rem,3.6vw,1.5rem);font-weight:800;letter-spacing:-.015em}
+.page-head h2{font-family:var(--font-head);font-size:clamp(1.18rem,3.6vw,1.5rem);font-weight:800;letter-spacing:-.015em}
 .page-head .lead{margin-top:.15rem}
 .sec-label{font-size:.72em;font-weight:700;letter-spacing:.1em;color:var(--muted);
   text-transform:uppercase;margin:1.3rem 0 .45rem}
@@ -85,8 +89,8 @@ section.scene.active{display:block;animation:fadein .25s ease}
 /* ===================== Card ===================== */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
   padding:1.15rem 1.25rem;margin-bottom:1.1rem;box-shadow:var(--shadow)}
-.card>h2{font-size:1.13em;font-weight:700;letter-spacing:-.01em;margin-bottom:.45rem}
-.card h3{color:var(--color-secondary);font-size:.97em;font-weight:700;margin:.9rem 0 .3rem}
+.card>h2{font-family:var(--font-head);font-size:1.13em;font-weight:700;letter-spacing:-.01em;margin-bottom:.45rem}
+.card h3{font-family:var(--font-head);color:var(--color-secondary);font-size:.97em;font-weight:700;margin:.9rem 0 .3rem}
 .card p{margin:.35rem 0}
 .card ul,.card ol{margin:.4rem 0 .4rem 1.3rem}
 .card li{margin:.22rem 0}
@@ -117,12 +121,12 @@ section.scene.active{display:block;animation:fadein .25s ease}
 .formula .why{display:block;font-family:"Inter","Roboto",system-ui,sans-serif;
   font-size:.72em;color:var(--muted);line-height:1.45;margin-top:-.2rem}
 .note-ok{background:var(--success-soft);border-left:3px solid var(--color-success);
-  color:#064e3b;padding:.5rem .9rem;margin:.55rem 0;border-radius:0 8px 8px 0;font-size:.9em}
+  color:#12467e;padding:.5rem .9rem;margin:.55rem 0;border-radius:0 8px 8px 0;font-size:.9em}
 .note-warn{background:var(--accent-soft);border-left:3px solid var(--color-accent);
   color:#78350f;padding:.5rem .9rem;margin:.55rem 0;border-radius:0 8px 8px 0;font-size:.9em}
 .note-err{background:var(--error-soft);border-left:3px solid var(--color-error);
-  color:#7f1d1d;padding:.5rem .9rem;margin:.55rem 0;border-radius:0 8px 8px 0;font-size:.9em}
-.sol-box{background:var(--success-soft);border:1px solid #a7f3d0;border-radius:10px;
+  color:#7a4713;padding:.5rem .9rem;margin:.55rem 0;border-radius:0 8px 8px 0;font-size:.9em}
+.sol-box{background:var(--success-soft);border:1px solid #9cc3ec;border-radius:10px;
   padding:.7rem 1rem;margin:.6rem 0;font-size:1em}
 .sol-box .t{font-size:.72em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   color:var(--success-deep);display:block;margin-bottom:.15rem}
@@ -170,11 +174,11 @@ input[type=text]:focus,input[type=number]:focus,select:focus{outline:none;
   margin-bottom:.22rem}
 .field .err-msg{display:none;color:var(--color-error);font-size:.8em;font-weight:500;margin-top:.3rem}
 .field.invalid .err-msg{display:block}
-.field.invalid input{border-color:var(--color-error);box-shadow:0 0 0 3px rgba(239,68,68,.14)}
+.field.invalid input{border-color:var(--color-error);box-shadow:0 0 0 3px rgba(217,119,6,.16)}
 .coef-grid{display:flex;flex-wrap:wrap;gap:.55rem;margin:.4rem 0 .6rem}
 .coef{width:5.4em;flex:0 1 auto}
 .coef.wide{width:8.5em}
-.coef input.bad{border-color:var(--color-error);box-shadow:0 0 0 3px rgba(239,68,68,.14)}
+.coef input.bad{border-color:var(--color-error);box-shadow:0 0 0 3px rgba(217,119,6,.16)}
 .coef-err{color:var(--color-error);font-size:.8em;font-weight:500;margin:.1rem 0 .3rem;display:none}
 .coef-err.show{display:block}
 input[type=range]{accent-color:var(--color-primary);min-height:26px}
@@ -203,9 +207,9 @@ svg.bil{width:100%;height:auto;display:block;border:1px solid var(--border);
 .read .it .v{font-weight:700;font-variant-numeric:tabular-nums}
 .case-banner{padding:.55rem .9rem;border-radius:8px;font-weight:600;font-size:.9em;
   border:1px solid;margin:.55rem 0}
-.case-banner.c2{background:var(--success-soft);border-color:#a7f3d0;color:var(--success-deep)}
+.case-banner.c2{background:var(--success-soft);border-color:#9cc3ec;color:var(--success-deep)}
 .case-banner.c1{background:var(--accent-soft);border-color:#fde68a;color:var(--accent-deep)}
-.case-banner.c0{background:var(--error-soft);border-color:#fecaca;color:var(--error-deep)}
+.case-banner.c0{background:var(--color-bg);border-color:var(--border);color:var(--muted)}
 .case-banner.cn{background:var(--primary-soft);border-color:#bfdbfe;color:var(--color-secondary)}
 .eq-display{font-family:var(--font-math);font-size:1.3em;text-align:center;
   background:var(--primary-soft);border:1px solid #bfdbfe;border-radius:10px;
@@ -277,12 +281,12 @@ ol.steps li::before{content:counter(st);position:absolute;left:0;top:.42rem;
 .quiz-btn:not(:disabled):hover{background:var(--primary-soft);border-color:var(--color-primary)}
 .quiz-btn:disabled{cursor:default}
 .quiz-btn.correct{background:var(--success-soft)!important;border-color:var(--color-success)!important;
-  color:#064e3b;font-weight:650}
+  color:#12467e;font-weight:650}
 .quiz-btn.wrong{background:var(--error-soft)!important;border-color:var(--color-error)!important;
   color:var(--error-deep)}
 .quiz-exp{padding:.55rem .9rem;border-radius:8px;font-size:.86em;line-height:1.5;margin:.5rem 0}
-.quiz-exp.ok{background:var(--success-soft);border-left:3px solid var(--color-success);color:#064e3b}
-.quiz-exp.no{background:var(--error-soft);border-left:3px solid var(--color-error);color:#7f1d1d}
+.quiz-exp.ok{background:var(--success-soft);border-left:3px solid var(--color-success);color:#12467e}
+.quiz-exp.no{background:var(--error-soft);border-left:3px solid var(--color-error);color:#7a4713}
 .quiz-end{text-align:center;padding:1.2rem .6rem}
 .quiz-end .big{font-size:2rem;font-weight:800;color:var(--color-secondary);
   font-variant-numeric:tabular-nums}
@@ -341,9 +345,9 @@ footer{border-top:1px solid var(--border);background:var(--surface);
   font-family:var(--font-math);
 }
 .lit-case{border-radius:10px;padding:.65rem 1rem;margin:.6rem 0;font-size:.94em;font-weight:600}
-.lit-case.det{background:var(--success-soft);border:1px solid #a7f3d0;color:var(--success-deep)}
+.lit-case.det{background:var(--success-soft);border:1px solid #9cc3ec;color:var(--success-deep)}
 .lit-case.ind{background:var(--primary-soft);border:1px solid #bfdbfe;color:var(--color-secondary)}
-.lit-case.imp{background:var(--error-soft);border:1px solid #fca5a5;color:var(--error-deep)}
+.lit-case.imp{background:var(--error-soft);border:1px solid #e7b98a;color:var(--error-deep)}
 .lit-eq-display{font-family:var(--font-math);font-size:1.12em;line-height:2.1;margin:.4rem 0}
 .lit-step{border-left:3px solid var(--border);padding:.3rem .7rem .3rem .75rem;
   margin:.3rem 0;font-size:.92em;color:var(--color-text);font-family:var(--font-math)}
@@ -366,8 +370,8 @@ footer{border-top:1px solid var(--border);background:var(--surface);
   --color-primary:#60a5fa;
   --color-secondary:#93c5fd;
   --color-accent:#fbbf24;
-  --color-success:#34d399;
-  --color-error:#f87171;
+  --color-success:#5fa0e6;
+  --color-error:#e0975a;
   --color-bg:#111827;
   --color-text:#f3f4f6;
   --surface:#1f2937;
@@ -376,19 +380,19 @@ footer{border-top:1px solid var(--border);background:var(--surface);
   --primary-soft:#172554;
   --accent-soft:#451a03;
   --accent-deep:#fbbf24;
-  --success-soft:#064e3b;
-  --success-deep:#34d399;
-  --error-soft:#450a0a;
-  --error-deep:#f87171;
+  --success-soft:#15273a;
+  --success-deep:#9cc3ec;
+  --error-soft:#3a2a12;
+  --error-deep:#e0975a;
   --shadow:0 1px 3px rgba(0,0,0,.5);
 }
 /* testi hardcoded che non usano variabili */
-[data-theme="dark"] .note-ok{color:#a7f3d0}
+[data-theme="dark"] .note-ok{color:#9cc3ec}
 [data-theme="dark"] .note-warn{color:#fde68a}
-[data-theme="dark"] .note-err{color:#fca5a5}
-[data-theme="dark"] .quiz-exp.ok{color:#a7f3d0}
-[data-theme="dark"] .quiz-exp.no{color:#fca5a5}
-[data-theme="dark"] .quiz-btn.correct{color:#a7f3d0}
+[data-theme="dark"] .note-err{color:#e7b98a}
+[data-theme="dark"] .quiz-exp.ok{color:#9cc3ec}
+[data-theme="dark"] .quiz-exp.no{color:#e7b98a}
+[data-theme="dark"] .quiz-btn.correct{color:#9cc3ec}
 [data-theme="dark"] .accordion details[open]{border-color:#2d4a7a}
 /* inversione canvas: bianco→nero, tratti scuri→chiari, colori preservati */
 [data-theme="dark"] canvas.plot{filter:invert(1) hue-rotate(180deg)}
@@ -507,7 +511,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         <path d="M8 4v40M4 40h40" opacity=".3"/>
         <path d="M6 36L42 12"/>
         <path d="M8 10l34 26" stroke="#f59e0b"/>
-        <circle cx="24.5" cy="22.6" r="3.2" fill="#10b981" stroke="none"/>
+        <circle cx="24.5" cy="22.6" r="3.2" fill="#1d70bf" stroke="none"/>
       </svg>
       <strong>Sistemi di equazioni</strong>
       <span>Rette e parabole che si intersecano; sostituzione, riduzione, Cramer e metodo grafico.</span>
@@ -691,9 +695,9 @@ footer{border-top:1px solid var(--border);background:var(--surface);
   <p class="sec-label">Prova tu</p>
   <div class="card">
     <h2>Palestra di autovalutazione</h2>
-    <div class="tabs">
-      <button class="tab active" data-qtab="eq1t" data-card="eq1">Quiz di teoria (10)</button>
-      <button class="tab" data-qtab="eq1c" data-card="eq1">Quiz di calcolo (10)</button>
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true" data-qtab="eq1t" data-card="eq1">Quiz di teoria (10)</button>
+      <button class="tab" role="tab" aria-selected="false" data-qtab="eq1c" data-card="eq1">Quiz di calcolo (10)</button>
     </div>
     <div class="quiz" id="qz-eq1t" data-quiz="eq1t"></div>
     <div class="quiz" id="qz-eq1c" data-quiz="eq1c" hidden></div>
@@ -833,10 +837,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </div>
       <div class="ctrl-pane">
         <p class="hint" style="margin-top:0">Scegli l'equazione da analizzare:</p>
-        <div class="tabs" id="litEqTabs">
-          <button class="tab active" data-lit="A">kx+6 = 3x+2k</button>
-          <button class="tab" data-lit="B">kx−k = 5−2x</button>
-          <button class="tab" data-lit="C">k²x−k = x−1</button>
+        <div class="tabs" role="tablist" id="litEqTabs">
+          <button class="tab active" role="tab" aria-selected="true" data-lit="A">kx+6 = 3x+2k</button>
+          <button class="tab" role="tab" aria-selected="false" data-lit="B">kx−k = 5−2x</button>
+          <button class="tab" role="tab" aria-selected="false" data-lit="C">k²x−k = x−1</button>
         </div>
         <p class="hint" style="margin-top:.8rem">Inserisci il valore del parametro k:</p>
         <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
@@ -851,9 +855,9 @@ footer{border-top:1px solid var(--border);background:var(--surface);
   <p class="sec-label">Prova tu</p>
   <div class="card">
     <h2>Palestra di autovalutazione</h2>
-    <div class="tabs">
-      <button class="tab active" data-qtab="lit_t">Quiz di teoria (10)</button>
-      <button class="tab" data-qtab="lit_c">Quiz di calcolo (10)</button>
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true" data-qtab="lit_t">Quiz di teoria (10)</button>
+      <button class="tab" role="tab" aria-selected="false" data-qtab="lit_c">Quiz di calcolo (10)</button>
     </div>
     <div class="quiz" id="qz-lit_t" data-quiz="lit_t"></div>
     <div class="quiz" id="qz-lit_c" data-quiz="lit_c" hidden></div>
@@ -1001,7 +1005,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         <div class="legend">
           <span><i style="background:#2563eb"></i> parabola</span>
           <span><i style="background:#f59e0b"></i> soluzioni (intersezioni con l’asse x)</span>
-          <span><i style="background:#10b981"></i> vertice</span>
+          <span><i style="background:#1d70bf"></i> vertice</span>
         </div>
       </div>
       <div class="ctrl-pane">
@@ -1025,9 +1029,9 @@ footer{border-top:1px solid var(--border);background:var(--surface);
   <p class="sec-label">Prova tu</p>
   <div class="card">
     <h2>Palestra di autovalutazione</h2>
-    <div class="tabs">
-      <button class="tab active" data-qtab="eq2t">Quiz di teoria (10)</button>
-      <button class="tab" data-qtab="eq2c">Quiz di calcolo (10)</button>
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true" data-qtab="eq2t">Quiz di teoria (10)</button>
+      <button class="tab" role="tab" aria-selected="false" data-qtab="eq2c">Quiz di calcolo (10)</button>
     </div>
     <div class="quiz" id="qz-eq2t" data-quiz="eq2t"></div>
     <div class="quiz" id="qz-eq2c" data-quiz="eq2c" hidden></div>
@@ -1195,10 +1199,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </div>
       <div class="ctrl-pane">
         <p class="hint" style="margin-top:0">Scegli l'equazione da discutere:</p>
-        <div class="tabs" id="lit2Tabs">
-          <button class="tab active" data-lit2="A">kx² − (k+1)x + 1 = 0</button>
-          <button class="tab" data-lit2="B">x² − 2kx + (k+2) = 0</button>
-          <button class="tab" data-lit2="C">(k−1)x² − (2k−1)x + k = 0</button>
+        <div class="tabs" role="tablist" id="lit2Tabs">
+          <button class="tab active" role="tab" aria-selected="true" data-lit2="A">kx² − (k+1)x + 1 = 0</button>
+          <button class="tab" role="tab" aria-selected="false" data-lit2="B">x² − 2kx + (k+2) = 0</button>
+          <button class="tab" role="tab" aria-selected="false" data-lit2="C">(k−1)x² − (2k−1)x + k = 0</button>
         </div>
         <div class="lit-case ind" id="lit2Acc" style="margin-top:.7rem">—</div>
         <p class="hint" style="margin-top:.5rem">Inserisci il valore del parametro k:</p>
@@ -1214,9 +1218,9 @@ footer{border-top:1px solid var(--border);background:var(--surface);
   <p class="sec-label">Prova tu</p>
   <div class="card">
     <h2>Palestra di autovalutazione</h2>
-    <div class="tabs">
-      <button class="tab active" data-qtab="lit2_t">Quiz di teoria (10)</button>
-      <button class="tab" data-qtab="lit2_c">Quiz di calcolo (10)</button>
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true" data-qtab="lit2_t">Quiz di teoria (10)</button>
+      <button class="tab" role="tab" aria-selected="false" data-qtab="lit2_c">Quiz di calcolo (10)</button>
     </div>
     <div class="quiz" id="qz-lit2_t" data-quiz="lit2_t"></div>
     <div class="quiz" id="qz-lit2_c" data-quiz="lit2_c" hidden></div>
@@ -1346,8 +1350,8 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         <div class="eq-display" id="d1Eq">—</div>
         <canvas class="plot" id="d1Plot" role="img" aria-label="Grafico della retta con zone colorate"></canvas>
         <div class="legend">
-          <span><i style="background:#10b981"></i> espressione &gt; 0</span>
-          <span><i style="background:#ef4444"></i> espressione &lt; 0</span>
+          <span><i style="background:#1d70bf"></i> espressione &gt; 0</span>
+          <span><i style="background:#d97706"></i> espressione &lt; 0</span>
           <span><i style="background:#2563eb"></i> insieme soluzione</span>
         </div>
       </div>
@@ -1382,8 +1386,8 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         <div class="eq-display" id="d2Eq">—</div>
         <canvas class="plot" id="d2Plot" role="img" aria-label="Grafico della parabola con zone colorate"></canvas>
         <div class="legend">
-          <span><i style="background:#10b981"></i> trinomio &gt; 0</span>
-          <span><i style="background:#ef4444"></i> trinomio &lt; 0</span>
+          <span><i style="background:#1d70bf"></i> trinomio &gt; 0</span>
+          <span><i style="background:#d97706"></i> trinomio &lt; 0</span>
           <span><i style="background:#2563eb"></i> insieme soluzione</span>
         </div>
       </div>
@@ -1416,9 +1420,9 @@ footer{border-top:1px solid var(--border);background:var(--surface);
   <p class="sec-label">Prova tu</p>
   <div class="card">
     <h2>Palestra di autovalutazione</h2>
-    <div class="tabs">
-      <button class="tab active" data-qtab="dist">Quiz di teoria (10)</button>
-      <button class="tab" data-qtab="disc">Quiz di calcolo (10)</button>
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true" data-qtab="dist">Quiz di teoria (10)</button>
+      <button class="tab" role="tab" aria-selected="false" data-qtab="disc">Quiz di calcolo (10)</button>
     </div>
     <div class="quiz" id="qz-dist" data-quiz="dist"></div>
     <div class="quiz" id="qz-disc" data-quiz="disc" hidden></div>
@@ -1602,7 +1606,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         <div class="legend">
           <span><i style="background:#2563eb"></i> 1ª equazione</span>
           <span><i style="background:#f59e0b"></i> 2ª equazione</span>
-          <span><i style="background:#10b981"></i> soluzione (intersezione)</span>
+          <span><i style="background:#1d70bf"></i> soluzione (intersezione)</span>
         </div>
       </div>
       <div class="ctrl-pane">
@@ -1620,11 +1624,11 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         </div>
         <p class="coef-err" id="slErr">—</p>
         <div class="case-banner cn" id="slCase">—</div>
-        <div class="tabs" style="margin-top:.6rem">
-          <button class="tab active" data-met="graf">Grafico</button>
-          <button class="tab" data-met="sost">Sostituzione</button>
-          <button class="tab" data-met="rid">Riduzione</button>
-          <button class="tab" data-met="cram">Cramer</button>
+        <div class="tabs" role="tablist" style="margin-top:.6rem">
+          <button class="tab active" role="tab" aria-selected="true" data-met="graf">Grafico</button>
+          <button class="tab" role="tab" aria-selected="false" data-met="sost">Sostituzione</button>
+          <button class="tab" role="tab" aria-selected="false" data-met="rid">Riduzione</button>
+          <button class="tab" role="tab" aria-selected="false" data-met="cram">Cramer</button>
         </div>
         <div id="slSteps"></div>
       </div>
@@ -1643,7 +1647,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         <div class="legend">
           <span><i style="background:#2563eb"></i> parabola</span>
           <span><i style="background:#f59e0b"></i> retta</span>
-          <span><i style="background:#10b981"></i> intersezioni</span>
+          <span><i style="background:#1d70bf"></i> intersezioni</span>
         </div>
       </div>
       <div class="ctrl-pane">
@@ -1660,9 +1664,9 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         </div>
         <p class="coef-err" id="spErr">—</p>
         <div class="case-banner cn" id="spCase">—</div>
-        <div class="tabs" style="margin-top:.6rem">
-          <button class="tab active" data-met2="graf">Grafico</button>
-          <button class="tab" data-met2="sost">Sostituzione</button>
+        <div class="tabs" role="tablist" style="margin-top:.6rem">
+          <button class="tab active" role="tab" aria-selected="true" data-met2="graf">Grafico</button>
+          <button class="tab" role="tab" aria-selected="false" data-met2="sost">Sostituzione</button>
         </div>
         <div id="spSteps"></div>
       </div>
@@ -1672,9 +1676,9 @@ footer{border-top:1px solid var(--border);background:var(--surface);
   <p class="sec-label">Prova tu</p>
   <div class="card">
     <h2>Palestra di autovalutazione</h2>
-    <div class="tabs">
-      <button class="tab active" data-qtab="sist_t">Quiz di teoria (10)</button>
-      <button class="tab" data-qtab="sisc">Quiz di calcolo (10)</button>
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true" data-qtab="sist_t">Quiz di teoria (10)</button>
+      <button class="tab" role="tab" aria-selected="false" data-qtab="sisc">Quiz di calcolo (10)</button>
     </div>
     <div class="quiz" id="qz-sist_t" data-quiz="sist_t"></div>
     <div class="quiz" id="qz-sisc" data-quiz="sisc" hidden></div>
@@ -2368,7 +2372,7 @@ let slMethod='graf',spMethod='graf';
 $$('.tabs').forEach(tb=>{
   tb.addEventListener('click',e=>{
     const btn=e.target.closest('.tab');if(!btn)return;
-    tb.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));
+    tb.querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',t===btn);t.setAttribute('aria-selected',t===btn);});
     if(btn.dataset.qtab){
       const card=tb.closest('.card');
       card.querySelectorAll('.quiz').forEach(qz=>{qz.hidden=qz.dataset.quiz!==btn.dataset.qtab});
@@ -2601,7 +2605,7 @@ window.addEventListener('resize',()=>{
   clearTimeout(rszT);rszT=setTimeout(redrawVisible,120);
 });
 const BAND='rgba(37,99,235,.08)';
-const COLPOS='#10b981',COLNEG='#ef4444',COLP='#2563eb',COLA='#f59e0b',COLS='#10b981';
+const COLPOS='#1d70bf',COLNEG='#d97706',COLP='#2563eb',COLA='#f59e0b',COLS='#1d70bf';
 
 /* ================================================================
    SIMULAZIONE: bilancia animata
@@ -3541,7 +3545,7 @@ spUpdate();
 
   $('#litEqTabs').addEventListener('click',e=>{
     const btn=e.target.closest('.tab');if(!btn||!btn.dataset.lit)return;
-    $('#litEqTabs').querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));
+    $('#litEqTabs').querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',t===btn);t.setAttribute('aria-selected',t===btn);});
     currentEq=btn.dataset.lit;
     litUpdate();
   });
@@ -3619,7 +3623,7 @@ spUpdate();
   }
   $('#lit2Tabs').addEventListener('click',e=>{
     const btn=e.target.closest('.tab');if(!btn||!btn.dataset.lit2)return;
-    $('#lit2Tabs').querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));
+    $('#lit2Tabs').querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',t===btn);t.setAttribute('aria-selected',t===btn);});
     cur=btn.dataset.lit2;setAcc();run();
   });
   $('#lit2Btn').addEventListener('click',run);

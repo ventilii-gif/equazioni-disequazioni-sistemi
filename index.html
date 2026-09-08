@@ -607,8 +607,16 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     <p class="lead">Equazioni intere a coefficienti numerici: principi di equivalenza, metodo della bilancia, procedura risolutiva e verifica della soluzione.</p>
   </div>
 
-  <p class="sec-label">Teoria</p>
-  <div class="card">
+  
+
+  <nav class="sec-tabs" role="tablist" aria-label="Sezioni">
+    <button class="sec-tab active" data-sectab="teoria" role="tab" aria-selected="true">Teoria</button>
+    <button class="sec-tab" data-sectab="sim" role="tab" aria-selected="false">Simulazione</button>
+    <button class="sec-tab" data-sectab="quiz" role="tab" aria-selected="false">Quiz</button>
+  </nav>
+
+  <div class="sec-panel" data-sectab="teoria">
+    <div class="card">
     <div class="accordion">
 
       <details open>
@@ -711,9 +719,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
 
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Simulazione · Bilancia animata</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="sim" hidden>
+    <div class="card">
     <h2>Risolvi con la bilancia</h2>
     <p class="lead">Ogni piatto rappresenta un membro dell’equazione: i blocchi blu valgono
        <strong>x</strong>, i gettoni arancioni valgono <strong>1</strong>. Applica le operazioni
@@ -760,9 +769,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     </div>
     <div id="rsOut"></div>
   </div>
+  </div>
 
-  <p class="sec-label">Prova tu</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="quiz" hidden>
+    <div class="card">
     <h2>Palestra di autovalutazione</h2>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" aria-selected="true" data-qtab="eq1t" data-card="eq1">Quiz di teoria (10)</button>
@@ -771,18 +781,23 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     <div class="quiz" id="qz-eq1t" data-quiz="eq1t"></div>
     <div class="quiz" id="qz-eq1c" data-quiz="eq1c" hidden></div>
   </div>
-</section>
-<!-- ============================================================
-     EQUAZIONI LETTERALI DI 1° GRADO
-============================================================ -->
-<section class="scene" id="eq1lit">
+  </div>
+</section><section class="scene" id="eq1lit">
   <div class="page-head">
     <h2>Equazioni letterali di 1° grado</h2>
     <p class="lead">Coefficienti con un parametro: la discussione sistematica rivela quando l'equazione è determinata, indeterminata o impossibile.</p>
   </div>
 
-  <p class="sec-label">Teoria</p>
-  <div class="card">
+  
+
+  <nav class="sec-tabs" role="tablist" aria-label="Sezioni">
+    <button class="sec-tab active" data-sectab="teoria" role="tab" aria-selected="true">Teoria</button>
+    <button class="sec-tab" data-sectab="sim" role="tab" aria-selected="false">Simulazione</button>
+    <button class="sec-tab" data-sectab="quiz" role="tab" aria-selected="false">Quiz</button>
+  </nav>
+
+  <div class="sec-panel" data-sectab="teoria">
+    <div class="card">
     <div class="accordion">
 
       <details open>
@@ -895,9 +910,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
 
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Simulazione · Discussione del parametro</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="sim" hidden>
+    <div class="card">
     <h2>Effetto di k sul coefficiente di x</h2>
     <p class="lead">Scegli un'equazione e inserisci il valore di k: il coefficiente di x lampeggia finché k non lo annulla, mostrando quale caso si presenta.</p>
     <div class="sim-layout">
@@ -920,9 +936,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </div>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Prova tu</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="quiz" hidden>
+    <div class="card">
     <h2>Palestra di autovalutazione</h2>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" aria-selected="true" data-qtab="lit_t">Quiz di teoria (10)</button>
@@ -931,18 +948,23 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     <div class="quiz" id="qz-lit_t" data-quiz="lit_t"></div>
     <div class="quiz" id="qz-lit_c" data-quiz="lit_c" hidden></div>
   </div>
-</section>
-<!-- ============================================================
-     EQUAZIONI DI SECONDO GRADO
-============================================================ -->
-<section class="scene" id="eq2">
+  </div>
+</section><section class="scene" id="eq2">
   <div class="page-head">
     <h2>Equazioni di secondo grado</h2>
     <p class="lead">Dalla forma normale alla formula risolutiva con il completamento del quadrato; il ruolo del discriminante e l’interpretazione grafica con la parabola.</p>
   </div>
 
-  <p class="sec-label">Teoria</p>
-  <div class="card">
+  
+
+  <nav class="sec-tabs" role="tablist" aria-label="Sezioni">
+    <button class="sec-tab active" data-sectab="teoria" role="tab" aria-selected="true">Teoria</button>
+    <button class="sec-tab" data-sectab="sim" role="tab" aria-selected="false">Simulazione</button>
+    <button class="sec-tab" data-sectab="quiz" role="tab" aria-selected="false">Quiz</button>
+  </nav>
+
+  <div class="sec-panel" data-sectab="teoria">
+    <div class="card">
     <div class="accordion">
 
       <details open>
@@ -1061,9 +1083,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
 
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Simulazione · Parabola interattiva</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="sim" hidden>
+    <div class="card">
     <h2>Discriminante e intersezioni con l’asse x</h2>
     <p class="lead">Muovi i coefficienti di y = ax² + bx + c. I punti arancioni sull’asse x sono
        le soluzioni di ax² + bx + c = 0; il punto verde è il vertice.</p>
@@ -1094,9 +1117,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </div>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Prova tu</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="quiz" hidden>
+    <div class="card">
     <h2>Palestra di autovalutazione</h2>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" aria-selected="true" data-qtab="eq2t">Quiz di teoria (10)</button>
@@ -1105,19 +1129,23 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     <div class="quiz" id="qz-eq2t" data-quiz="eq2t"></div>
     <div class="quiz" id="qz-eq2c" data-quiz="eq2c" hidden></div>
   </div>
-</section>
-
-<!-- ============================================================
-     EQUAZIONI LETTERALI DI 2° GRADO
-============================================================ -->
-<section class="scene" id="eq2lit">
+  </div>
+</section><section class="scene" id="eq2lit">
   <div class="page-head">
     <h2>Equazioni letterali di 2° grado</h2>
     <p class="lead">La discussione di un'equazione parametrica di secondo grado: controllo del grado, positività del discriminante, intervallo di accettabilità e ordine delle soluzioni.</p>
   </div>
 
-  <p class="sec-label">Teoria</p>
-  <div class="card">
+  
+
+  <nav class="sec-tabs" role="tablist" aria-label="Sezioni">
+    <button class="sec-tab active" data-sectab="teoria" role="tab" aria-selected="true">Teoria</button>
+    <button class="sec-tab" data-sectab="sim" role="tab" aria-selected="false">Simulazione</button>
+    <button class="sec-tab" data-sectab="quiz" role="tab" aria-selected="false">Quiz</button>
+  </nav>
+
+  <div class="sec-panel" data-sectab="teoria">
+    <div class="card">
     <div class="accordion">
 
       <details open>
@@ -1257,9 +1285,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
 
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Simulazione · Discussione al variare di k</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="sim" hidden>
+    <div class="card">
     <h2>Discussione di un'equazione parametrica</h2>
     <p class="lead">Scegli un'equazione e un valore di k: l'app esegue i quattro controlli. Il coefficiente di x² lampeggia finché k non lo annulla, abbassando il grado.</p>
     <div class="sim-layout">
@@ -1283,9 +1312,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </div>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Prova tu</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="quiz" hidden>
+    <div class="card">
     <h2>Palestra di autovalutazione</h2>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" aria-selected="true" data-qtab="lit2_t">Quiz di teoria (10)</button>
@@ -1294,19 +1324,23 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     <div class="quiz" id="qz-lit2_t" data-quiz="lit2_t"></div>
     <div class="quiz" id="qz-lit2_c" data-quiz="lit2_c" hidden></div>
   </div>
-</section>
-
-<!-- ============================================================
-     DISEQUAZIONI
-============================================================ -->
-<section class="scene" id="diseq">
+  </div>
+</section><section class="scene" id="diseq">
   <div class="page-head">
     <h2>Disequazioni di primo e secondo grado</h2>
     <p class="lead">Lo studio del segno con retta e parabola: zone colorate, regola del verso e intervalli delle soluzioni.</p>
   </div>
 
-  <p class="sec-label">Teoria</p>
-  <div class="card">
+  
+
+  <nav class="sec-tabs" role="tablist" aria-label="Sezioni">
+    <button class="sec-tab active" data-sectab="teoria" role="tab" aria-selected="true">Teoria</button>
+    <button class="sec-tab" data-sectab="sim" role="tab" aria-selected="false">Simulazione</button>
+    <button class="sec-tab" data-sectab="quiz" role="tab" aria-selected="false">Quiz</button>
+  </nav>
+
+  <div class="sec-panel" data-sectab="teoria">
+    <div class="card">
     <div class="accordion">
 
       <details open>
@@ -1408,9 +1442,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
 
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Simulazione · Retta e zone colorate</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="sim" hidden>
+    <div class="card">
     <h2>Disequazioni di primo grado: ax + b ⋛ 0</h2>
     <p class="lead">La retta è colorata di verde dove l’espressione è positiva e di rosso dove è
        negativa. La fascia azzurra e il tratto blu sull’asse x mostrano l’insieme soluzione.</p>
@@ -1485,9 +1520,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </div>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Prova tu</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="quiz" hidden>
+    <div class="card">
     <h2>Palestra di autovalutazione</h2>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" aria-selected="true" data-qtab="dist">Quiz di teoria (10)</button>
@@ -1496,18 +1532,23 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     <div class="quiz" id="qz-dist" data-quiz="dist"></div>
     <div class="quiz" id="qz-disc" data-quiz="disc" hidden></div>
   </div>
-</section>
-<!-- ============================================================
-     SISTEMI DI EQUAZIONI
-============================================================ -->
-<section class="scene" id="sist">
+  </div>
+</section><section class="scene" id="sist">
   <div class="page-head">
     <h2>Sistemi di equazioni</h2>
     <p class="lead">Rette e parabole che si intersecano: soluzione grafica e metodi algebrici — sostituzione, riduzione e Cramer.</p>
   </div>
 
-  <p class="sec-label">Teoria</p>
-  <div class="card">
+  
+
+  <nav class="sec-tabs" role="tablist" aria-label="Sezioni">
+    <button class="sec-tab active" data-sectab="teoria" role="tab" aria-selected="true">Teoria</button>
+    <button class="sec-tab" data-sectab="sim" role="tab" aria-selected="false">Simulazione</button>
+    <button class="sec-tab" data-sectab="quiz" role="tab" aria-selected="false">Quiz</button>
+  </nav>
+
+  <div class="sec-panel" data-sectab="teoria">
+    <div class="card">
     <div class="accordion">
 
       <details open>
@@ -1662,9 +1703,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
 
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Simulazione · Sistema lineare 2×2</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="sim" hidden>
+    <div class="card">
     <h2>Due rette nel piano: quattro metodi a confronto</h2>
     <p class="lead">Inserisci i coefficienti delle due equazioni e confronta i metodi risolutivi.
        Il punto verde sul grafico è la soluzione del sistema.</p>
@@ -1741,9 +1783,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </div>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Prova tu</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="quiz" hidden>
+    <div class="card">
     <h2>Palestra di autovalutazione</h2>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" aria-selected="true" data-qtab="sist_t">Quiz di teoria (10)</button>
@@ -1752,12 +1795,8 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     <div class="quiz" id="qz-sist_t" data-quiz="sist_t"></div>
     <div class="quiz" id="qz-sisc" data-quiz="sisc" hidden></div>
   </div>
-</section>
-
-<!-- ============================================================
-     EQUAZIONI IN MODULO
-============================================================ -->
-<section class="scene" id="eq_mod">
+  </div>
+</section><section class="scene" id="eq_mod">
   <div class="page-head">
     <h2>Equazioni con valori assoluti</h2>
     <p class="lead">Il modulo come distanza dallo zero: scioglimento per casi, equazioni con due moduli e metodo dei punti critici.</p>

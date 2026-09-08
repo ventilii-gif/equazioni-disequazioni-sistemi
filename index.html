@@ -3260,7 +3260,7 @@ function show(id){
   navBtns.forEach(b=>b.classList.toggle('active',b.dataset.target===id));
   if(location.hash!=='#'+id)history.replaceState(null,'','#'+id);
   window.scrollTo(0,0);
-  requestAnimationFrame(redrawVisible);
+  requestAnimationFrame(()=>requestAnimationFrame(redrawVisible));
 }
 navBtns.forEach(b=>b.addEventListener('click',()=>show(b.dataset.target)));
 $$('.home-card').forEach(b=>b.addEventListener('click',()=>show(b.dataset.target)));
@@ -3337,7 +3337,7 @@ function initQuiz(el){
   }
   qHTML();
 }
-$$('.quiz[data-quiz]').forEach(initQuiz);
+$$('.quiz[data-quiz]').forEach(el=>{try{initQuiz(el)}catch(e){console.error('initQuiz',el.dataset.quiz,e)}});
 
 /* ---------------- Grafici su canvas ---------------- */
 function niceStep(v){

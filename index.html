@@ -434,6 +434,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     <button data-target="eq2lit">Eq. 2° letterali</button>
     <button data-target="diseq">Disequazioni</button>
     <button data-target="sist">Sistemi</button>
+    <button data-target="eq_mod">Eq. in modulo</button>
+    <button data-target="eq_irr">Eq. irrazionali</button>
+    <button data-target="diseq_mod">Diseq. in modulo</button>
+    <button data-target="diseq_irr">Diseq. irrazionali</button>
   </div>
 </nav>
 
@@ -449,7 +453,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
        (in schede richiudibili), una o più <strong>simulazioni</strong> da esplorare cambiando i
        parametri, e la palestra <strong>«Prova tu»</strong> con 10 domande di teoria e
        10 esercizi di calcolo a risposta chiusa, con correzione e spiegazione immediate.</p>
-    <div class="chips"><em>Teoria</em><em>Simulazioni interattive</em><em>120 domande con feedback</em><em>Funziona anche da mobile</em></div>
+    <div class="chips"><em>Teoria</em><em>Simulazioni interattive</em><em>200 domande con feedback</em><em>Funziona anche da mobile</em></div>
   </div>
 
   <div class="home-grid">
@@ -515,6 +519,47 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </svg>
       <strong>Sistemi di equazioni</strong>
       <span>Rette e parabole che si intersecano; sostituzione, riduzione, Cramer e metodo grafico.</span>
+    </button>
+    <button class="home-card" data-target="eq_mod">
+      <svg class="ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <text x="4" y="32" font-size="26" font-family="serif" stroke="none" fill="currentColor">|</text>
+        <text x="9" y="32" font-size="20" font-family="serif" stroke="none" fill="currentColor" font-style="italic">x</text>
+        <text x="20" y="32" font-size="26" font-family="serif" stroke="none" fill="currentColor">|</text>
+        <path d="M28 28h16M28 20h16" stroke="#f59e0b" stroke-width="2.6"/>
+      </svg>
+      <strong>Equazioni in modulo</strong>
+      <span>Valore assoluto, scioglimento per casi, più moduli e metodo dei punti critici.</span>
+    </button>
+    <button class="home-card" data-target="eq_irr">
+      <svg class="ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 32l6-12 6 16 6-28"/>
+        <path d="M22 8h22" stroke-width="2"/>
+        <path d="M22 20h22"/>
+        <circle cx="38" cy="20" r="3.5" fill="#2563eb" stroke="none"/>
+      </svg>
+      <strong>Equazioni irrazionali</strong>
+      <span>Condizioni di esistenza, elevazione al quadrato, soluzioni estranee e verifica.</span>
+    </button>
+    <button class="home-card" data-target="diseq_mod">
+      <svg class="ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <text x="3" y="30" font-size="24" font-family="serif" stroke="none" fill="currentColor">|</text>
+        <text x="8" y="30" font-size="18" font-family="serif" stroke="none" fill="currentColor" font-style="italic">x</text>
+        <text x="18" y="30" font-size="24" font-family="serif" stroke="none" fill="currentColor">|</text>
+        <path d="M26 22l4 6-4 6" stroke="#f59e0b" stroke-width="2.6"/>
+        <path d="M33 28h12"/>
+      </svg>
+      <strong>Disequazioni in modulo</strong>
+      <span>|f(x)| &lt; k e |f(x)| &gt; k: interpretazione geometrica e risoluzione per casi.</span>
+    </button>
+    <button class="home-card" data-target="diseq_irr">
+      <svg class="ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 32l5-10 5 14 5-26"/>
+        <path d="M19 10h20" stroke-width="2"/>
+        <path d="M26 22l4 6-4 6" stroke="#f59e0b" stroke-width="2.6"/>
+        <path d="M33 28h12"/>
+      </svg>
+      <strong>Disequazioni irrazionali</strong>
+      <span>√f(x) ⋛ g(x): dominio, casi in base al segno di g(x) e soluzioni per intervalli.</span>
     </button>
   </div>
 
@@ -1685,6 +1730,679 @@ footer{border-top:1px solid var(--border);background:var(--surface);
   </div>
 </section>
 
+<!-- ============================================================
+     EQUAZIONI IN MODULO
+============================================================ -->
+<section class="scene" id="eq_mod">
+  <div class="page-head">
+    <h2>Equazioni con valori assoluti</h2>
+    <p class="lead">Il modulo come distanza dallo zero: scioglimento per casi, equazioni con due moduli e metodo dei punti critici.</p>
+  </div>
+
+  <p class="sec-label">Teoria</p>
+  <div class="card">
+    <div class="accordion">
+      <details open>
+        <summary>Definizione e proprietà del valore assoluto</summary>
+        <div class="acc-body">
+          <p>Il <strong>valore assoluto</strong> (o modulo) di un reale x è</p>
+          <div class="formula center">|x| = x &nbsp;se x ≥ 0 &nbsp;;&nbsp; |x| = −x &nbsp;se x &lt; 0</div>
+          <p>Geometricamente |x| è la <strong>distanza di x dallo zero</strong> sulla retta dei numeri. Proprietà essenziali:</p>
+          <ul>
+            <li>|x| ≥ 0 per ogni x ∈ ℝ; &nbsp;|x| = 0 ⟺ x = 0</li>
+            <li>|−x| = |x|; &nbsp; |x·y| = |x|·|y|; &nbsp; |x/y| = |x|/|y| &nbsp;(y ≠ 0)</li>
+            <li><strong>Disuguaglianza triangolare:</strong> |x + y| ≤ |x| + |y|</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>Equazione con un modulo: |f(x)| = c</summary>
+        <div class="acc-body">
+          <p>Se c è una costante:</p>
+          <ul>
+            <li>Se <strong>c &lt; 0</strong>: nessuna soluzione (il modulo è sempre ≥ 0).</li>
+            <li>Se <strong>c = 0</strong>: f(x) = 0.</li>
+            <li>Se <strong>c &gt; 0</strong>: si ottengono due equazioni lineari:</li>
+          </ul>
+          <div class="formula center">|f(x)| = c &nbsp;⟺&nbsp; f(x) = c &nbsp;∨&nbsp; f(x) = −c</div>
+          <div class="formula">Esempio: |2x − 1| = 5 &nbsp;⟹&nbsp; 2x−1 = 5 &nbsp;∨&nbsp; 2x−1 = −5<br>
+            x = 3 &nbsp;∨&nbsp; x = −2</div>
+        </div>
+      </details>
+      <details>
+        <summary>Equazione |f(x)| = g(x) (secondo membro lineare)</summary>
+        <div class="acc-body">
+          <p>Quando il secondo membro non è una costante, si procede ugualmente per casi, ma occorre <strong>verificare</strong> che le soluzioni soddisfino g(x) ≥ 0 (condizione necessaria, perché il primo membro è ≥ 0).</p>
+          <div class="formula">|f(x)| = g(x) &nbsp;⟺&nbsp; [f(x) = g(x) ∨ f(x) = −g(x)] &nbsp;con verifica g(x) ≥ 0</div>
+          <div class="formula">Esempio: |x + 3| = 2x &nbsp;⟹&nbsp;<br>
+            Caso 1: x+3 = 2x → x = 3 &nbsp;(verifica: 2·3 = 6 ≥ 0 ✓)<br>
+            Caso 2: x+3 = −2x → 3x = −3 → x = −1 &nbsp;(verifica: 2·(−1) = −2 &lt; 0 ✗, estranea)<br>
+            S = { 3 }</div>
+        </div>
+      </details>
+      <details>
+        <summary>Equazione con due moduli e metodo dei punti critici</summary>
+        <div class="acc-body">
+          <p><strong>|f(x)| = |g(x)|</strong>: il modulo è uguale per entrambi i membri, nessuna condizione aggiuntiva:</p>
+          <div class="formula center">|f(x)| = |g(x)| &nbsp;⟺&nbsp; f(x) = g(x) &nbsp;∨&nbsp; f(x) = −g(x)</div>
+          <p>Per equazioni con <strong>più moduli</strong> (es. |ax+b| + |cx+d| = k), si usa il <strong>metodo dei punti critici</strong>:</p>
+          <ol>
+            <li>Trova le radici di ogni polinomio dentro un modulo (punti critici).</li>
+            <li>I punti critici dividono ℝ in intervalli: in ciascuno i segni sono determinati.</li>
+            <li>In ogni intervallo sostituisci i moduli con il segno corretto e risolvi.</li>
+            <li>Tieni solo le soluzioni che <strong>appartengono all'intervallo</strong> in esame.</li>
+          </ol>
+          <div class="formula">Esempio: |x+1| + |x−2| = 5 &nbsp;(punti critici: −1 e 2)<br>
+            x &lt; −1: −(x+1)−(x−2) = 5 → x = −2 ✓<br>
+            −1 ≤ x &lt; 2: (x+1)−(x−2) = 3 ≠ 5 → ∅<br>
+            x ≥ 2: (x+1)+(x−2) = 5 → x = 3 ✓<br>
+            S = { −2 ; 3 }</div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <p class="sec-label">Simulazione · |ax + b| = c oppure |ax + b| = |px + q|</p>
+  <div class="card">
+    <h2>Risolvi l'equazione in modulo</h2>
+    <p class="lead">Il grafico mostra y = |ax+b| (blu) e il secondo membro (arancio). I punti verdi sono le soluzioni.</p>
+    <div class="sim-layout">
+      <div class="sim-pane">
+        <div class="eq-display" id="emEq">—</div>
+        <canvas class="plot" id="emPlot" role="img" aria-label="Grafico equazione in modulo"></canvas>
+        <div class="legend">
+          <span><i style="background:#2563eb"></i> y = |ax+b|</span>
+          <span><i style="background:#f59e0b"></i> secondo membro</span>
+          <span><i style="background:#10b981"></i> soluzioni</span>
+        </div>
+      </div>
+      <div class="ctrl-pane">
+        <div class="tabs" id="emTypeTabs" style="margin-bottom:.7rem">
+          <button class="tab active" data-emtype="cst">|ax+b| = c</button>
+          <button class="tab" data-emtype="abs">|ax+b| = |px+q|</button>
+        </div>
+        <div class="coef-grid">
+          <div class="coef"><label for="emA">a</label><input type="number" id="emA" value="2" step="1"></div>
+          <div class="coef"><label for="emB">b</label><input type="number" id="emB" value="-1" step="1"></div>
+          <div class="coef" id="emCWrap"><label for="emC">c</label><input type="number" id="emC" value="3" step="1"></div>
+          <div class="coef" id="emPWrap" hidden><label for="emP">p</label><input type="number" id="emP" value="1" step="1"></div>
+          <div class="coef" id="emQWrap" hidden><label for="emQ">q</label><input type="number" id="emQ" value="2" step="1"></div>
+        </div>
+        <div id="emSteps"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-label">Esercizi guidati</p>
+  <div class="card">
+    <h2>Esempi svolti passo per passo</h2>
+    <div class="accordion">
+      <details>
+        <summary>Esercizio 1 · |2x − 3| = 7</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>Il secondo membro è 7 &gt; 0 → si procede con due casi.
+              <span class="step-note">Se fosse &lt; 0, non ci sarebbero soluzioni.</span></li>
+            <li><b>Caso 1:</b> <span class="eqline">2x − 3 = 7 → 2x = 10 → x = 5</span></li>
+            <li><b>Caso 2:</b> <span class="eqline">2x − 3 = −7 → 2x = −4 → x = −2</span></li>
+            <li>Verifica: |2·5−3| = |7| = 7 ✓ &nbsp;; &nbsp;|2·(−2)−3| = |−7| = 7 ✓</li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = { −2 ; 5 }</span></div>
+        </div>
+      </details>
+      <details>
+        <summary>Esercizio 2 · |x + 4| = 2x − 1 (secondo membro lineare)</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li><b>Caso 1:</b> <span class="eqline">x + 4 = 2x − 1 → x = 5</span><br>
+              Verifica: 2·5−1 = 9 ≥ 0 ✓ &nbsp;; &nbsp;|9| = 9 ✓</li>
+            <li><b>Caso 2:</b> <span class="eqline">x + 4 = −(2x−1) = −2x+1 → 3x = −3 → x = −1</span><br>
+              Verifica: 2·(−1)−1 = −3 &lt; 0 → <strong>soluzione estranea</strong>, scartata.</li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = { 5 }</span></div>
+        </div>
+      </details>
+      <details>
+        <summary>Esercizio 3 · |3x − 1| = |x + 5|</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>Con due moduli uguali: |A| = |B| ⟺ A = B oppure A = −B</li>
+            <li><b>Caso 1:</b> <span class="eqline">3x−1 = x+5 → 2x = 6 → x = 3</span></li>
+            <li><b>Caso 2:</b> <span class="eqline">3x−1 = −(x+5) = −x−5 → 4x = −4 → x = −1</span></li>
+            <li>Nessuna verifica aggiuntiva necessaria (entrambi i membri sono moduli).</li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = { −1 ; 3 }</span></div>
+        </div>
+      </details>
+      <details>
+        <summary>Esercizio 4 · |x − 1| + |x + 3| = 6 (somma di moduli)</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>Punti critici: x = 1 (da |x−1|) e x = −3 (da |x+3|) → tre intervalli.</li>
+            <li><b>I · x &lt; −3:</b> <span class="eqline">−(x−1)−(x+3) = 6 → −2x−2 = 6 → x = −4 ✓</span></li>
+            <li><b>II · −3 ≤ x &lt; 1:</b> <span class="eqline">−(x−1)+(x+3) = 4 ≠ 6 → ∅</span>
+              <span class="step-note">La somma è costante 4 in tutto l'intervallo.</span></li>
+            <li><b>III · x ≥ 1:</b> <span class="eqline">(x−1)+(x+3) = 6 → 2x+2 = 6 → x = 2 ✓</span></li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = { −4 ; 2 }</span></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <p class="sec-label">Prova tu</p>
+  <div class="card">
+    <h2>Palestra di autovalutazione</h2>
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true" data-qtab="emod_t">Quiz di teoria (10)</button>
+      <button class="tab" role="tab" aria-selected="false" data-qtab="emod_c">Quiz di calcolo (10)</button>
+    </div>
+    <div class="quiz" id="qz-emod_t" data-quiz="emod_t"></div>
+    <div class="quiz" id="qz-emod_c" data-quiz="emod_c" hidden></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EQUAZIONI IRRAZIONALI
+============================================================ -->
+<section class="scene" id="eq_irr">
+  <div class="page-head">
+    <h2>Equazioni irrazionali</h2>
+    <p class="lead">Radicali con l'incognita: condizioni di esistenza, elevazione al quadrato e controllo delle soluzioni estranee.</p>
+  </div>
+
+  <p class="sec-label">Teoria</p>
+  <div class="card">
+    <div class="accordion">
+      <details open>
+        <summary>Definizione e condizione di esistenza (CE)</summary>
+        <div class="acc-body">
+          <p>Un'<strong>equazione irrazionale</strong> è un'equazione in cui l'incognita compare
+             sotto un segno di radice (quadrata). La <strong>condizione di esistenza</strong> richiede
+             che il radicando sia non negativo:</p>
+          <div class="formula center">CE: &nbsp;f(x) ≥ 0 &nbsp;(radicando ≥ 0)</div>
+          <p>Solo i valori di x che soddisfano la CE possono essere soluzioni. La CE deve essere
+             verificata <em>prima</em> o <em>insieme alla</em> risoluzione.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Equazione con un radicale: √f(x) = g(x)</summary>
+        <div class="acc-body">
+          <p>Metodo di risoluzione:</p>
+          <ol>
+            <li>Scrivi la CE: f(x) ≥ 0.</li>
+            <li>Aggiungi la condizione necessaria: g(x) ≥ 0 (il secondo membro deve essere ≥ 0).</li>
+            <li>Eleva al quadrato entrambi i membri: f(x) = [g(x)]².</li>
+            <li>Risolvi l'equazione risultante.</li>
+            <li><strong>Verifica</strong> ogni soluzione nella CE e nel secondo membro ≥ 0: le soluzioni che non soddisfano sono <em>estranee</em>.</li>
+          </ol>
+          <div class="formula">Esempio: √(x+5) = x−1<br>
+            CE: x+5 ≥ 0 → x ≥ −5; &nbsp; cond.: x−1 ≥ 0 → x ≥ 1<br>
+            Quadrato: x+5 = (x−1)² = x²−2x+1 → x²−3x−4 = 0 → x = 4 ∨ x = −1<br>
+            Verifica: x = 4 ≥ 1 ✓ ; &nbsp; x = −1 &lt; 1 → estranea<br>
+            S = { 4 }</div>
+        </div>
+      </details>
+      <details>
+        <summary>Soluzioni estranee: perché si introducono?</summary>
+        <div class="acc-body">
+          <p>L'operazione di elevamento al quadrato <strong>non è un'equivalenza</strong>: può
+             introdurre soluzioni dell'equazione quadratica che <em>non</em> soddisfano quella
+             originale. Questo accade perché:</p>
+          <ul>
+            <li>l'equazione a² = b² equivale a <strong>|a| = |b|</strong>, non ad a = b;</li>
+            <li>se g(x₀) &lt; 0, allora √f(x₀) ≠ g(x₀) (un radicale è sempre ≥ 0).</li>
+          </ul>
+          <div class="note-err"><strong>Regola d'oro:</strong> dopo aver risolto l'equazione quadratica, verifica ogni soluzione nell'equazione originale (o almeno nel secondo membro ≥ 0). Non saltare questo passaggio.</div>
+        </div>
+      </details>
+      <details>
+        <summary>Equazione con due radicali: √f(x) = √g(x) + h(x)</summary>
+        <div class="acc-body">
+          <p>Quando compaiono due radicali, isola un radicale per volta:</p>
+          <ol>
+            <li>Scrivi le CE: f(x) ≥ 0 e g(x) ≥ 0.</li>
+            <li>Porta un radicale isolato a sinistra, il resto a destra.</li>
+            <li>Eleva al quadrato: il membro sinistro perde il radicale; il destro può contenere ancora un radicale.</li>
+            <li>Ripeti se necessario.</li>
+            <li>Verifica le soluzioni ottenute.</li>
+          </ol>
+          <div class="formula">Esempio: √(x+4) = √(2x−1)<br>
+            CE: x ≥ −4 e x ≥ 1/2 → x ≥ 1/2<br>
+            Quadrato: x+4 = 2x−1 → x = 5 ✓ &nbsp;&nbsp; S = { 5 }</div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <p class="sec-label">Simulazione · √(ax + b) = cx + d</p>
+  <div class="card">
+    <h2>Risolvi l'equazione irrazionale</h2>
+    <p class="lead">Il grafico mostra y = √(ax+b) (blu) e y = cx+d (arancio). Le soluzioni valide (che soddisfano le CE) sono marcate in verde.</p>
+    <div class="sim-layout">
+      <div class="sim-pane">
+        <div class="eq-display" id="eiEq">—</div>
+        <canvas class="plot" id="eiPlot" role="img" aria-label="Grafico equazione irrazionale"></canvas>
+        <div class="legend">
+          <span><i style="background:#2563eb"></i> y = √(ax+b)</span>
+          <span><i style="background:#f59e0b"></i> y = cx+d</span>
+          <span><i style="background:#10b981"></i> soluzioni valide</span>
+          <span><i style="background:#ef4444"></i> soluzioni estranee</span>
+        </div>
+      </div>
+      <div class="ctrl-pane">
+        <div class="coef-grid">
+          <div class="coef"><label for="eiA">a</label><input type="number" id="eiA" value="1" step="1"></div>
+          <div class="coef"><label for="eiB">b</label><input type="number" id="eiB" value="-1" step="1"></div>
+          <div class="coef"><label for="eiC">c</label><input type="number" id="eiC" value="1" step="1"></div>
+          <div class="coef"><label for="eiD">d</label><input type="number" id="eiD" value="-1" step="1"></div>
+        </div>
+        <div id="eiSteps"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-label">Esercizi guidati</p>
+  <div class="card">
+    <h2>Esempi svolti passo per passo</h2>
+    <div class="accordion">
+      <details>
+        <summary>Esercizio 1 · √(2x + 3) = 3</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>CE: 2x+3 ≥ 0 → x ≥ −3/2. Secondo membro 3 ≥ 0 ✓</li>
+            <li>Elevo al quadrato: <span class="eqline">2x+3 = 9 → 2x = 6 → x = 3</span></li>
+            <li>Verifica: x = 3 ≥ −3/2 ✓; √(2·3+3) = √9 = 3 ✓</li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = { 3 }</span></div>
+        </div>
+      </details>
+      <details>
+        <summary>Esercizio 2 · √(x + 5) = x − 1 (soluzione estranea)</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>CE: x+5 ≥ 0 → x ≥ −5; &nbsp; cond.: x−1 ≥ 0 → x ≥ 1</li>
+            <li>Elevo al quadrato: <span class="eqline">x+5 = (x−1)² = x²−2x+1</span><br>
+              <span class="eqline">x²−3x−4 = 0 → (x−4)(x+1) = 0 → x = 4 ∨ x = −1</span></li>
+            <li>Verifica: x = 4 ≥ 1 ✓ &nbsp;; &nbsp; x = −1 &lt; 1 → <strong>estranea</strong></li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = { 4 }</span></div>
+        </div>
+      </details>
+      <details>
+        <summary>Esercizio 3 · √(2x + 1) = √(x + 4)</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>CE: 2x+1 ≥ 0 → x ≥ −1/2; &nbsp; x+4 ≥ 0 → x ≥ −4 &nbsp;→ &nbsp;x ≥ −1/2</li>
+            <li>Elevo al quadrato: <span class="eqline">2x+1 = x+4 → x = 3</span></li>
+            <li>Verifica: x = 3 ≥ −1/2 ✓; √7 = √7 ✓</li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = { 3 }</span></div>
+        </div>
+      </details>
+      <details>
+        <summary>Esercizio 4 · √(x + 12) = x (secondo membro lineare con CE incrociata)</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>CE: x+12 ≥ 0 → x ≥ −12; &nbsp; cond.: x ≥ 0 (secondo membro ≥ 0)</li>
+            <li>Elevo al quadrato: <span class="eqline">x+12 = x² → x²−x−12 = 0</span><br>
+              <span class="eqline">(x−4)(x+3) = 0 → x = 4 ∨ x = −3</span></li>
+            <li>Verifica: x = 4 ≥ 0 ✓; √16 = 4 ✓ &nbsp;; &nbsp; x = −3 &lt; 0 → <strong>estranea</strong></li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = { 4 }</span></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <p class="sec-label">Prova tu</p>
+  <div class="card">
+    <h2>Palestra di autovalutazione</h2>
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true" data-qtab="eirr_t">Quiz di teoria (10)</button>
+      <button class="tab" role="tab" aria-selected="false" data-qtab="eirr_c">Quiz di calcolo (10)</button>
+    </div>
+    <div class="quiz" id="qz-eirr_t" data-quiz="eirr_t"></div>
+    <div class="quiz" id="qz-eirr_c" data-quiz="eirr_c" hidden></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DISEQUAZIONI IN MODULO
+============================================================ -->
+<section class="scene" id="diseq_mod">
+  <div class="page-head">
+    <h2>Disequazioni con valori assoluti</h2>
+    <p class="lead">|f(x)| &lt; k e |f(x)| &gt; k: interpretazione geometrica come distanza e risoluzione per casi.</p>
+  </div>
+
+  <p class="sec-label">Teoria</p>
+  <div class="card">
+    <div class="accordion">
+      <details open>
+        <summary>Interpretazione geometrica: distanza dallo zero</summary>
+        <div class="acc-body">
+          <p>Poiché |x − a| è la <strong>distanza di x dal punto a</strong>, le disequazioni con modulo hanno una lettura immediata sulla retta:</p>
+          <ul>
+            <li>|x| &lt; k (k &gt; 0): x si trova a distanza &lt; k dallo 0 → <span class="eqline">−k &lt; x &lt; k</span></li>
+            <li>|x| &gt; k (k &gt; 0): x si trova a distanza &gt; k dallo 0 → <span class="eqline">x &lt; −k ∨ x &gt; k</span></li>
+            <li>|x − a| &lt; r: intervallo centrato in a di raggio r → <span class="eqline">(a−r ; a+r)</span></li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>|f(x)| &lt; k e |f(x)| ≤ k (disequazione &laquo;stretta&raquo; e &laquo;larga&raquo;)</summary>
+        <div class="acc-body">
+          <div class="formula center">|f(x)| &lt; k &nbsp;⟺&nbsp; −k &lt; f(x) &lt; k &nbsp;&nbsp; (con k &gt; 0)</div>
+          <p>La soluzione è un intervallo <strong>aperto</strong> (o chiuso con ≤):</p>
+          <div class="formula">Esempio: |2x − 1| &lt; 5<br>
+            −5 &lt; 2x−1 &lt; 5 → −4 &lt; 2x &lt; 6 → −2 &lt; x &lt; 3<br>
+            S = (−2 ; 3)</div>
+          <div class="note-warn">Se k ≤ 0: <br>
+            k &lt; 0 → S = ∅ (il modulo è sempre ≥ 0 &gt; k); &nbsp; k = 0 → |f(x)| ≤ 0 ⟺ f(x) = 0.</div>
+        </div>
+      </details>
+      <details>
+        <summary>|f(x)| &gt; k e |f(x)| ≥ k (disequazione &laquo;esterna&raquo;)</summary>
+        <div class="acc-body">
+          <div class="formula center">|f(x)| &gt; k &nbsp;⟺&nbsp; f(x) &lt; −k &nbsp;∨&nbsp; f(x) &gt; k &nbsp;&nbsp; (con k &gt; 0)</div>
+          <p>La soluzione è l'<strong>unione di due semirette</strong>:</p>
+          <div class="formula">Esempio: |3x + 2| ≥ 4<br>
+            3x+2 ≤ −4 → x ≤ −2 &nbsp; ∨ &nbsp; 3x+2 ≥ 4 → x ≥ 2/3<br>
+            S = (−∞; −2] ∪ [2/3; +∞)</div>
+          <div class="note-ok">Se k &lt; 0: |f(x)| &gt; k è sempre vera (S = ℝ), perché il modulo è sempre ≥ 0 &gt; k.</div>
+        </div>
+      </details>
+      <details>
+        <summary>Disequazioni con più moduli: metodo dei punti critici</summary>
+        <div class="acc-body">
+          <p>Per disequazioni del tipo |f(x)| &gt; |g(x)| o con somme di moduli, si usa lo stesso
+             <strong>metodo dei punti critici</strong> delle equazioni:</p>
+          <ol>
+            <li>Trova i punti critici (radici dei polinomi dentro i moduli).</li>
+            <li>In ogni intervallo, sostituisci i moduli con il segno noto e risolvi la disequazione lineare.</li>
+            <li>Interseca la soluzione trovata con l'intervallo in esame.</li>
+            <li>Unisci tutte le soluzioni parziali.</li>
+          </ol>
+          <div class="formula">Esempio: |x| &gt; 2x−1<br>
+            Punto critico: x = 0.<br>
+            x ≥ 0: x &gt; 2x−1 → 1 &gt; x → 0 ≤ x &lt; 1<br>
+            x &lt; 0: −x &gt; 2x−1 → 1 &gt; 3x → x &lt; 1/3 → x &lt; 0 ✓<br>
+            S = (−∞; 1) = (−∞; 0) ∪ [0; 1)</div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <p class="sec-label">Simulazione · |ax + b| ⋛ c</p>
+  <div class="card">
+    <h2>Disequazione in modulo con costante</h2>
+    <p class="lead">La zona colorata indica dove |ax+b| è maggiore (arancio) o minore (blu) di c. L'intervallo soluzione è evidenziato sull'asse x.</p>
+    <div class="sim-layout">
+      <div class="sim-pane">
+        <div class="eq-display" id="dmEq">—</div>
+        <canvas class="plot" id="dmPlot" role="img" aria-label="Grafico disequazione in modulo"></canvas>
+        <div class="legend">
+          <span><i style="background:#2563eb"></i> y = |ax+b|</span>
+          <span><i style="background:#f59e0b"></i> y = c</span>
+          <span><i style="background:#10b981"></i> insieme soluzione</span>
+        </div>
+      </div>
+      <div class="ctrl-pane">
+        <div class="coef-grid">
+          <div class="coef"><label for="dmA">a</label><input type="number" id="dmA" value="2" step="1"></div>
+          <div class="coef"><label for="dmB">b</label><input type="number" id="dmB" value="-1" step="1"></div>
+          <div class="coef"><label for="dmC">c</label><input type="number" id="dmC" value="3" step="1"></div>
+          <div class="coef wide"><label for="dmV">verso</label>
+            <select id="dmV">
+              <option value="lt">&lt; c</option>
+              <option value="le">≤ c</option>
+              <option value="gt">&gt; c</option>
+              <option value="ge">≥ c</option>
+            </select>
+          </div>
+        </div>
+        <p class="strip-title">Segno di |ax+b| − c</p>
+        <div class="sign-strip" id="dmStrip"></div>
+        <div id="dmSol"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-label">Esercizi guidati</p>
+  <div class="card">
+    <h2>Esempi svolti passo per passo</h2>
+    <div class="accordion">
+      <details>
+        <summary>Esercizio 1 · |2x − 1| &lt; 5</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>k = 5 &gt; 0 → applico la regola: −5 &lt; 2x−1 &lt; 5</li>
+            <li>Sommo 1: <span class="eqline">−4 &lt; 2x &lt; 6</span></li>
+            <li>Divido per 2 (positivo, il verso non cambia): <span class="eqline">−2 &lt; x &lt; 3</span></li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = (−2 ; 3)</span></div>
+        </div>
+      </details>
+      <details>
+        <summary>Esercizio 2 · |3x + 2| ≥ 4</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>k = 4 &gt; 0 → due condizioni separate con ∨:<br>
+              <span class="eqline">3x+2 ≤ −4 &nbsp; ∨ &nbsp; 3x+2 ≥ 4</span></li>
+            <li>Primo: <span class="eqline">3x ≤ −6 → x ≤ −2</span></li>
+            <li>Secondo: <span class="eqline">3x ≥ 2 → x ≥ 2/3</span></li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = (−∞; −2] ∪ [2/3; +∞)</span></div>
+        </div>
+      </details>
+      <details>
+        <summary>Esercizio 3 · |x − 3| ≤ 0</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>Il modulo è sempre ≥ 0; quindi |x−3| ≤ 0 ⟺ |x−3| = 0.</li>
+            <li>|x−3| = 0 ⟺ x−3 = 0 ⟺ x = 3</li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = { 3 }</span></div>
+        </div>
+      </details>
+      <details>
+        <summary>Esercizio 4 · |x + 2| &gt; |x − 1| (due moduli, metodo dei punti critici)</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>Punti critici: x = −2 e x = 1 → tre intervalli.</li>
+            <li><b>I · x &lt; −2:</b> <span class="eqline">−(x+2) &gt; −(x−1) → −x−2 &gt; −x+1 → −2 &gt; 1</span> → falso → ∅</li>
+            <li><b>II · −2 ≤ x &lt; 1:</b> <span class="eqline">(x+2) &gt; −(x−1) → x+2 &gt; −x+1 → 2x &gt; −1 → x &gt; −1/2</span><br>
+              Intersezione con [−2; 1): &nbsp; <span class="eqline">−1/2 &lt; x &lt; 1</span></li>
+            <li><b>III · x ≥ 1:</b> <span class="eqline">(x+2) &gt; (x−1) → 2 &gt; −1</span> → sempre vero → <span class="eqline">x ≥ 1</span></li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = (−1/2 ; +∞)</span></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <p class="sec-label">Prova tu</p>
+  <div class="card">
+    <h2>Palestra di autovalutazione</h2>
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true" data-qtab="dmod_t">Quiz di teoria (10)</button>
+      <button class="tab" role="tab" aria-selected="false" data-qtab="dmod_c">Quiz di calcolo (10)</button>
+    </div>
+    <div class="quiz" id="qz-dmod_t" data-quiz="dmod_t"></div>
+    <div class="quiz" id="qz-dmod_c" data-quiz="dmod_c" hidden></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DISEQUAZIONI IRRAZIONALI
+============================================================ -->
+<section class="scene" id="diseq_irr">
+  <div class="page-head">
+    <h2>Disequazioni irrazionali</h2>
+    <p class="lead">√f(x) ⋛ g(x): dominio di esistenza, studio per casi in base al segno di g(x) e soluzioni per intervalli.</p>
+  </div>
+
+  <p class="sec-label">Teoria</p>
+  <div class="card">
+    <div class="accordion">
+      <details open>
+        <summary>Condizione di esistenza e impostazione</summary>
+        <div class="acc-body">
+          <p>Per ogni disequazione irrazionale del tipo √f(x) ⋛ g(x) il <strong>dominio di esistenza</strong>
+             (DE) richiede f(x) ≥ 0. Le soluzioni devono appartenere al DE.</p>
+          <div class="formula center">DE: f(x) ≥ 0</div>
+          <p>Il metodo si divide poi in casi in base al segno di g(x).</p>
+        </div>
+      </details>
+      <details>
+        <summary>√f(x) &gt; g(x): tre casi in base al segno di g(x)</summary>
+        <div class="acc-body">
+          <p>La disequazione √f(x) &gt; g(x) si risolve così:</p>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Condizione su g(x)</th><th>Cosa fare</th><th>Risultato</th></tr>
+            <tr><td class="m">g(x) &lt; 0</td><td>√f(x) ≥ 0 &gt; g(x): sempre vera sul DE</td><td class="m">DE: f(x) ≥ 0</td></tr>
+            <tr><td class="m">g(x) ≥ 0</td><td>Eleva al quadrato (equivalenza valida)</td><td class="m">f(x) &gt; [g(x)]²</td></tr>
+          </table></div>
+          <div class="formula">Esempio: √(x+3) &gt; 2<br>
+            DE: x+3 ≥ 0 → x ≥ −3; &nbsp; g(x) = 2 &gt; 0<br>
+            Elevo: x+3 &gt; 4 → x &gt; 1 &nbsp;(già nel DE)<br>
+            S = (1; +∞)</div>
+        </div>
+      </details>
+      <details>
+        <summary>√f(x) &lt; g(x): sistema con tre condizioni</summary>
+        <div class="acc-body">
+          <p>Affinché √f(x) &lt; g(x) abbia senso, il secondo membro deve essere <strong>strettamente positivo</strong> (il radicale è ≥ 0, quindi deve risultare minore di qualcosa &gt; 0):</p>
+          <div class="formula center">
+            <div class="det">
+              <span>f(x) ≥ 0</span><span>(DE)</span>
+              <span>g(x) &gt; 0</span><span>(necessario)</span>
+              <span>f(x) &lt; [g(x)]²</span><span>(elevando al quadrato)</span>
+            </div>
+          </div>
+          <div class="formula">Esempio: √(2x−1) &lt; 3<br>
+            DE: 2x−1 ≥ 0 → x ≥ 1/2; &nbsp; g = 3 &gt; 0 ✓<br>
+            Elevo: 2x−1 &lt; 9 → x &lt; 5<br>
+            S = [1/2; 5)</div>
+        </div>
+      </details>
+      <details>
+        <summary>√f(x) ⋛ g(x) con g(x) lineare: schema completo</summary>
+        <div class="acc-body">
+          <p>Quando g(x) = cx+d dipende da x, bisogna studiare il segno di g(x) in combinazione con il DE:</p>
+          <div class="formula">Esempio: √(x−1) &gt; x−3<br>
+            DE: x ≥ 1.<br>
+            <b>Caso A</b> (g &lt; 0): x−3 &lt; 0 → x &lt; 3; &nbsp; intersez. DE: 1 ≤ x &lt; 3 → tutto nel DE è soluzione.<br>
+            <b>Caso B</b> (g ≥ 0): x−3 ≥ 0 → x ≥ 3; elevo: x−1 &gt; (x−3)² = x²−6x+9<br>
+            → x²−7x+10 &lt; 0 → (x−2)(x−5) &lt; 0 → 2 &lt; x &lt; 5; &nbsp; intersez. x ≥ 3: 3 ≤ x &lt; 5.<br>
+            S = [1; 5)</div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <p class="sec-label">Simulazione · √(ax + b) ⋛ c</p>
+  <div class="card">
+    <h2>Disequazione irrazionale con costante</h2>
+    <p class="lead">Il grafico mostra y = √(ax+b) (blu) e la soglia y = c (arancio). La zona soluzione sull'asse x è evidenziata in verde.</p>
+    <div class="sim-layout">
+      <div class="sim-pane">
+        <div class="eq-display" id="diEq">—</div>
+        <canvas class="plot" id="diPlot" role="img" aria-label="Grafico disequazione irrazionale"></canvas>
+        <div class="legend">
+          <span><i style="background:#2563eb"></i> y = √(ax+b)</span>
+          <span><i style="background:#f59e0b"></i> y = c</span>
+          <span><i style="background:#10b981"></i> insieme soluzione</span>
+        </div>
+      </div>
+      <div class="ctrl-pane">
+        <div class="coef-grid">
+          <div class="coef"><label for="diA">a</label><input type="number" id="diA" value="1" step="1"></div>
+          <div class="coef"><label for="diB">b</label><input type="number" id="diB" value="-1" step="1"></div>
+          <div class="coef"><label for="diC">c</label><input type="number" id="diC" value="2" step="1"></div>
+          <div class="coef wide"><label for="diV">verso</label>
+            <select id="diV">
+              <option value="lt">&lt; c</option>
+              <option value="le">≤ c</option>
+              <option value="gt">&gt; c</option>
+              <option value="ge">≥ c</option>
+            </select>
+          </div>
+        </div>
+        <p class="strip-title">Dominio e confronto</p>
+        <div class="sign-strip" id="diStrip"></div>
+        <div id="diSol"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-label">Esercizi guidati</p>
+  <div class="card">
+    <h2>Esempi svolti passo per passo</h2>
+    <div class="accordion">
+      <details>
+        <summary>Esercizio 1 · √(x + 3) &gt; 2</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>DE: x+3 ≥ 0 → x ≥ −3; &nbsp; g = 2 &gt; 0 → caso «g positivo».</li>
+            <li>Elevo al quadrato: <span class="eqline">x+3 &gt; 4 → x &gt; 1</span></li>
+            <li>Intersezione con DE: x &gt; 1 (già incluso in x ≥ −3).</li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = (1; +∞)</span></div>
+        </div>
+      </details>
+      <details>
+        <summary>Esercizio 2 · √(2x − 1) ≤ 3</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>DE: 2x−1 ≥ 0 → x ≥ 1/2; &nbsp; g = 3 &gt; 0 → elevo.</li>
+            <li><span class="eqline">2x−1 ≤ 9 → 2x ≤ 10 → x ≤ 5</span></li>
+            <li>Intersezione con DE: <span class="eqline">1/2 ≤ x ≤ 5</span></li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = [1/2; 5]</span></div>
+        </div>
+      </details>
+      <details>
+        <summary>Esercizio 3 · √(x − 1) &gt; x − 3 (g(x) lineare, due casi)</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>DE: x ≥ 1.</li>
+            <li><b>Caso A</b> — g &lt; 0: x−3 &lt; 0 → x &lt; 3; &nbsp; intersezione DE: <span class="eqline">1 ≤ x &lt; 3</span> → tutto soluzione.</li>
+            <li><b>Caso B</b> — g ≥ 0: x−3 ≥ 0 → x ≥ 3; elevo:<br>
+              <span class="eqline">x−1 &gt; (x−3)² = x²−6x+9 → x²−7x+10 &lt; 0 → (x−2)(x−5) &lt; 0 → 2 &lt; x &lt; 5</span><br>
+              Intersezione con x ≥ 3: <span class="eqline">3 ≤ x &lt; 5</span></li>
+            <li>Unione: [1; 3) ∪ [3; 5) = <span class="eqline">[1; 5)</span></li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = [1; 5)</span></div>
+        </div>
+      </details>
+      <details>
+        <summary>Esercizio 4 · √(5 − x) ≥ 1</summary>
+        <div class="acc-body">
+          <ol class="steps">
+            <li>DE: 5−x ≥ 0 → x ≤ 5; &nbsp; g = 1 &gt; 0 → elevo.</li>
+            <li><span class="eqline">5−x ≥ 1 → −x ≥ −4 → x ≤ 4</span></li>
+            <li>Intersezione con DE (x ≤ 5): <span class="eqline">x ≤ 4</span></li>
+          </ol>
+          <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = (−∞; 4]</span></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <p class="sec-label">Prova tu</p>
+  <div class="card">
+    <h2>Palestra di autovalutazione</h2>
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true" data-qtab="dirr_t">Quiz di teoria (10)</button>
+      <button class="tab" role="tab" aria-selected="false" data-qtab="dirr_c">Quiz di calcolo (10)</button>
+    </div>
+    <div class="quiz" id="qz-dirr_t" data-quiz="dirr_t"></div>
+    <div class="quiz" id="qz-dirr_c" data-quiz="dirr_c" hidden></div>
+  </div>
+</section>
+
 </main>
 
 <footer>
@@ -2337,9 +3055,193 @@ lit2_c:[
  {q:'Per l’equazione x² − 2x + k = 0, due soluzioni reali distinte si hanno per…',
   opts:['k > 1','k < 1','k = 1','ogni valore di k'],ans:1,
   exp:'Δ/4 = 1 − k > 0 ⟺ k < 1.'},
- {q:'Nell’equazione (k−3)x² + 2x − 1 = 0, quale valore di k abbassa il grado?',
-  opts:['k = 0','k = 3','k = 1','k = −3'],ans:1,
-  exp:'Il coefficiente di x² è k − 3: si annulla per k = 3, e l’equazione diventa 2x − 1 = 0.'}
+ {q:’Nell’equazione (k−3)x² + 2x − 1 = 0, quale valore di k abbassa il grado?’,
+  opts:[‘k = 0’,’k = 3’,’k = 1’,’k = −3’],ans:1,
+  exp:’Il coefficiente di x² è k − 3: si annulla per k = 3, e l’equazione diventa 2x − 1 = 0.’}
+],
+/* ---------- Equazioni in modulo: teoria ---------- */
+emod_t:[
+ {q:’Quanto vale |−7|?’,opts:[‘7’,’−7’,’49’,’1/7’],ans:0,
+  exp:’Il valore assoluto è sempre non negativo: |−7| = 7.’},
+ {q:’|x| = k ha soluzioni reali quando k è...’,opts:[‘k ≥ 0’,’k > 0’,’k ∈ ℝ’,’k < 0’],ans:0,
+  exp:’|x| = k ha soluzioni se e solo se k ≥ 0: per k = 0 una soluzione (x = 0), per k > 0 due soluzioni.’},
+ {q:’|2x + 1| = −3 ha...’,opts:[‘nessuna soluzione’,’una soluzione’,’due soluzioni’,’infinite soluzioni’],ans:0,
+  exp:’Il modulo è sempre ≥ 0, quindi non può uguagliare un numero negativo: S = ∅.’},
+ {q:’|f(x)| = g(x): condizione affinché esistano soluzioni?’,opts:[‘g(x) ≥ 0’,’g(x) > 0’,’g(x) ≠ 0’,’nessuna’],ans:0,
+  exp:’Il primo membro è sempre ≥ 0, quindi anche il secondo deve esserlo: g(x) ≥ 0.’},
+ {q:’Quante soluzioni ha in genere |ax + b| = c con c > 0 e a ≠ 0?’,opts:[‘2’,’1’,’0’,’dipende’],ans:0,
+  exp:’Per c > 0 si ottengono due equazioni lineari indipendenti, ciascuna con una soluzione.’},
+ {q:’|f(x)| = |g(x)| equivale a...’,opts:[‘f(x) = g(x) oppure f(x) = −g(x)’,’f(x) = g(x)’,’f(x)² = g(x)²’,’f(x) = −g(x)’],ans:0,
+  exp:’|A| = |B| ⟺ A = B ∨ A = −B. Entrambi i casi vanno considerati.’},
+ {q:’Geometricamente, |x − a| rappresenta...’,opts:[‘la distanza di x da a’,’il modulo di a’,’la distanza di x dallo 0’,’x meno a’],ans:0,
+  exp:’|x − a| è la distanza del punto x dal punto a sulla retta dei numeri.’},
+ {q:’|ax + b| = 0 equivale a...’,opts:[‘ax + b = 0’,’ax = b’,’ax + b = a’,’ax + b = b’],ans:0,
+  exp:’Il modulo è nullo solo quando l’argomento è nullo: |ax + b| = 0 ⟺ ax + b = 0.’},
+ {q:’Per risolvere |f(x)| = g(x) con g(x) lineare, occorre...’,opts:[‘risolvere due sistemi e verificare g(x) ≥ 0’,’risolvere solo f(x) = g(x)’,’elevare al quadrato’,’nessuna di queste’],ans:0,
+  exp:’Si ottengono due casi (f = g e f = −g) e si scartano le soluzioni che rendono g(x) < 0.’},
+ {q:’Il metodo dei punti critici serve per...’,opts:[‘equazioni/disequazioni con più moduli’,’equazioni di 2° grado’,’sistemi lineari’,’equazioni irrazionali’],ans:0,
+  exp:’I punti critici sono le radici dei polinomi dentro i moduli; dividono ℝ in intervalli con segni determinati.’}
+],
+/* ---------- Equazioni in modulo: calcolo ---------- */
+emod_c:[
+ {q:’Soluzioni di |x − 2| = 5’,opts:[‘x = 7 oppure x = −3’,’x = 7 oppure x = 3’,’x = 3 oppure x = −7’,’x = −7’],ans:0,
+  exp:’Caso 1: x−2 = 5 → x = 7. Caso 2: x−2 = −5 → x = −3.’},
+ {q:’Soluzioni di |2x + 3| = 7’,opts:[‘x = 2 oppure x = −5’,’x = 5 oppure x = −2’,’x = 2 oppure x = 5’,’x = −5’],ans:0,
+  exp:’Caso 1: 2x+3 = 7 → x = 2. Caso 2: 2x+3 = −7 → x = −5.’},
+ {q:’Soluzioni di |x + 4| = 2x − 1 (con verifica)’,opts:[‘solo x = 5’,’x = 5 e x = −1’,’solo x = −1’,’nessuna’],ans:0,
+  exp:’Caso 1: x+4 = 2x−1 → x = 5 (verifica: 2·5−1 = 9 ≥ 0 ✓). Caso 2: x = −1 (verifica: 2·(−1)−1 = −3 < 0 ✗, estranea).’},
+ {q:’Soluzioni di |3x − 6| = 0’,opts:[‘x = 2’,’x = 0 oppure x = 6’,’x = −2’,’x = 6’],ans:0,
+  exp:’|3x−6| = 0 ⟺ 3x−6 = 0 → x = 2.’},
+ {q:’Soluzioni di |x| = x + 4’,opts:[‘x = −2’,’x = 2 oppure x = −2’,’x = 2’,’nessuna’],ans:0,
+  exp:’Caso 1: x = x+4 → 0 = 4, impossibile. Caso 2: −x = x+4 → x = −2 (verifica: −2+4 = 2 > 0 ✓).’},
+ {q:’Soluzioni di |2x − 1| = |x + 3|’,opts:[‘x = 4 oppure x = −2/3’,’x = 4’,’x = −2/3’,’x = 2 oppure x = 4’],ans:0,
+  exp:’Caso 1: 2x−1 = x+3 → x = 4. Caso 2: 2x−1 = −(x+3) → 3x = −2 → x = −2/3.’},
+ {q:’|x − 3| = −2 ha...’,opts:[‘nessuna soluzione’,’x = 1 oppure x = 5’,’x = 1’,’x = 5’],ans:0,
+  exp:’Il secondo membro è −2 < 0: il modulo non può essere negativo, quindi S = ∅.’},
+ {q:’Soluzioni di |x + 2| + |x − 1| = 5 (metodo punti critici)’,opts:[‘x = −3 oppure x = 2’,’x = −3’,’x = 2’,’x = −1/2’],ans:0,
+  exp:’Punti critici −2 e 1. Per x < −2: −2x−1 = 5 → x = −3 ✓. Per −2≤x<1: costante 3 ≠ 5 → ∅. Per x≥1: 2x−1=5 → x = 3... attenti: (x+2)+(x−1)=5→2x+1=5→x=2 ✓.’},
+ {q:’Soluzioni di |5x + 2| = 3’,opts:[‘x = 1/5 oppure x = −1’,’x = 1 oppure x = −1/5’,’x = 1/5’,’x = −1’],ans:0,
+  exp:’Caso 1: 5x+2 = 3 → x = 1/5. Caso 2: 5x+2 = −3 → x = −1.’},
+ {q:’Soluzioni di |2x − 4| = |x|’,opts:[‘x = 4 oppure x = 4/3’,’x = 4’,’x = 4/3’,’x = −4 oppure x = −4/3’],ans:0,
+  exp:’Caso 1: 2x−4 = x → x = 4. Caso 2: 2x−4 = −x → 3x = 4 → x = 4/3.’}
+],
+/* ---------- Equazioni irrazionali: teoria ---------- */
+eirr_t:[
+ {q:’La condizione di esistenza per √(ax+b) è...’,opts:[‘ax+b ≥ 0’,’ax+b > 0’,’ax+b ≠ 0’,’sempre valida’],ans:0,
+  exp:’La radice quadrata è definita solo per argomento non negativo: ax+b ≥ 0.’},
+ {q:’In √f(x) = g(x), oltre alla CE, quale condizione è necessaria?’,opts:[‘g(x) ≥ 0’,’g(x) > 0’,’g(x) ≠ 0’,’nessuna’],ans:0,
+  exp:’Il primo membro √f(x) è ≥ 0, quindi anche il secondo g(x) deve essere ≥ 0.’},
+ {q:’Perché elevare al quadrato può introdurre soluzioni estranee?’,opts:[‘Perché x² = y² ⟺ |x| = |y|, non x = y’,’Perché si perde la CE’,’Perché il quadrato è sempre positivo’,’Perché si moltiplicano i coefficienti’],ans:0,
+  exp:’Elevando al quadrato si ottiene |f| = |g|, che include anche f = −g: le soluzioni di questo caso sono estranee.’},
+ {q:’√(x²+1) = 0 ha soluzioni?’,opts:[‘No, mai’,’Sì, x = 0’,’Sì, x = ±1’,’Sì, x = i’],ans:0,
+  exp:’x²+1 ≥ 1 > 0, quindi √(x²+1) ≥ 1 > 0: non può essere uguale a zero.’},
+ {q:’In √(x−3) = x−5, la condizione g(x) ≥ 0 impone...’,opts:[‘x ≥ 5’,’x ≥ 3’,’x ≥ −5’,’x ≠ 5’],ans:0,
+  exp:’g(x) = x−5 ≥ 0 → x ≥ 5. Questa va combinata con la CE (x ≥ 3): si ottiene x ≥ 5.’},
+ {q:’L’equazione √(4x+9) = 2x+3 risulta equivalente (dopo elevamento) a...’,opts:[‘4x+9 = (2x+3)²’,’4x+9 = 4x+9’,’4x = 4x’,’4x² + 9 = 2x+3’],ans:0,
+  exp:’Elevando al quadrato: √(4x+9)² = (2x+3)² → 4x+9 = 4x²+12x+9.’},
+ {q:’Se √f(x) = g(x) con g(x) < 0, l’equazione è...’,opts:[‘impossibile’,’sempre possibile’,’da elevare al quadrato’,’indeterminata’],ans:0,
+  exp:’Il radicale è ≥ 0, quindi non può uguagliare un valore negativo: S = ∅.’},
+ {q:’La CE di √(2x−1) = √(x+4) è...’,opts:[‘x ≥ 1/2’,’x ≥ −4’,’x ≥ 1/2 e x ≥ −4 → x ≥ 1/2’,’x ≥ 0’],ans:2,
+  exp:’Servono entrambe: 2x−1 ≥ 0 → x ≥ 1/2 e x+4 ≥ 0 → x ≥ −4. Combinando: x ≥ 1/2.’},
+ {q:’La verifica finale in un’equazione irrazionale serve a...’,opts:[‘eliminare le soluzioni estranee’,’trovare le CE’,’elevare al quadrato’,’semplificare i radicali’],ans:0,
+  exp:’Dopo aver elevato al quadrato, alcune soluzioni potrebbero non soddisfare l’equazione originale. La verifica le elimina.’},
+ {q:’√(x+5) = x−1: quante sono le soluzioni valide?’,opts:[‘1’,’2’,’0’,’infinite’],ans:0,
+  exp:’Elevando: x+5 = (x−1)² → x²−3x−4 = 0 → x = 4 o x = −1. Solo x = 4 verifica g(x) = x−1 ≥ 0.’}
+],
+/* ---------- Equazioni irrazionali: calcolo ---------- */
+eirr_c:[
+ {q:’Soluzione di √(x−1) = 3’,opts:[‘x = 10’,’x = 4’,’x = 8’,’x = 2’],ans:0,
+  exp:’CE: x ≥ 1. Elevo: x−1 = 9 → x = 10. Verifica: √9 = 3 ✓.’},
+ {q:’Soluzione di √(2x+3) = 5’,opts:[‘x = 11’,’x = 14’,’x = 4’,’x = −1’],ans:0,
+  exp:’CE: x ≥ −3/2. Elevo: 2x+3 = 25 → x = 11. Verifica: √25 = 5 ✓.’},
+ {q:’Soluzione di √(3x−5) = 2’,opts:[‘x = 3’,’x = 2’,’x = 4’,’x = −1’],ans:0,
+  exp:’Elevo: 3x−5 = 4 → x = 3. CE: x ≥ 5/3 ✓.’},
+ {q:’Soluzioni valide di √(x+2) = x (con verifica)’,opts:[‘solo x = 2’,’x = 2 e x = −1’,’solo x = −1’,’nessuna’],ans:0,
+  exp:’Elevo: x+2 = x² → x²−x−2 = 0 → x = 2 o x = −1. Verifica: x = 2 ≥ 0 ✓; x = −1 < 0 → estranea.’},
+ {q:’Soluzioni valide di √(x−1) = x−3’,opts:[‘solo x = 5’,’x = 5 e x = 2’,’solo x = 2’,’nessuna’],ans:0,
+  exp:’CE: x ≥ 1; g ≥ 0: x ≥ 3. Elevo: x−1 = x²−6x+9 → x²−7x+10 = 0 → x = 5 o x = 2. Solo x = 5 ≥ 3 ✓.’},
+ {q:’Soluzione di √(2x−1) = √(x+5)’,opts:[‘x = 6’,’x = 4’,’x = 3’,’x = 2’],ans:0,
+  exp:’CE: x ≥ 1/2. Elevo: 2x−1 = x+5 → x = 6. Verifica: √11 = √11 ✓.’},
+ {q:’Soluzioni di √(x²+5) = 3’,opts:[‘x = 2 oppure x = −2’,’x = 2’,’x = 4’,’x = −4 oppure x = 4’],ans:0,
+  exp:’Elevo: x²+5 = 9 → x² = 4 → x = ±2. Entrambe verificano la CE (argomento già ≥ 0).’},
+ {q:’Soluzione di √(x+12) = x’,opts:[‘x = 4’,’x = −3’,’x = 3 oppure x = −4’,’x = 4 oppure x = −3’],ans:0,
+  exp:’CE: x ≥ 0. Elevo: x+12 = x² → (x−4)(x+3) = 0 → x = 4 o x = −3. Solo x = 4 ≥ 0 ✓.’},
+ {q:’Soluzione di √(2x−8) = √(x−1)’,opts:[‘x = 7’,’x = 9’,’x = 4’,’x = 3’],ans:0,
+  exp:’CE: x ≥ 4. Elevo: 2x−8 = x−1 → x = 7. Verifica: √6 = √6 ✓.’},
+ {q:’Soluzione di √(4x+1) = 3’,opts:[‘x = 2’,’x = 4’,’x = 1’,’x = 8’],ans:0,
+  exp:’Elevo: 4x+1 = 9 → x = 2. CE: x ≥ −1/4 ✓.’}
+],
+/* ---------- Disequazioni in modulo: teoria ---------- */
+dmod_t:[
+ {q:’|x| < k (k > 0) equivale a...’,opts:[‘−k < x < k’,’x < k’,’x > −k’,’x < k oppure x > −k’],ans:0,
+  exp:’|x| < k ⟺ x dista meno di k dallo 0 ⟺ −k < x < k: intervallo aperto.’},
+ {q:’|x| > k (k > 0) equivale a...’,opts:[‘x < −k oppure x > k’,’−k < x < k’,’x > k’,’x < k’],ans:0,
+  exp:’|x| > k ⟺ x dista più di k dallo 0 ⟺ x < −k ∨ x > k: unione di due semirette.’},
+ {q:’|x − a| < r rappresenta...’,opts:[‘un intervallo centrato in a di raggio r’,’una semiretta da a’,’il segmento [0; r]’,’x vicino a r’],ans:0,
+  exp:’|x − a| < r ⟺ a−r < x < a+r: l\’intervallo (a−r; a+r), centrato in a.’},
+ {q:’|3x + 1| ≥ 0 è...’,opts:[‘sempre vera (S = ℝ)’,’sempre falsa’,’vera solo per x ≥ 0’,’vera solo per x = −1/3’],ans:0,
+  exp:’Il modulo è sempre ≥ 0, quindi |3x+1| ≥ 0 è un’identità: valida per ogni x ∈ ℝ.’},
+ {q:’|f(x)| < 0 ha...’,opts:[‘S = ∅’,’S = ℝ’,’una soluzione’,’due soluzioni’],ans:0,
+  exp:’Il modulo è ≥ 0, non può essere strettamente negativo: S = ∅.’},
+ {q:’|f(x)| ≤ 0 equivale a...’,opts:[‘f(x) = 0’,’f(x) < 0’,’|f(x)| = 0 e f(x) = 0’,’f(x) ≥ 0’],ans:0,
+  exp:’|f(x)| ≤ 0 con |f(x)| ≥ 0 implica |f(x)| = 0, cioè f(x) = 0: un solo punto.’},
+ {q:’La soluzione di |x| ≤ 3 è...’,opts:[‘[−3; 3]’,’(−3; 3)’,’(−∞; −3] ∪ [3; +∞)’,’ℝ’],ans:0,
+  exp:’|x| ≤ 3 ⟺ −3 ≤ x ≤ 3: intervallo chiuso.’},
+ {q:’|2x − 1| > 3 equivale a...’,opts:[‘2x−1 < −3 oppure 2x−1 > 3’,’−3 < 2x−1 < 3’,’2x−1 = 3’,’2x−1 < 3’],ans:0,
+  exp:’Con k = 3 > 0 e verso >, i due casi sono: 2x−1 < −3 (→ x < −1) oppure 2x−1 > 3 (→ x > 2).’},
+ {q:’Se k < 0, la disequazione |f(x)| > k è...’,opts:[‘sempre vera (S = ℝ)’,’sempre falsa’,’dipende da f’,’impossibile’],ans:0,
+  exp:’Il modulo è ≥ 0 > k, quindi è sempre maggiore di un numero negativo: S = ℝ.’},
+ {q:’|f(x)| > |g(x)| si risolve con...’,opts:[‘metodo dei punti critici’,’formula quadratica’,’elevamento al quadrato diretto’,’sostituzione’],ans:0,
+  exp:’Si trovano i punti critici (radici dei polinomi nei moduli), si studia il segno in ogni intervallo e si combinano i risultati.’}
+],
+/* ---------- Disequazioni in modulo: calcolo ---------- */
+dmod_c:[
+ {q:’Soluzione di |x − 2| < 3’,opts:[‘−1 < x < 5’,’x < −1 oppure x > 5’,’−1 ≤ x ≤ 5’,’x < 5’],ans:0,
+  exp:’−3 < x−2 < 3 → −1 < x < 5: intervallo aperto (−1; 5).’},
+ {q:’Soluzione di |2x + 1| ≥ 5’,opts:[‘x ≤ −3 oppure x ≥ 2’,’−3 ≤ x ≤ 2’,’x ≥ 2’,’x ≤ −3’],ans:0,
+  exp:’2x+1 ≤ −5 → x ≤ −3 ∨ 2x+1 ≥ 5 → x ≥ 2.’},
+ {q:’Soluzione di |x + 3| ≤ 2’,opts:[‘−5 ≤ x ≤ −1’,’x < −5 oppure x > −1’,’−1 ≤ x ≤ 5’,’x ≥ −1’],ans:0,
+  exp:’−2 ≤ x+3 ≤ 2 → −5 ≤ x ≤ −1: intervallo chiuso.’},
+ {q:’Soluzione di |3x − 6| > 9’,opts:[‘x < −1 oppure x > 5’,’−1 < x < 5’,’x > 5’,’x < −1’],ans:0,
+  exp:’3x−6 < −9 → x < −1 ∨ 3x−6 > 9 → x > 5.’},
+ {q:’Soluzione di |x| < 4’,opts:[‘−4 < x < 4’,’x < 4’,’x > −4’,’x < −4 oppure x > 4’],ans:0,
+  exp:’|x| < 4 ⟺ −4 < x < 4: intervallo aperto simmetrico.’},
+ {q:’Soluzione di |2x − 3| ≤ 7’,opts:[‘−2 ≤ x ≤ 5’,’x < −2 oppure x > 5’,’−2 < x < 5’,’x ≤ 5’],ans:0,
+  exp:’−7 ≤ 2x−3 ≤ 7 → −4 ≤ 2x ≤ 10 → −2 ≤ x ≤ 5.’},
+ {q:’Soluzione di |x + 5| > 0’,opts:[‘x ≠ −5 (cioè ℝ \\ {−5})’,’x > −5’,’x < −5’,’S = ∅’],ans:0,
+  exp:’|x+5| = 0 solo per x = −5; altrimenti > 0. Soluzione: x ≠ −5.’},
+ {q:’Soluzione di |x − 1| ≤ 0’,opts:[‘x = 1’,’x ≥ 1’,’x ≤ 1’,’S = ∅’],ans:0,
+  exp:’|x−1| ≤ 0 con modulo ≥ 0 → |x−1| = 0 → x = 1.’},
+ {q:’Soluzione di |4x − 2| < 6’,opts:[‘−1 < x < 2’,’x < −1 oppure x > 2’,’−1 ≤ x ≤ 2’,’x > 2’],ans:0,
+  exp:’−6 < 4x−2 < 6 → −4 < 4x < 8 → −1 < x < 2.’},
+ {q:’Soluzione di |2x + 5| > 1’,opts:[‘x < −3 oppure x > −2’,’−3 < x < −2’,’x > −2’,’x < −3’],ans:0,
+  exp:’2x+5 < −1 → x < −3 ∨ 2x+5 > 1 → x > −2.’}
+],
+/* ---------- Disequazioni irrazionali: teoria ---------- */
+dirr_t:[
+ {q:’La condizione di esistenza per √f(x) ⋛ g(x) è...’,opts:[‘f(x) ≥ 0’,’f(x) > 0’,’g(x) ≥ 0’,’f(x) ≤ g(x)’],ans:0,
+  exp:’Il radicando deve essere non negativo: f(x) ≥ 0. Questa è la condizione di esistenza (CE/DE).’},
+ {q:’√f(x) > g(x) con g(x) < 0 e f(x) ≥ 0 è...’,opts:[‘sempre vera sul DE’,’sempre falsa’,’da elevare al quadrato’,’impossibile’],ans:0,
+  exp:’√f(x) ≥ 0 > g(x): il radicale è sempre maggiore di un numero negativo, quindi la disequazione vale per tutto il DE.’},
+ {q:’√f(x) > g(x) con g(x) ≥ 0: elevando al quadrato si ottiene...’,opts:[‘f(x) > [g(x)]²’,’f(x) ≥ [g(x)]²’,’√f(x) > g(x)’,’f(x) = g(x)²’],ans:0,
+  exp:’Se g ≥ 0, elevare è un’equivalenza (la funzione radice è crescente): √f > g ⟺ f > g².’},
+ {q:’Per √f(x) < g(x), oltre a f(x) ≥ 0, serve anche...’,opts:[‘g(x) > 0’,’g(x) ≥ 0’,’f(x) < g(x)’,’nessuna’],ans:0,
+  exp:’Se g(x) ≤ 0, la disequazione sarebbe impossibile (il radicale è ≥ 0). Quindi occorre g(x) > 0.’},
+ {q:’√f(x) ≤ g(x) si riduce (con g > 0) a...’,opts:[‘f(x) ≤ [g(x)]²’,’f(x) < [g(x)]²’,’f(x) = g(x)’,’f(x) ≥ g(x)²’],ans:0,
+  exp:’Con g > 0, la funzione radice è crescente: √f ≤ g ⟺ f ≤ g².’},
+ {q:’√(x²+1) > 0 è...’,opts:[‘sempre vera (S = ℝ)’,’vera solo per x ≠ 0’,’sempre falsa’,’vera per x > 0’],ans:0,
+  exp:’x²+1 ≥ 1, quindi √(x²+1) ≥ 1 > 0 per ogni x ∈ ℝ.’},
+ {q:’√(3x−1) > 2: elevando al quadrato si ottiene...’,opts:[‘3x−1 > 4 → x > 5/3’,’3x−1 > 2’,’3x−1 > 4 → x > 3’,’3x > 1’],ans:0,
+  exp:’g = 2 > 0: √(3x−1) > 2 ⟺ 3x−1 > 4 → x > 5/3 (con CE: x ≥ 1/3 già soddisfatta).’},
+ {q:’√x < 2: la soluzione è...’,opts:[‘0 ≤ x < 4’,’x < 4’,’0 < x < 2’,’x < 2’],ans:0,
+  exp:’CE: x ≥ 0; g = 2 > 0. Elevo: x < 4. Combinando: 0 ≤ x < 4.’},
+ {q:’Per √f(x) < g(x) con g(x) ≤ 0 dappertutto, la soluzione è...’,opts:[‘S = ∅’,’S = ℝ’,’il DE’,’dipende’],ans:0,
+  exp:’Il radicale è ≥ 0 ≥ g(x), quindi non può essere < g(x): S = ∅.’},
+ {q:’√(x−2) < x−4: prima di elevare occorre imporre...’,opts:[‘x ≥ 2 e x > 4’,’x ≥ 2’,’x > 4’,’x ≥ 4’],ans:0,
+  exp:’CE: x−2 ≥ 0 → x ≥ 2; condizione g > 0: x−4 > 0 → x > 4. Entrambe necessarie prima di elevare.’}
+],
+/* ---------- Disequazioni irrazionali: calcolo ---------- */
+dirr_c:[
+ {q:’Soluzione di √(x+3) > 2’,opts:[‘x > 1’,’x > −3’,’x ≥ −3’,’x > 4’],ans:0,
+  exp:’CE: x ≥ −3; g = 2 > 0. Elevo: x+3 > 4 → x > 1 (incluso nel DE). S = (1; +∞).’},
+ {q:’Soluzione di √(2x−1) ≤ 3’,opts:[‘1/2 ≤ x ≤ 5’,’x ≤ 5’,’x ≥ 1/2’,’1/2 < x < 5’],ans:0,
+  exp:’CE: x ≥ 1/2; g = 3 > 0. Elevo: 2x−1 ≤ 9 → x ≤ 5. Intersezione: [1/2; 5].’},
+ {q:’Soluzione di √(3x+4) < 4’,opts:[‘−4/3 ≤ x < 4’,’x < 4’,’x ≥ −4/3’,’−4/3 < x < 4’],ans:0,
+  exp:’CE: x ≥ −4/3; g = 4 > 0. Elevo: 3x+4 < 16 → x < 4. S = [−4/3; 4).’},
+ {q:’Soluzione di √(x+4) > 3’,opts:[‘x > 5’,’x ≥ −4’,’x > 9’,’x ≥ 5’],ans:0,
+  exp:’CE: x ≥ −4; g = 3 > 0. Elevo: x+4 > 9 → x > 5. S = (5; +∞).’},
+ {q:’Soluzione di √(5−x) ≥ 1’,opts:[‘x ≤ 4’,’x ≤ 5’,’x < 4’,’x ≥ 4’],ans:0,
+  exp:’CE: x ≤ 5; g = 1 > 0. Elevo: 5−x ≥ 1 → x ≤ 4. S = (−∞; 4].’},
+ {q:’Soluzione di √(x+5) ≥ 2’,opts:[‘x ≥ −1’,’x ≥ −5’,’x > −1’,’x ≤ −1’],ans:0,
+  exp:’CE: x ≥ −5; g = 2 > 0. Elevo: x+5 ≥ 4 → x ≥ −1. S = [−1; +∞).’},
+ {q:’Soluzione di √(2x+1) > 0’,opts:[‘x > −1/2’,’x ≥ −1/2’,’x ≥ 0’,’S = ℝ’],ans:0,
+  exp:’√(2x+1) > 0 ⟺ 2x+1 > 0 → x > −1/2 (il radicale è 0 solo quando il radicando è 0).’},
+ {q:’Soluzione di √(4−x) < 2’,opts:[‘0 < x ≤ 4’,’x > 0’,’x < 4’,’0 ≤ x < 4’],ans:3,
+  exp:’CE: x ≤ 4; g = 2 > 0. Elevo: 4−x < 4 → x > 0. Intersezione: 0 < x ≤ 4.’},
+ {q:’Soluzione di √(x−2) ≤ √(2x−7) (con CE)’,opts:[‘x ≥ 5’,’x ≥ 7/2’,’7/2 ≤ x ≤ 5’,’x ≥ 2’],ans:0,
+  exp:’CE: x ≥ 2 e x ≥ 7/2 → x ≥ 7/2. Elevo: x−2 ≤ 2x−7 → x ≥ 5. S = [5; +∞).’},
+ {q:’Soluzione di √(x+1) < 3 (con CE)’,opts:[‘−1 ≤ x < 8’,’x < 8’,’−1 < x < 8’,’x ≤ 8’],ans:0,
+  exp:’CE: x ≥ −1; g = 3 > 0. Elevo: x+1 < 9 → x < 8. S = [−1; 8).’}
 ]
 };
 </script>
@@ -3629,6 +4531,460 @@ spUpdate();
   $('#lit2Btn').addEventListener('click',run);
   $('#lit2K').addEventListener('keydown',e=>{if(e.key==='Enter')run();});
   setAcc();run();
+})();
+
+/* ================================================================
+   SIMULAZIONI: eq_mod · eq_irr · diseq_mod · diseq_irr
+   ================================================================ */
+
+/* -------- helpers condivisi da tutte e quattro le simulazioni -------- */
+function fLin(a,b){
+  // format "ax + b" or "ax − |b|" as plain text
+  let s='';
+  if(a===0&&b===0)return'0';
+  if(a===1)s='x';else if(a===-1)s='−x';else if(a!==0)s=fmtInt(a)+'x';
+  if(b>0)s+=(s?' + ':'')+b;
+  else if(b<0)s+=(s?' − ':'')+(-b);
+  return s||'0';
+}
+function fN(x){
+  // format a number as integer, simple fraction, or decimal
+  if(!isFinite(x))return x>0?'+∞':'−∞';
+  if(Number.isInteger(x))return fmtInt(x);
+  for(let d=2;d<=40;d++){const n=Math.round(x*d);if(Math.abs(n/d-x)<1e-9)return fmtInt(n)+'/'+d;}
+  return fmt(x,3);
+}
+function solBox(html){return'<div class="sol-box"><span class="t">Insieme soluzione</span><span class="eqline">'+html+'</span></div>';}
+
+/* ================================================================
+   eq_mod: |ax+b| = c  oppure  |ax+b| = |px+q|
+   ================================================================ */
+(function(){
+  const emPlot=new Plot($('#emPlot'));
+  let emType='cst', emCache={};
+
+  function emDraw(){
+    if(!$('#emPlot').offsetParent)return;
+    const d=emCache; if(d.a===undefined)return;
+    emPlot.fit();
+    const f=x=>Math.abs(d.a*x+d.b);
+    const x0=d.a?-d.b/d.a:0;
+    const lo=x0-7,hi=x0+7;
+    if(emType==='cst'){
+      const ymax=Math.max(f(lo),f(hi),Math.abs(d.c),2);
+      emPlot.view(lo,hi,-ymax*.08,ymax*1.12);
+      emPlot.axes();
+      emPlot.plotFn(f,'#2563eb',2.6);
+      emPlot.plotFn(()=>d.c,'#f59e0b',2,[5,3]);
+    }else{
+      const g=x=>Math.abs(d.p*x+d.q);
+      const x1=d.p?-d.q/d.p:0;
+      const lo2=Math.min(lo,x1-5),hi2=Math.max(hi,x1+5);
+      const ymax=Math.max(f(lo2),f(hi2),g(lo2),g(hi2),2);
+      emPlot.view(lo2,hi2,-ymax*.08,ymax*1.12);
+      emPlot.axes();
+      emPlot.plotFn(f,'#2563eb',2.6);
+      emPlot.plotFn(g,'#f59e0b',2.6);
+    }
+    (d.sols||[]).forEach(x=>emPlot.dot(x,f(x),'#10b981',5));
+  }
+
+  function emUpdate(){
+    const a=parseFloat($('#emA').value),b=parseFloat($('#emB').value);
+    if(!isFinite(a)||!isFinite(b))return;
+    const SL='<p class="sec-label" style="margin:.65rem 0 .28rem">';
+    let h='',sols=[];
+
+    if(emType==='cst'){
+      const c=parseFloat($('#emC').value);
+      if(!isFinite(c))return;
+      emCache={a,b,c,type:'cst'};
+      $('#emEq').textContent='|'+fLin(a,b)+'| = '+fmtInt(c);
+      h+=SL+'Risoluzione per casi</p>';
+      if(c<0){h+='<div class="lit-case imp">Secondo membro negativo → <b>S = ∅</b></div>';}
+      else if(c===0){
+        if(a){const x=-b/a;sols.push(x);h+='<div class="lit-step">Modulo nullo: x = '+fN(x)+'</div>';}
+        else h+=b===0?'<div class="lit-case ind">0 = 0: S = ℝ</div>':'<div class="lit-case imp">0 = '+fmtInt(b)+': S = ∅</div>';
+      }else{
+        h+='<div class="lit-step"><b>Caso 1:</b> '+fLin(a,b)+' = '+fmtInt(c);
+        if(a){const x1=(c-b)/a;sols.push(x1);h+=' → x = '+fN(x1);}
+        else h+=b===c?' → identità':'→ impossibile';
+        h+='</div>';
+        h+='<div class="lit-step"><b>Caso 2:</b> '+fLin(a,b)+' = '+fmtInt(-c);
+        if(a){const x2=(-c-b)/a;if(sols.every(x=>Math.abs(x-x2)>1e-9))sols.push(x2);h+=' → x = '+fN(x2);}
+        else h+=b===-c?' → identità':'→ impossibile';
+        h+='</div>';
+      }
+    }else{
+      const p=parseFloat($('#emP').value),q=parseFloat($('#emQ').value);
+      if(!isFinite(p)||!isFinite(q))return;
+      emCache={a,b,p,q,type:'abs'};
+      $('#emEq').textContent='|'+fLin(a,b)+'| = |'+fLin(p,q)+'|';
+      h+='<div class="hint" style="margin:.35rem 0 .55rem">|A| = |B| ⟺ A = B oppure A = −B</div>';
+      // Case 1: ax+b = px+q → (a-p)x = q-b
+      h+='<div class="lit-step"><b>Caso 1:</b> '+fLin(a-p,b-q)+' = 0';
+      if(a-p){const x1=(q-b)/(a-p);sols.push(x1);h+=' → x = '+fN(x1);}
+      else h+=b===q?' → ∀x':' → impossibile';
+      h+='</div>';
+      // Case 2: ax+b = -(px+q) → (a+p)x = -q-b
+      h+='<div class="lit-step"><b>Caso 2:</b> '+fLin(a+p,b+q)+' = 0';
+      if(a+p){const x2=(-q-b)/(a+p);if(sols.every(x=>Math.abs(x-x2)>1e-9))sols.push(x2);h+=' → x = '+fN(x2);}
+      else h+=-q-b===0?' → ∀x':' → impossibile';
+      h+='</div>';
+    }
+
+    if(sols.length){h+=solBox('S = { '+sols.map(fN).join(' ; ')+' }');}
+    emCache.sols=sols;
+    $('#emSteps').innerHTML=h;
+    emDraw();
+  }
+
+  let emType_='cst';
+  $('#emTypeTabs').addEventListener('click',e=>{
+    const btn=e.target.closest('[data-emtype]');if(!btn)return;
+    $$('#emTypeTabs [data-emtype]').forEach(b=>b.classList.toggle('active',b===btn));
+    emType=btn.dataset.emtype; emType_=emType;
+    $('#emCWrap').hidden=emType!=='cst';
+    $('#emPWrap').hidden=emType!=='abs';
+    $('#emQWrap').hidden=emType!=='abs';
+    emUpdate();
+  });
+  ['emA','emB','emC','emP','emQ'].forEach(id=>{const el=$('#'+id);if(el)el.addEventListener('input',emUpdate);});
+  regSim($('#emPlot'),emDraw);
+  emUpdate();
+})();
+
+/* ================================================================
+   eq_irr: √(ax+b) = cx+d
+   ================================================================ */
+(function(){
+  const eiPlot=new Plot($('#eiPlot'));
+  let eiCache={};
+
+  function eiDraw(){
+    if(!$('#eiPlot').offsetParent)return;
+    const d=eiCache; if(d.a===undefined)return;
+    eiPlot.fit();
+    const xCE=d.a>0?-d.b/d.a:(d.a<0?-d.b/d.a:null);
+    const lo=(xCE!==null?Math.min(xCE-1,0)-3:-3),hi=(xCE!==null?xCE+7:7);
+    const sqFn=x=>{const v=d.a*x+d.b;return v>=0?Math.sqrt(v):NaN;};
+    const linFn=x=>d.c*x+d.d;
+    const yvals=[linFn(lo),linFn(hi)].filter(isFinite);
+    const ymax=Math.max(sqFn(hi)||0,...yvals.map(Math.abs),2);
+    const ymin=Math.min(0,...yvals)-1;
+    eiPlot.view(lo,hi,ymin-0.5,ymax+1);
+    eiPlot.axes();
+    eiPlot.plotFn(sqFn,'#2563eb',2.6);
+    eiPlot.plotFn(linFn,'#f59e0b',2,[5,3]);
+    (d.sols||[]).forEach(({x,valid})=>eiPlot.dot(x,sqFn(x),valid?'#10b981':'#ef4444',5));
+  }
+
+  function eiUpdate(){
+    const a=parseFloat($('#eiA').value),b=parseFloat($('#eiB').value);
+    const c=parseFloat($('#eiC').value),d_=parseFloat($('#eiD').value);
+    if([a,b,c,d_].some(v=>!isFinite(v)))return;
+    eiCache={a,b,c,d:d_};
+    const SL='<p class="sec-label" style="margin:.65rem 0 .28rem">';
+
+    // DE: ax+b >= 0
+    let deStr='';
+    if(a>0)deStr='x ≥ '+fN(-b/a);
+    else if(a<0)deStr='x ≤ '+fN(-b/a);
+    else deStr=(b>=0?'ℝ':'∅');
+
+    $('#eiEq').textContent='√('+fLin(a,b)+') = '+fLin(c,d_);
+
+    let h='';
+    h+=SL+'CE (dominio di esistenza)</p>';
+    h+='<div class="lit-step">'+fLin(a,b)+' ≥ 0 → '+deStr+'</div>';
+    h+=SL+'Condizione sul secondo membro</p>';
+    // g(x) = cx+d >= 0
+    let gCond='';
+    if(c>0)gCond=fLin(c,d_)+' ≥ 0 → x ≥ '+fN(-d_/c);
+    else if(c<0)gCond=fLin(c,d_)+' ≥ 0 → x ≤ '+fN(-d_/c);
+    else gCond=(d_>=0?'sempre vera':'impossibile: ∅');
+    h+='<div class="lit-step">'+gCond+'</div>';
+
+    // Solve: cx+d >= 0 and ax+b >= 0, then square: ax+b = (cx+d)^2
+    // Quadratic: c^2 x^2 + (2cd-a)x + (d^2-b) = 0
+    const qa=c*c, qb=2*c*d_-a, qc_=d_*d_-b;
+    h+=SL+'Elevazione al quadrato: ax+b = (cx+d)²</p>';
+    let sols=[];
+    if(qa===0){
+      // linear: -a*x - b + d^2 = 0 → ax = d^2 - b → same as original but it's degenerate
+      // actually with c=0: 0 = (d_)^2 → need d_^2 = ax+b... different
+      // c=0: equation becomes √(ax+b) = d_
+      if(d_<0){h+='<div class="lit-case imp">g = '+fN(d_)+' &lt; 0: <b>S = ∅</b></div>';}
+      else{
+        h+='<div class="lit-step">c = 0: √('+fLin(a,b)+') = '+fN(d_)+' → '+fLin(a,b)+' = '+fN(d_*d_);
+        if(a){const x0=(d_*d_-b)/a;sols.push({x:x0});h+=' → x = '+fN(x0);}
+        h+='</div>';
+      }
+    }else{
+      const disc=qb*qb-4*qa*qc_;
+      h+='<div class="lit-step">'+fN(qa)+'x² '+fLin(qb,qc_)+' = 0'+(disc<0?' (Δ &lt; 0 → ∅)':'')+'</div>';
+      if(disc>=0){
+        const x1=(-qb-Math.sqrt(disc))/(2*qa);
+        const x2=(-qb+Math.sqrt(disc))/(2*qa);
+        [x1,x2].forEach(x=>{if(Math.abs(x1-x2)<1e-9&&x!==x1)return;sols.push({x});});
+        if(Math.abs(x1-x2)>1e-9){sols=[{x:x1},{x:x2}];}
+        else{sols=[{x:x1}];}
+      }
+    }
+
+    // Verify each solution
+    sols=sols.map(s=>{
+      const {x}=s;
+      const de=a*x+b;
+      const gv=c*x+d_;
+      const valid=(de>=-1e-9)&&(gv>=-1e-9)&&(Math.abs(Math.sqrt(Math.max(0,de))-gv)<1e-6);
+      return{x,valid};
+    });
+
+    h+=SL+'Verifica e soluzioni</p>';
+    if(!sols.length){h+='<div class="lit-case imp">Nessuna soluzione reale</div>';}
+    else{
+      sols.forEach(({x,valid})=>{
+        h+='<div class="lit-step">x = '+fN(x)+': CE '+((a*x+b>=-1e-9)?'✓':'✗')+
+           ', g ≥ 0 '+((c*x+d_>=-1e-9)?'✓':'✗')+' → '+
+           (valid?'<b style="color:var(--success-deep)">soluzione valida</b>':'<b style="color:var(--error-deep)">estranea</b>')+'</div>';
+      });
+      const valid=sols.filter(s=>s.valid);
+      h+=valid.length?solBox('S = { '+valid.map(s=>fN(s.x)).join(' ; ')+' }'):
+         '<div class="lit-case imp">Tutte le soluzioni sono estranee: <b>S = ∅</b></div>';
+    }
+
+    eiCache.sols=sols;
+    $('#eiSteps').innerHTML=h;
+    eiDraw();
+  }
+
+  ['eiA','eiB','eiC','eiD'].forEach(id=>$('#'+id).addEventListener('input',eiUpdate));
+  regSim($('#eiPlot'),eiDraw);
+  eiUpdate();
+})();
+
+/* ================================================================
+   diseq_mod: |ax+b| ⋛ c
+   ================================================================ */
+(function(){
+  const dmPlot=new Plot($('#dmPlot'));
+  let dmCache={};
+
+  function dmDraw(){
+    if(!$('#dmPlot').offsetParent)return;
+    const d=dmCache; if(d.a===undefined)return;
+    const f=x=>Math.abs(d.a*x+d.b);
+    const x0=d.a?-d.b/d.a:0;
+    const lo=x0-7,hi=x0+7;
+    const ymax=Math.max(f(lo),f(hi),Math.abs(d.c)+1,2);
+    dmPlot.fit();dmPlot.view(lo,hi,-ymax*.08,ymax*1.15);dmPlot.axes();
+    // color bands
+    const cv=d.c,vk=d.v;
+    const inside=(vk==='lt'||vk==='le');
+    if(d.a&&cv>0){
+      const xl=(cv+d.b)/(-d.a||1),xr=(cv-d.b)/(d.a||1);
+      const [lo2,hi2]=[Math.min(xl,xr),Math.max(xl,xr)];
+      if(inside)dmPlot.band(lo2,hi2,BAND);
+      else{dmPlot.band(lo,lo2,BAND);dmPlot.band(hi2,hi,'rgba(37,99,235,.08)');}
+    }
+    dmPlot.plotFn(f,'#2563eb',2.6);
+    dmPlot.plotFn(()=>cv,'#f59e0b',2,[5,3]);
+    // sol ray
+    if(d.a&&cv>0){
+      const xl=(-cv-d.b)/d.a,xr=(cv-d.b)/d.a;
+      const [s1,s2]=[Math.min(xl,xr),Math.max(xl,xr)];
+      const closed=(vk==='le'||vk==='ge');
+      if(inside){dmPlot.solRayRight(s1,closed);dmPlot.solRayLeft(s2,closed);}
+      else{dmPlot.solRayLeft(s1,closed);dmPlot.solRayRight(s2,closed);}
+    }
+  }
+
+  function dmUpdate(){
+    const a=parseFloat($('#dmA').value),b=parseFloat($('#dmB').value);
+    const c=parseFloat($('#dmC').value),v=$('#dmV').value;
+    if([a,b,c].some(x=>!isFinite(x)))return;
+    dmCache={a,b,c,v};
+    const VERSI={lt:'< ',le:'≤ ',gt:'> ',ge:'≥ '};
+    $('#dmEq').textContent='|'+fLin(a,b)+'| '+VERSI[v]+fmtInt(c);
+    const inside=(v==='lt'||v==='le'),closed=(v==='le'||v==='ge');
+    const SL='<p class="sec-label" style="margin:.65rem 0 .28rem">';
+
+    let strip='',sol='';
+    if(c<0){
+      if(inside){strip=buildStrip3_dm(a,b,0,0,'neg','neg','neg');sol='<div class="lit-case imp">S = ∅ (il modulo è sempre ≥ 0 &gt; c)</div>';}
+      else{strip=buildStrip3_dm(a,b,0,0,'pos','pos','pos');sol=solBox('S = ℝ (modulo ≥ 0 &gt; c)');}
+    }else if(c===0){
+      if(inside){strip='';sol='<div class="lit-case imp">S = ∅ (|expr| ≥ 0, strettamente &gt; 0 tranne in x₀)</div>';}
+      else{strip='';sol=solBox(a?'S = ℝ \\ { '+fN(-b/a)+' }':'S = ℝ');}
+    }else if(!a){
+      const babs=Math.abs(b);
+      if(inside)sol=(babs<c||(!closed&&babs===c))?solBox('S = ℝ'):'<div class="lit-case imp">S = ∅</div>';
+      else sol=(babs>c||(!closed&&babs===c))?solBox('S = ℝ'):'<div class="lit-case imp">S = ∅</div>';
+    }else{
+      const x1=(-c-b)/a, x2=(c-b)/a;
+      const [lo_,hi_]=[Math.min(x1,x2),Math.max(x1,x2)];
+      const lo_h=fN(lo_),hi_h=fN(hi_);
+      const op1=closed?'≤':'<',op2=closed?'≥':'>';
+      if(inside){
+        strip=buildStrip3_dm(a,b,lo_,hi_,'neg','zero_neg','neg');
+        sol='<div class="lit-step">'+fLin(-a,-b)+' '+op2+' 0 &nbsp;e&nbsp; '+fLin(a,b)+' '+op2+' 0 &nbsp;→ '+
+            fN(lo_)+' '+op2+' x '+op2.replace('>','<')+' '+fN(hi_)+'</div>'+
+            solBox((closed?'[':'(')+lo_h+' ; '+hi_h+(closed?']':')'));
+      }else{
+        strip=buildStrip3_dm(a,b,lo_,hi_,'pos','zero_pos','pos');
+        sol='<div class="lit-step">'+fLin(a,b)+' '+op1+' 0 &nbsp;→ x '+op1+' '+lo_h+' &nbsp;∨&nbsp; x '+op2+' '+hi_h+'</div>'+
+            solBox('(−∞; '+(closed?'[':'')+lo_h+(closed?']':'')+') ∪ ('+(closed?'[':'')+hi_h+(closed?']':'')+'; +∞)');
+      }
+    }
+    $('#dmStrip').innerHTML=strip;
+    $('#dmSol').innerHTML=sol;
+    dmDraw();
+  }
+
+  function buildStrip3_dm(a,b,lo_,hi_,cls1,cls2,cls3){
+    const lo_h=fN(lo_),hi_h=fN(hi_);
+    const s0=cls2.startsWith('zero')?'0':(cls1==='pos'?'+':'−');
+    const smid=cls2.startsWith('zero')?'0':(cls2==='neg'?'−':'+');
+    return ['x &lt; '+lo_h, lo_h, lo_h+' &lt; x &lt; '+hi_h, hi_h, 'x &gt; '+hi_h]
+      .map((v,i)=>{
+        const c2=i===0?cls1:i===1?'zero':i===2?cls3:i===3?'zero':cls1;
+        const sign=i===0?(cls1==='pos'?'+':'−'):i===1?'0':i===2?(cls3==='pos'?'+':'−'):i===3?'0':(cls1==='pos'?'+':'−');
+        return'<div class="col"><span class="v">'+v+'</span><span class="s '+c2+'">'+sign+'</span></div>';
+      }).join('');
+  }
+
+  $$('#dmA,#dmB,#dmC').forEach(el=>el&&el.addEventListener('input',dmUpdate));
+  $('#dmV').addEventListener('change',dmUpdate);
+  regSim($('#dmPlot'),dmDraw);
+  dmUpdate();
+})();
+
+/* ================================================================
+   diseq_irr: √(ax+b) ⋛ c
+   ================================================================ */
+(function(){
+  const diPlot=new Plot($('#diPlot'));
+  let diCache={};
+
+  function diDraw(){
+    if(!$('#diPlot').offsetParent)return;
+    const d=diCache; if(d.a===undefined)return;
+    const sqFn=x=>{const v=d.a*x+d.b;return v>=0?Math.sqrt(v):NaN;};
+    const xDE=d.a?-d.b/d.a:0;
+    const lo=(d.a>0?xDE-2:xDE-8),hi=(d.a>0?xDE+10:xDE+2);
+    const ymax=Math.max(sqFn(hi)||0,sqFn(lo)||0,Math.abs(d.c)+1,2);
+    diPlot.fit();diPlot.view(lo,hi,-ymax*.08,ymax*1.15);diPlot.axes();
+    // band
+    if(d.a&&d.c>=0){
+      const xsol=(d.c*d.c-d.b)/d.a;
+      const closed=(d.v==='le'||d.v==='ge');
+      const inside=(d.v==='lt'||d.v==='le');
+      const xstart=d.a>0?xDE:lo;
+      if(inside&&d.a>0)diPlot.band(xDE,xsol,BAND);
+      else if(!inside&&d.a>0)diPlot.band(xsol,hi,BAND);
+    }
+    diPlot.plotFn(sqFn,'#2563eb',2.6);
+    diPlot.plotFn(()=>d.c,'#f59e0b',2,[5,3]);
+    // sol markers from diCache.solPts
+    (d.solPts||[]).forEach(x=>diPlot.dot(x,sqFn(x)||0,'#10b981',5));
+  }
+
+  function diUpdate(){
+    const a=parseFloat($('#diA').value),b=parseFloat($('#diB').value);
+    const c=parseFloat($('#diC').value),v=$('#diV').value;
+    if([a,b,c].some(x=>!isFinite(x)))return;
+    diCache={a,b,c,v};
+    const VERSI={lt:'< ',le:'≤ ',gt:'> ',ge:'≥ '};
+    const inside=(v==='lt'||v==='le'),closed=(v==='le'||v==='ge'),strict=v==='lt'||v==='gt';
+    const SL='<p class="sec-label" style="margin:.65rem 0 .28rem">';
+    $('#diEq').textContent='√('+fLin(a,b)+') '+VERSI[v]+fmtInt(c);
+
+    let h='',solStr='',solPts=[];
+    // DE: ax+b >= 0
+    let xDE_str='',xDE_val=null;
+    if(a>0){xDE_val=-b/a;xDE_str='x ≥ '+fN(xDE_val);}
+    else if(a<0){xDE_val=-b/a;xDE_str='x ≤ '+fN(xDE_val);}
+    else xDE_str=(b>=0?'ℝ':'∅');
+
+    h+=SL+'DE: radicando ≥ 0</p>';
+    h+='<div class="lit-step">'+fLin(a,b)+' ≥ 0 → '+xDE_str+'</div>';
+
+    if(a===0&&b<0){
+      h+='<div class="lit-case imp">Radicando sempre negativo: <b>S = ∅</b></div>';
+      $('#diSteps').innerHTML=h;diCache.solPts=[];$('#diSol').innerHTML='';diDraw();return;
+    }
+
+    if(inside){
+      // √f < c
+      if(c<=0){
+        h+='<div class="lit-case imp">c ≤ 0: √f ≥ 0 non può essere &lt; c ≤ 0 → <b>S = ∅</b></div>';
+        solStr='';
+      }else{
+        // DE ∩ (f < c²)
+        const xsq=(c*c-b)/a||0;
+        h+=SL+'g = '+fN(c)+' &gt; 0 → elevo: '+fLin(a,b)+' '+(strict?'&lt;':'≤')+' '+fN(c*c)+'</p>';
+        if(a>0){
+          // x >= xDE and x <(=) xsq
+          h+='<div class="lit-step">x '+(closed?'≤':'&lt;')+' '+fN(xsq)+' &nbsp;∩&nbsp; '+xDE_str+' → '+fN(xDE_val)+' '+(closed?'≤':'&lt;')+' x '+(strict?'&lt;':'≤')+' '+fN(xsq)+'</div>';
+          solStr=(closed?'[':'[')+fN(xDE_val)+' ; '+fN(xsq)+(strict?')':']');
+          for(let x=xDE_val;x<=xsq;x+=(xsq-xDE_val)/4)solPts.push(x);
+        }else if(a<0){
+          h+='<div class="lit-step">x '+(closed?'≥':'&gt;')+' '+fN(xsq)+' &nbsp;∩&nbsp; '+xDE_str+' → '+fN(xsq)+' '+(strict?'&lt;':'≤')+' x ≤ '+fN(xDE_val)+'</div>';
+          solStr='('+(strict?'':']')+fN(xsq)+' ; '+fN(xDE_val)+']';
+          for(let x=xsq;x<=xDE_val;x+=(xDE_val-xsq)/4)solPts.push(x);
+        }
+      }
+    }else{
+      // √f > c
+      if(c<0){
+        h+=SL+'g = '+fN(c)+' &lt; 0: √f ≥ 0 &gt; g → sempre vera sul DE</p>';
+        h+='<div class="lit-case det">Soluzione = DE: '+xDE_str+'</div>';
+        solStr='DE: '+xDE_str;
+        if(a>0)for(let x=xDE_val;x<=xDE_val+6;x+=2)solPts.push(x);
+        else if(a<0)for(let x=xDE_val-6;x<=xDE_val;x+=2)solPts.push(x);
+      }else{
+        const xsq=(c*c-b)/a||0;
+        h+=SL+'g = '+fN(c)+' ≥ 0 → elevo: '+fLin(a,b)+' '+(strict?'&gt;':'≥')+' '+fN(c*c)+'</p>';
+        if(a>0){
+          h+='<div class="lit-step">x '+(strict?'&gt;':'≥')+' '+fN(xsq)+' (già nel DE se xsq ≥ xDE)</div>';
+          solStr=(strict?'(':'[')+fN(xsq)+'; +∞)';
+          for(let x=xsq+0.2;x<=xsq+5;x+=1)solPts.push(x);
+        }else if(a<0){
+          h+='<div class="lit-step">Con a &lt; 0 il DE è x ≤ '+fN(xDE_val)+'; la soluzione si restringe.</div>';
+          solStr='(−∞; '+(strict?'':']')+fN(xsq)+') ∩ (−∞; '+fN(xDE_val)+']';
+          for(let x=xsq-5;x<xsq;x+=1)solPts.push(x);
+        }
+      }
+    }
+
+    if(solStr)h+=solBox('S : '+solStr);
+    diCache.solPts=solPts;
+    $('#diStrip').innerHTML=buildDiStrip(a,b,c,v);
+    $('#diSol').innerHTML='';
+    $('#diSteps').innerHTML=h;
+    diDraw();
+  }
+
+  function buildDiStrip(a,b,c,v){
+    const inside=(v==='lt'||v==='le'),closed=(v==='le'||v==='ge');
+    if(!a||c<0)return'';
+    const xDE=fN(-b/a);
+    const xsq=fN((c*c-b)/a);
+    if(a>0)return[
+      {v:'x &lt; '+xDE,s:'fuori DE',cl:'neg'},
+      {v:xDE,s:'0',cl:'zero'},
+      inside?{v:xDE+' &lt; x &lt; '+xsq,s:'✓',cl:'pos'}:{v:xDE+' &lt; x &lt; '+xsq,s:'·',cl:'neg'},
+      {v:xsq,s:'c',cl:'zero'},
+      inside?{v:'x &gt; '+xsq,s:'·',cl:'neg'}:{v:'x &gt; '+xsq,s:'✓',cl:'pos'}
+    ].map(r=>'<div class="col"><span class="v">'+r.v+'</span><span class="s '+r.cl+'">'+r.s+'</span></div>').join('');
+    return'';
+  }
+
+  $$('#diA,#diB,#diC').forEach(el=>el&&el.addEventListener('input',diUpdate));
+  $('#diV').addEventListener('change',diUpdate);
+  regSim($('#diPlot'),diDraw);
+  diUpdate();
 })();
 
 /* ---------------- Tema scuro / chiaro ---------------- */

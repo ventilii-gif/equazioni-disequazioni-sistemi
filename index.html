@@ -239,6 +239,30 @@ ol.steps li::before{content:counter(st);position:absolute;left:0;top:.42rem;
 .frac .de{border-top:1.5px solid currentColor;padding:0 .28em}
 .sq{white-space:nowrap}
 .sq .sq-i{border-top:1.6px solid currentColor;padding:0 .18em 0 .08em}
+/* ========== Sec-tabs (navigazione 4 pannelli) ========== */
+.sec-tabs{display:flex;gap:.35rem;margin:1.1rem 0 .5rem;flex-wrap:wrap}
+.sec-tab{flex:1;min-width:6rem;padding:.55rem .9rem;border:none;border-radius:8px;
+  font-size:.88em;font-weight:600;cursor:pointer;transition:background .18s,color .18s;
+  background:var(--border);color:var(--muted)}
+.sec-tab.active{background:var(--color-primary);color:#fff}
+.sec-tab:hover:not(.active){background:#d1d5db}
+[data-theme=dark] .sec-tab:hover:not(.active){background:#374151}
+.sec-panel[hidden]{display:none}
+
+/* ========== Quiz migliorato (back + riepilogo errori) ========== */
+.quiz-nav{display:flex;gap:.5rem;margin-top:.7rem}
+.quiz-nav .btn-back{background:var(--border);color:var(--color-text);border:none;
+  border-radius:8px;padding:.45rem .9rem;font-size:.88em;cursor:pointer}
+.quiz-nav .btn-back:disabled{opacity:.4;cursor:default}
+.quiz-errors{margin-top:.9rem}
+.quiz-errors .err-item{margin:.5rem 0;padding:.6rem .9rem;border-radius:8px;
+  background:var(--error-soft);border-left:3px solid var(--error-deep);font-size:.88em}
+.quiz-errors .err-item .err-q{font-weight:600;margin-bottom:.25rem;color:var(--color-text)}
+.quiz-errors .err-item .err-exp{color:var(--muted)}
+.quiz-err-hd{font-weight:700;color:var(--error-deep);margin-top:.8rem .0 .3rem}
+.quiz-teoria-link{display:inline-block;margin-top:.5rem;font-size:.85em;
+  color:var(--color-primary);cursor:pointer;text-decoration:underline}
+
 .det{display:inline-grid;grid-template-columns:auto auto;gap:.05em .7em;
   border-left:1.6px solid currentColor;border-right:1.6px solid currentColor;
   padding:.12em .45em;margin:0 .15em;vertical-align:middle;text-align:center;line-height:1.3}
@@ -1739,8 +1763,17 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     <p class="lead">Il modulo come distanza dallo zero: scioglimento per casi, equazioni con due moduli e metodo dei punti critici.</p>
   </div>
 
-  <p class="sec-label">Teoria</p>
-  <div class="card">
+  
+
+  <nav class="sec-tabs" role="tablist" aria-label="Sezioni">
+    <button class="sec-tab active" data-sectab="teoria" role="tab" aria-selected="true">Teoria</button>
+    <button class="sec-tab" data-sectab="sim" role="tab" aria-selected="false">Simulazione</button>
+    <button class="sec-tab" data-sectab="esercizi" role="tab" aria-selected="false">Esercizi</button>
+    <button class="sec-tab" data-sectab="quiz" role="tab" aria-selected="false">Quiz</button>
+  </nav>
+
+  <div class="sec-panel" data-sectab="teoria">
+    <div class="card">
     <div class="accordion">
       <details open>
         <summary>Definizione e proprietà del valore assoluto</summary>
@@ -1801,9 +1834,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </details>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Simulazione · |ax + b| = c oppure |ax + b| = |px + q|</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="sim" hidden>
+    <div class="card">
     <h2>Risolvi l'equazione in modulo</h2>
     <p class="lead">Il grafico mostra y = |ax+b| (blu) e il secondo membro (arancio). I punti verdi sono le soluzioni.</p>
     <div class="sim-layout">
@@ -1832,9 +1866,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </div>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Esercizi guidati</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="esercizi" hidden>
+    <div class="card">
     <h2>Esempi svolti passo per passo</h2>
     <div class="accordion">
       <details>
@@ -1889,9 +1924,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </details>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Prova tu</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="quiz" hidden>
+    <div class="card">
     <h2>Palestra di autovalutazione</h2>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" aria-selected="true" data-qtab="emod_t">Quiz di teoria (10)</button>
@@ -1900,19 +1936,26 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     <div class="quiz" id="qz-emod_t" data-quiz="emod_t"></div>
     <div class="quiz" id="qz-emod_c" data-quiz="emod_c" hidden></div>
   </div>
+  </div>
 </section>
 
-<!-- ============================================================
-     EQUAZIONI IRRAZIONALI
-============================================================ -->
 <section class="scene" id="eq_irr">
   <div class="page-head">
     <h2>Equazioni irrazionali</h2>
     <p class="lead">Radicali con l'incognita: condizioni di esistenza, elevazione al quadrato e controllo delle soluzioni estranee.</p>
   </div>
 
-  <p class="sec-label">Teoria</p>
-  <div class="card">
+  
+
+  <nav class="sec-tabs" role="tablist" aria-label="Sezioni">
+    <button class="sec-tab active" data-sectab="teoria" role="tab" aria-selected="true">Teoria</button>
+    <button class="sec-tab" data-sectab="sim" role="tab" aria-selected="false">Simulazione</button>
+    <button class="sec-tab" data-sectab="esercizi" role="tab" aria-selected="false">Esercizi</button>
+    <button class="sec-tab" data-sectab="quiz" role="tab" aria-selected="false">Quiz</button>
+  </nav>
+
+  <div class="sec-panel" data-sectab="teoria">
+    <div class="card">
     <div class="accordion">
       <details open>
         <summary>Definizione e condizione di esistenza (CE)</summary>
@@ -1926,7 +1969,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         </div>
       </details>
       <details>
-        <summary>Equazione con un radicale: √f(x) = g(x)</summary>
+        <summary>Equazione con un radicale: <span class="sq">√<span class="sq-i">f(x)</span></span> = g(x)</summary>
         <div class="acc-body">
           <p>Metodo di risoluzione:</p>
           <ol>
@@ -1936,7 +1979,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
             <li>Risolvi l'equazione risultante.</li>
             <li><strong>Verifica</strong> ogni soluzione nella CE e nel secondo membro ≥ 0: le soluzioni che non soddisfano sono <em>estranee</em>.</li>
           </ol>
-          <div class="formula">Esempio: √(x+5) = x−1<br>
+          <div class="formula">Esempio: <span class="sq">√<span class="sq-i">x+5</span></span> = x−1<br>
             CE: x+5 ≥ 0 → x ≥ −5; &nbsp; cond.: x−1 ≥ 0 → x ≥ 1<br>
             Quadrato: x+5 = (x−1)² = x²−2x+1 → x²−3x−4 = 0 → x = 4 ∨ x = −1<br>
             Verifica: x = 4 ≥ 1 ✓ ; &nbsp; x = −1 &lt; 1 → estranea<br>
@@ -1957,7 +2000,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         </div>
       </details>
       <details>
-        <summary>Equazione con due radicali: √f(x) = √g(x) + h(x)</summary>
+        <summary>Equazione con due radicali: <span class="sq">√<span class="sq-i">f(x)</span></span> = <span class="sq">√<span class="sq-i">g(x)</span></span> + h(x)</summary>
         <div class="acc-body">
           <p>Quando compaiono due radicali, isola un radicale per volta:</p>
           <ol>
@@ -1967,24 +2010,25 @@ footer{border-top:1px solid var(--border);background:var(--surface);
             <li>Ripeti se necessario.</li>
             <li>Verifica le soluzioni ottenute.</li>
           </ol>
-          <div class="formula">Esempio: √(x+4) = √(2x−1)<br>
+          <div class="formula">Esempio: <span class="sq">√<span class="sq-i">x+4</span></span> = <span class="sq">√<span class="sq-i">2x−1</span></span><br>
             CE: x ≥ −4 e x ≥ 1/2 → x ≥ 1/2<br>
             Quadrato: x+4 = 2x−1 → x = 5 ✓ &nbsp;&nbsp; S = { 5 }</div>
         </div>
       </details>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Simulazione · √(ax + b) = cx + d</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="sim" hidden>
+    <div class="card">
     <h2>Risolvi l'equazione irrazionale</h2>
-    <p class="lead">Il grafico mostra y = √(ax+b) (blu) e y = cx+d (arancio). Le soluzioni valide (che soddisfano le CE) sono marcate in verde.</p>
+    <p class="lead">Il grafico mostra y = <span class="sq">√<span class="sq-i">ax+b</span></span> (blu) e y = cx+d (arancio). Le soluzioni valide (che soddisfano le CE) sono marcate in verde.</p>
     <div class="sim-layout">
       <div class="sim-pane">
         <div class="eq-display" id="eiEq">—</div>
         <canvas class="plot" id="eiPlot" role="img" aria-label="Grafico equazione irrazionale"></canvas>
         <div class="legend">
-          <span><i style="background:#2563eb"></i> y = √(ax+b)</span>
+          <span><i style="background:#2563eb"></i> y = <span class="sq">√<span class="sq-i">ax+b</span></span></span>
           <span><i style="background:#f59e0b"></i> y = cx+d</span>
           <span><i style="background:#10b981"></i> soluzioni valide</span>
           <span><i style="background:#ef4444"></i> soluzioni estranee</span>
@@ -2001,24 +2045,25 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </div>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Esercizi guidati</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="esercizi" hidden>
+    <div class="card">
     <h2>Esempi svolti passo per passo</h2>
     <div class="accordion">
       <details>
-        <summary>Esercizio 1 · √(2x + 3) = 3</summary>
+        <summary>Esercizio 1 · <span class="sq">√<span class="sq-i">2x + 3</span></span> = 3</summary>
         <div class="acc-body">
           <ol class="steps">
             <li>CE: 2x+3 ≥ 0 → x ≥ −3/2. Secondo membro 3 ≥ 0 ✓</li>
             <li>Elevo al quadrato: <span class="eqline">2x+3 = 9 → 2x = 6 → x = 3</span></li>
-            <li>Verifica: x = 3 ≥ −3/2 ✓; √(2·3+3) = √9 = 3 ✓</li>
+            <li>Verifica: x = 3 ≥ −3/2 ✓; <span class="sq">√<span class="sq-i">2·3+3</span></span> = √9 = 3 ✓</li>
           </ol>
           <div class="sol-box"><span class="t">Soluzione</span><span class="eqline">S = { 3 }</span></div>
         </div>
       </details>
       <details>
-        <summary>Esercizio 2 · √(x + 5) = x − 1 (soluzione estranea)</summary>
+        <summary>Esercizio 2 · <span class="sq">√<span class="sq-i">x + 5</span></span> = x − 1 (soluzione estranea)</summary>
         <div class="acc-body">
           <ol class="steps">
             <li>CE: x+5 ≥ 0 → x ≥ −5; &nbsp; cond.: x−1 ≥ 0 → x ≥ 1</li>
@@ -2030,7 +2075,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         </div>
       </details>
       <details>
-        <summary>Esercizio 3 · √(2x + 1) = √(x + 4)</summary>
+        <summary>Esercizio 3 · <span class="sq">√<span class="sq-i">2x + 1</span></span> = <span class="sq">√<span class="sq-i">x + 4</span></span></summary>
         <div class="acc-body">
           <ol class="steps">
             <li>CE: 2x+1 ≥ 0 → x ≥ −1/2; &nbsp; x+4 ≥ 0 → x ≥ −4 &nbsp;→ &nbsp;x ≥ −1/2</li>
@@ -2041,7 +2086,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         </div>
       </details>
       <details>
-        <summary>Esercizio 4 · √(x + 12) = x (secondo membro lineare con CE incrociata)</summary>
+        <summary>Esercizio 4 · <span class="sq">√<span class="sq-i">x + 12</span></span> = x (secondo membro lineare con CE incrociata)</summary>
         <div class="acc-body">
           <ol class="steps">
             <li>CE: x+12 ≥ 0 → x ≥ −12; &nbsp; cond.: x ≥ 0 (secondo membro ≥ 0)</li>
@@ -2054,9 +2099,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </details>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Prova tu</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="quiz" hidden>
+    <div class="card">
     <h2>Palestra di autovalutazione</h2>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" aria-selected="true" data-qtab="eirr_t">Quiz di teoria (10)</button>
@@ -2065,19 +2111,26 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     <div class="quiz" id="qz-eirr_t" data-quiz="eirr_t"></div>
     <div class="quiz" id="qz-eirr_c" data-quiz="eirr_c" hidden></div>
   </div>
+  </div>
 </section>
 
-<!-- ============================================================
-     DISEQUAZIONI IN MODULO
-============================================================ -->
 <section class="scene" id="diseq_mod">
   <div class="page-head">
     <h2>Disequazioni con valori assoluti</h2>
     <p class="lead">|f(x)| &lt; k e |f(x)| &gt; k: interpretazione geometrica come distanza e risoluzione per casi.</p>
   </div>
 
-  <p class="sec-label">Teoria</p>
-  <div class="card">
+  
+
+  <nav class="sec-tabs" role="tablist" aria-label="Sezioni">
+    <button class="sec-tab active" data-sectab="teoria" role="tab" aria-selected="true">Teoria</button>
+    <button class="sec-tab" data-sectab="sim" role="tab" aria-selected="false">Simulazione</button>
+    <button class="sec-tab" data-sectab="esercizi" role="tab" aria-selected="false">Esercizi</button>
+    <button class="sec-tab" data-sectab="quiz" role="tab" aria-selected="false">Quiz</button>
+  </nav>
+
+  <div class="sec-panel" data-sectab="teoria">
+    <div class="card">
     <div class="accordion">
       <details open>
         <summary>Interpretazione geometrica: distanza dallo zero</summary>
@@ -2133,9 +2186,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </details>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Simulazione · |ax + b| ⋛ c</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="sim" hidden>
+    <div class="card">
     <h2>Disequazione in modulo con costante</h2>
     <p class="lead">La zona colorata indica dove |ax+b| è maggiore (arancio) o minore (blu) di c. L'intervallo soluzione è evidenziato sull'asse x.</p>
     <div class="sim-layout">
@@ -2168,9 +2222,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </div>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Esercizi guidati</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="esercizi" hidden>
+    <div class="card">
     <h2>Esempi svolti passo per passo</h2>
     <div class="accordion">
       <details>
@@ -2221,9 +2276,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </details>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Prova tu</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="quiz" hidden>
+    <div class="card">
     <h2>Palestra di autovalutazione</h2>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" aria-selected="true" data-qtab="dmod_t">Quiz di teoria (10)</button>
@@ -2232,48 +2288,55 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     <div class="quiz" id="qz-dmod_t" data-quiz="dmod_t"></div>
     <div class="quiz" id="qz-dmod_c" data-quiz="dmod_c" hidden></div>
   </div>
+  </div>
 </section>
 
-<!-- ============================================================
-     DISEQUAZIONI IRRAZIONALI
-============================================================ -->
 <section class="scene" id="diseq_irr">
   <div class="page-head">
     <h2>Disequazioni irrazionali</h2>
-    <p class="lead">√f(x) ⋛ g(x): dominio di esistenza, studio per casi in base al segno di g(x) e soluzioni per intervalli.</p>
+    <p class="lead"><span class="sq">√<span class="sq-i">f(x)</span></span> ⋛ g(x): dominio di esistenza, studio per casi in base al segno di g(x) e soluzioni per intervalli.</p>
   </div>
 
-  <p class="sec-label">Teoria</p>
-  <div class="card">
+  
+
+  <nav class="sec-tabs" role="tablist" aria-label="Sezioni">
+    <button class="sec-tab active" data-sectab="teoria" role="tab" aria-selected="true">Teoria</button>
+    <button class="sec-tab" data-sectab="sim" role="tab" aria-selected="false">Simulazione</button>
+    <button class="sec-tab" data-sectab="esercizi" role="tab" aria-selected="false">Esercizi</button>
+    <button class="sec-tab" data-sectab="quiz" role="tab" aria-selected="false">Quiz</button>
+  </nav>
+
+  <div class="sec-panel" data-sectab="teoria">
+    <div class="card">
     <div class="accordion">
       <details open>
         <summary>Condizione di esistenza e impostazione</summary>
         <div class="acc-body">
-          <p>Per ogni disequazione irrazionale del tipo √f(x) ⋛ g(x) il <strong>dominio di esistenza</strong>
+          <p>Per ogni disequazione irrazionale del tipo <span class="sq">√<span class="sq-i">f(x)</span></span> ⋛ g(x) il <strong>dominio di esistenza</strong>
              (DE) richiede f(x) ≥ 0. Le soluzioni devono appartenere al DE.</p>
           <div class="formula center">DE: f(x) ≥ 0</div>
           <p>Il metodo si divide poi in casi in base al segno di g(x).</p>
         </div>
       </details>
       <details>
-        <summary>√f(x) &gt; g(x): tre casi in base al segno di g(x)</summary>
+        <summary><span class="sq">√<span class="sq-i">f(x)</span></span> &gt; g(x): tre casi in base al segno di g(x)</summary>
         <div class="acc-body">
-          <p>La disequazione √f(x) &gt; g(x) si risolve così:</p>
+          <p>La disequazione <span class="sq">√<span class="sq-i">f(x)</span></span> &gt; g(x) si risolve così:</p>
           <div class="tbl-wrap"><table class="tbl">
             <tr><th>Condizione su g(x)</th><th>Cosa fare</th><th>Risultato</th></tr>
-            <tr><td class="m">g(x) &lt; 0</td><td>√f(x) ≥ 0 &gt; g(x): sempre vera sul DE</td><td class="m">DE: f(x) ≥ 0</td></tr>
+            <tr><td class="m">g(x) &lt; 0</td><td><span class="sq">√<span class="sq-i">f(x)</span></span> ≥ 0 &gt; g(x): sempre vera sul DE</td><td class="m">DE: f(x) ≥ 0</td></tr>
             <tr><td class="m">g(x) ≥ 0</td><td>Eleva al quadrato (equivalenza valida)</td><td class="m">f(x) &gt; [g(x)]²</td></tr>
           </table></div>
-          <div class="formula">Esempio: √(x+3) &gt; 2<br>
+          <div class="formula">Esempio: <span class="sq">√<span class="sq-i">x+3</span></span> &gt; 2<br>
             DE: x+3 ≥ 0 → x ≥ −3; &nbsp; g(x) = 2 &gt; 0<br>
             Elevo: x+3 &gt; 4 → x &gt; 1 &nbsp;(già nel DE)<br>
             S = (1; +∞)</div>
         </div>
       </details>
       <details>
-        <summary>√f(x) &lt; g(x): sistema con tre condizioni</summary>
+        <summary><span class="sq">√<span class="sq-i">f(x)</span></span> &lt; g(x): sistema con tre condizioni</summary>
         <div class="acc-body">
-          <p>Affinché √f(x) &lt; g(x) abbia senso, il secondo membro deve essere <strong>strettamente positivo</strong> (il radicale è ≥ 0, quindi deve risultare minore di qualcosa &gt; 0):</p>
+          <p>Affinché <span class="sq">√<span class="sq-i">f(x)</span></span> &lt; g(x) abbia senso, il secondo membro deve essere <strong>strettamente positivo</strong> (il radicale è ≥ 0, quindi deve risultare minore di qualcosa &gt; 0):</p>
           <div class="formula center">
             <div class="det">
               <span>f(x) ≥ 0</span><span>(DE)</span>
@@ -2281,17 +2344,17 @@ footer{border-top:1px solid var(--border);background:var(--surface);
               <span>f(x) &lt; [g(x)]²</span><span>(elevando al quadrato)</span>
             </div>
           </div>
-          <div class="formula">Esempio: √(2x−1) &lt; 3<br>
+          <div class="formula">Esempio: <span class="sq">√<span class="sq-i">2x−1</span></span> &lt; 3<br>
             DE: 2x−1 ≥ 0 → x ≥ 1/2; &nbsp; g = 3 &gt; 0 ✓<br>
             Elevo: 2x−1 &lt; 9 → x &lt; 5<br>
             S = [1/2; 5)</div>
         </div>
       </details>
       <details>
-        <summary>√f(x) ⋛ g(x) con g(x) lineare: schema completo</summary>
+        <summary><span class="sq">√<span class="sq-i">f(x)</span></span> ⋛ g(x) con g(x) lineare: schema completo</summary>
         <div class="acc-body">
           <p>Quando g(x) = cx+d dipende da x, bisogna studiare il segno di g(x) in combinazione con il DE:</p>
-          <div class="formula">Esempio: √(x−1) &gt; x−3<br>
+          <div class="formula">Esempio: <span class="sq">√<span class="sq-i">x−1</span></span> &gt; x−3<br>
             DE: x ≥ 1.<br>
             <b>Caso A</b> (g &lt; 0): x−3 &lt; 0 → x &lt; 3; &nbsp; intersez. DE: 1 ≤ x &lt; 3 → tutto nel DE è soluzione.<br>
             <b>Caso B</b> (g ≥ 0): x−3 ≥ 0 → x ≥ 3; elevo: x−1 &gt; (x−3)² = x²−6x+9<br>
@@ -2301,17 +2364,18 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </details>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Simulazione · √(ax + b) ⋛ c</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="sim" hidden>
+    <div class="card">
     <h2>Disequazione irrazionale con costante</h2>
-    <p class="lead">Il grafico mostra y = √(ax+b) (blu) e la soglia y = c (arancio). La zona soluzione sull'asse x è evidenziata in verde.</p>
+    <p class="lead">Il grafico mostra y = <span class="sq">√<span class="sq-i">ax+b</span></span> (blu) e la soglia y = c (arancio). La zona soluzione sull'asse x è evidenziata in verde.</p>
     <div class="sim-layout">
       <div class="sim-pane">
         <div class="eq-display" id="diEq">—</div>
         <canvas class="plot" id="diPlot" role="img" aria-label="Grafico disequazione irrazionale"></canvas>
         <div class="legend">
-          <span><i style="background:#2563eb"></i> y = √(ax+b)</span>
+          <span><i style="background:#2563eb"></i> y = <span class="sq">√<span class="sq-i">ax+b</span></span></span>
           <span><i style="background:#f59e0b"></i> y = c</span>
           <span><i style="background:#10b981"></i> insieme soluzione</span>
         </div>
@@ -2332,17 +2396,19 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         </div>
         <p class="strip-title">Dominio e confronto</p>
         <div class="sign-strip" id="diStrip"></div>
+        <div id="diSteps"></div>
         <div id="diSol"></div>
       </div>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Esercizi guidati</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="esercizi" hidden>
+    <div class="card">
     <h2>Esempi svolti passo per passo</h2>
     <div class="accordion">
       <details>
-        <summary>Esercizio 1 · √(x + 3) &gt; 2</summary>
+        <summary>Esercizio 1 · <span class="sq">√<span class="sq-i">x + 3</span></span> &gt; 2</summary>
         <div class="acc-body">
           <ol class="steps">
             <li>DE: x+3 ≥ 0 → x ≥ −3; &nbsp; g = 2 &gt; 0 → caso «g positivo».</li>
@@ -2353,7 +2419,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         </div>
       </details>
       <details>
-        <summary>Esercizio 2 · √(2x − 1) ≤ 3</summary>
+        <summary>Esercizio 2 · <span class="sq">√<span class="sq-i">2x − 1</span></span> ≤ 3</summary>
         <div class="acc-body">
           <ol class="steps">
             <li>DE: 2x−1 ≥ 0 → x ≥ 1/2; &nbsp; g = 3 &gt; 0 → elevo.</li>
@@ -2364,7 +2430,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         </div>
       </details>
       <details>
-        <summary>Esercizio 3 · √(x − 1) &gt; x − 3 (g(x) lineare, due casi)</summary>
+        <summary>Esercizio 3 · <span class="sq">√<span class="sq-i">x − 1</span></span> &gt; x − 3 (g(x) lineare, due casi)</summary>
         <div class="acc-body">
           <ol class="steps">
             <li>DE: x ≥ 1.</li>
@@ -2378,7 +2444,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
         </div>
       </details>
       <details>
-        <summary>Esercizio 4 · √(5 − x) ≥ 1</summary>
+        <summary>Esercizio 4 · <span class="sq">√<span class="sq-i">5 − x</span></span> ≥ 1</summary>
         <div class="acc-body">
           <ol class="steps">
             <li>DE: 5−x ≥ 0 → x ≤ 5; &nbsp; g = 1 &gt; 0 → elevo.</li>
@@ -2390,9 +2456,10 @@ footer{border-top:1px solid var(--border);background:var(--surface);
       </details>
     </div>
   </div>
+  </div>
 
-  <p class="sec-label">Prova tu</p>
-  <div class="card">
+  <div class="sec-panel" data-sectab="quiz" hidden>
+    <div class="card">
     <h2>Palestra di autovalutazione</h2>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" aria-selected="true" data-qtab="dirr_t">Quiz di teoria (10)</button>
@@ -2400,6 +2467,7 @@ footer{border-top:1px solid var(--border);background:var(--surface);
     </div>
     <div class="quiz" id="qz-dirr_t" data-quiz="dirr_t"></div>
     <div class="quiz" id="qz-dirr_c" data-quiz="dirr_c" hidden></div>
+  </div>
   </div>
 </section>
 
@@ -3055,193 +3123,193 @@ lit2_c:[
  {q:'Per l’equazione x² − 2x + k = 0, due soluzioni reali distinte si hanno per…',
   opts:['k > 1','k < 1','k = 1','ogni valore di k'],ans:1,
   exp:'Δ/4 = 1 − k > 0 ⟺ k < 1.'},
- {q:’Nell’equazione (k−3)x² + 2x − 1 = 0, quale valore di k abbassa il grado?’,
-  opts:[‘k = 0’,’k = 3’,’k = 1’,’k = −3’],ans:1,
-  exp:’Il coefficiente di x² è k − 3: si annulla per k = 3, e l’equazione diventa 2x − 1 = 0.’}
+ {q:'Nell\u2019equazione (k−3)x² + 2x − 1 = 0, quale valore di k abbassa il grado?',
+  opts:['k = 0','k = 3','k = 1','k = −3'],ans:1,
+  exp:'Il coefficiente di x² è k − 3: si annulla per k = 3, e l\u2019equazione diventa 2x − 1 = 0.'}
 ],
 /* ---------- Equazioni in modulo: teoria ---------- */
 emod_t:[
- {q:’Quanto vale |−7|?’,opts:[‘7’,’−7’,’49’,’1/7’],ans:0,
-  exp:’Il valore assoluto è sempre non negativo: |−7| = 7.’},
- {q:’|x| = k ha soluzioni reali quando k è...’,opts:[‘k ≥ 0’,’k > 0’,’k ∈ ℝ’,’k < 0’],ans:0,
-  exp:’|x| = k ha soluzioni se e solo se k ≥ 0: per k = 0 una soluzione (x = 0), per k > 0 due soluzioni.’},
- {q:’|2x + 1| = −3 ha...’,opts:[‘nessuna soluzione’,’una soluzione’,’due soluzioni’,’infinite soluzioni’],ans:0,
-  exp:’Il modulo è sempre ≥ 0, quindi non può uguagliare un numero negativo: S = ∅.’},
- {q:’|f(x)| = g(x): condizione affinché esistano soluzioni?’,opts:[‘g(x) ≥ 0’,’g(x) > 0’,’g(x) ≠ 0’,’nessuna’],ans:0,
-  exp:’Il primo membro è sempre ≥ 0, quindi anche il secondo deve esserlo: g(x) ≥ 0.’},
- {q:’Quante soluzioni ha in genere |ax + b| = c con c > 0 e a ≠ 0?’,opts:[‘2’,’1’,’0’,’dipende’],ans:0,
-  exp:’Per c > 0 si ottengono due equazioni lineari indipendenti, ciascuna con una soluzione.’},
- {q:’|f(x)| = |g(x)| equivale a...’,opts:[‘f(x) = g(x) oppure f(x) = −g(x)’,’f(x) = g(x)’,’f(x)² = g(x)²’,’f(x) = −g(x)’],ans:0,
-  exp:’|A| = |B| ⟺ A = B ∨ A = −B. Entrambi i casi vanno considerati.’},
- {q:’Geometricamente, |x − a| rappresenta...’,opts:[‘la distanza di x da a’,’il modulo di a’,’la distanza di x dallo 0’,’x meno a’],ans:0,
-  exp:’|x − a| è la distanza del punto x dal punto a sulla retta dei numeri.’},
- {q:’|ax + b| = 0 equivale a...’,opts:[‘ax + b = 0’,’ax = b’,’ax + b = a’,’ax + b = b’],ans:0,
-  exp:’Il modulo è nullo solo quando l’argomento è nullo: |ax + b| = 0 ⟺ ax + b = 0.’},
- {q:’Per risolvere |f(x)| = g(x) con g(x) lineare, occorre...’,opts:[‘risolvere due sistemi e verificare g(x) ≥ 0’,’risolvere solo f(x) = g(x)’,’elevare al quadrato’,’nessuna di queste’],ans:0,
-  exp:’Si ottengono due casi (f = g e f = −g) e si scartano le soluzioni che rendono g(x) < 0.’},
- {q:’Il metodo dei punti critici serve per...’,opts:[‘equazioni/disequazioni con più moduli’,’equazioni di 2° grado’,’sistemi lineari’,’equazioni irrazionali’],ans:0,
-  exp:’I punti critici sono le radici dei polinomi dentro i moduli; dividono ℝ in intervalli con segni determinati.’}
+ {q:'Quanto vale |−7|?',opts:['7','−7','49','1/7'],ans:0,
+  exp:'Il valore assoluto è sempre non negativo: |−7| = 7.'},
+ {q:'|x| = k ha soluzioni reali quando k è...',opts:['k ≥ 0','k > 0','k ∈ ℝ','k < 0'],ans:0,
+  exp:'|x| = k ha soluzioni se e solo se k ≥ 0: per k = 0 una soluzione (x = 0), per k > 0 due soluzioni.'},
+ {q:'|2x + 1| = −3 ha...',opts:['nessuna soluzione','una soluzione','due soluzioni','infinite soluzioni'],ans:0,
+  exp:'Il modulo è sempre ≥ 0, quindi non può uguagliare un numero negativo: S = ∅.'},
+ {q:'|f(x)| = g(x): condizione affinché esistano soluzioni?',opts:['g(x) ≥ 0','g(x) > 0','g(x) ≠ 0','nessuna'],ans:0,
+  exp:'Il primo membro è sempre ≥ 0, quindi anche il secondo deve esserlo: g(x) ≥ 0.'},
+ {q:'Quante soluzioni ha in genere |ax + b| = c con c > 0 e a ≠ 0?',opts:['2','1','0','dipende'],ans:0,
+  exp:'Per c > 0 si ottengono due equazioni lineari indipendenti, ciascuna con una soluzione.'},
+ {q:'|f(x)| = |g(x)| equivale a...',opts:['f(x) = g(x) oppure f(x) = −g(x)','f(x) = g(x)','f(x)² = g(x)²','f(x) = −g(x)'],ans:0,
+  exp:'|A| = |B| ⟺ A = B ∨ A = −B. Entrambi i casi vanno considerati.'},
+ {q:'Geometricamente, |x − a| rappresenta...',opts:['la distanza di x da a','il modulo di a','la distanza di x dallo 0','x meno a'],ans:0,
+  exp:'|x − a| è la distanza del punto x dal punto a sulla retta dei numeri.'},
+ {q:'|ax + b| = 0 equivale a...',opts:['ax + b = 0','ax = b','ax + b = a','ax + b = b'],ans:0,
+  exp:'Il modulo è nullo solo quando l\u2019argomento è nullo: |ax + b| = 0 ⟺ ax + b = 0.'},
+ {q:'Per risolvere |f(x)| = g(x) con g(x) lineare, occorre...',opts:['risolvere due sistemi e verificare g(x) ≥ 0','risolvere solo f(x) = g(x)','elevare al quadrato','nessuna di queste'],ans:0,
+  exp:'Si ottengono due casi (f = g e f = −g) e si scartano le soluzioni che rendono g(x) < 0.'},
+ {q:'Il metodo dei punti critici serve per...',opts:['equazioni/disequazioni con più moduli','equazioni di 2° grado','sistemi lineari','equazioni irrazionali'],ans:0,
+  exp:'I punti critici sono le radici dei polinomi dentro i moduli; dividono ℝ in intervalli con segni determinati.'}
 ],
 /* ---------- Equazioni in modulo: calcolo ---------- */
 emod_c:[
- {q:’Soluzioni di |x − 2| = 5’,opts:[‘x = 7 oppure x = −3’,’x = 7 oppure x = 3’,’x = 3 oppure x = −7’,’x = −7’],ans:0,
-  exp:’Caso 1: x−2 = 5 → x = 7. Caso 2: x−2 = −5 → x = −3.’},
- {q:’Soluzioni di |2x + 3| = 7’,opts:[‘x = 2 oppure x = −5’,’x = 5 oppure x = −2’,’x = 2 oppure x = 5’,’x = −5’],ans:0,
-  exp:’Caso 1: 2x+3 = 7 → x = 2. Caso 2: 2x+3 = −7 → x = −5.’},
- {q:’Soluzioni di |x + 4| = 2x − 1 (con verifica)’,opts:[‘solo x = 5’,’x = 5 e x = −1’,’solo x = −1’,’nessuna’],ans:0,
-  exp:’Caso 1: x+4 = 2x−1 → x = 5 (verifica: 2·5−1 = 9 ≥ 0 ✓). Caso 2: x = −1 (verifica: 2·(−1)−1 = −3 < 0 ✗, estranea).’},
- {q:’Soluzioni di |3x − 6| = 0’,opts:[‘x = 2’,’x = 0 oppure x = 6’,’x = −2’,’x = 6’],ans:0,
-  exp:’|3x−6| = 0 ⟺ 3x−6 = 0 → x = 2.’},
- {q:’Soluzioni di |x| = x + 4’,opts:[‘x = −2’,’x = 2 oppure x = −2’,’x = 2’,’nessuna’],ans:0,
-  exp:’Caso 1: x = x+4 → 0 = 4, impossibile. Caso 2: −x = x+4 → x = −2 (verifica: −2+4 = 2 > 0 ✓).’},
- {q:’Soluzioni di |2x − 1| = |x + 3|’,opts:[‘x = 4 oppure x = −2/3’,’x = 4’,’x = −2/3’,’x = 2 oppure x = 4’],ans:0,
-  exp:’Caso 1: 2x−1 = x+3 → x = 4. Caso 2: 2x−1 = −(x+3) → 3x = −2 → x = −2/3.’},
- {q:’|x − 3| = −2 ha...’,opts:[‘nessuna soluzione’,’x = 1 oppure x = 5’,’x = 1’,’x = 5’],ans:0,
-  exp:’Il secondo membro è −2 < 0: il modulo non può essere negativo, quindi S = ∅.’},
- {q:’Soluzioni di |x + 2| + |x − 1| = 5 (metodo punti critici)’,opts:[‘x = −3 oppure x = 2’,’x = −3’,’x = 2’,’x = −1/2’],ans:0,
-  exp:’Punti critici −2 e 1. Per x < −2: −2x−1 = 5 → x = −3 ✓. Per −2≤x<1: costante 3 ≠ 5 → ∅. Per x≥1: 2x−1=5 → x = 3... attenti: (x+2)+(x−1)=5→2x+1=5→x=2 ✓.’},
- {q:’Soluzioni di |5x + 2| = 3’,opts:[‘x = 1/5 oppure x = −1’,’x = 1 oppure x = −1/5’,’x = 1/5’,’x = −1’],ans:0,
-  exp:’Caso 1: 5x+2 = 3 → x = 1/5. Caso 2: 5x+2 = −3 → x = −1.’},
- {q:’Soluzioni di |2x − 4| = |x|’,opts:[‘x = 4 oppure x = 4/3’,’x = 4’,’x = 4/3’,’x = −4 oppure x = −4/3’],ans:0,
-  exp:’Caso 1: 2x−4 = x → x = 4. Caso 2: 2x−4 = −x → 3x = 4 → x = 4/3.’}
+ {q:'Soluzioni di |x − 2| = 5',opts:['x = 7 oppure x = −3','x = 7 oppure x = 3','x = 3 oppure x = −7','x = −7'],ans:0,
+  exp:'Caso 1: x−2 = 5 → x = 7. Caso 2: x−2 = −5 → x = −3.'},
+ {q:'Soluzioni di |2x + 3| = 7',opts:['x = 2 oppure x = −5','x = 5 oppure x = −2','x = 2 oppure x = 5','x = −5'],ans:0,
+  exp:'Caso 1: 2x+3 = 7 → x = 2. Caso 2: 2x+3 = −7 → x = −5.'},
+ {q:'Soluzioni di |x + 4| = 2x − 1 (con verifica)',opts:['solo x = 5','x = 5 e x = −1','solo x = −1','nessuna'],ans:0,
+  exp:'Caso 1: x+4 = 2x−1 → x = 5 (verifica: 2·5−1 = 9 ≥ 0 ✓). Caso 2: x = −1 (verifica: 2·(−1)−1 = −3 < 0 ✗, estranea).'},
+ {q:'Soluzioni di |3x − 6| = 0',opts:['x = 2','x = 0 oppure x = 6','x = −2','x = 6'],ans:0,
+  exp:'|3x−6| = 0 ⟺ 3x−6 = 0 → x = 2.'},
+ {q:'Soluzioni di |x| = x + 4',opts:['x = −2','x = 2 oppure x = −2','x = 2','nessuna'],ans:0,
+  exp:'Caso 1: x = x+4 → 0 = 4, impossibile. Caso 2: −x = x+4 → x = −2 (verifica: −2+4 = 2 > 0 ✓).'},
+ {q:'Soluzioni di |2x − 1| = |x + 3|',opts:['x = 4 oppure x = −2/3','x = 4','x = −2/3','x = 2 oppure x = 4'],ans:0,
+  exp:'Caso 1: 2x−1 = x+3 → x = 4. Caso 2: 2x−1 = −(x+3) → 3x = −2 → x = −2/3.'},
+ {q:'|x − 3| = −2 ha...',opts:['nessuna soluzione','x = 1 oppure x = 5','x = 1','x = 5'],ans:0,
+  exp:'Il secondo membro è −2 < 0: il modulo non può essere negativo, quindi S = ∅.'},
+ {q:'Soluzioni di |x + 2| + |x − 1| = 5 (metodo punti critici)',opts:['x = −3 oppure x = 2','x = −3','x = 2','x = −1/2'],ans:0,
+  exp:'Punti critici −2 e 1. Per x < −2: −2x−1 = 5 → x = −3 ✓. Per −2≤x<1: costante 3 ≠ 5 → ∅. Per x≥1: 2x−1=5 → x = 3... attenti: (x+2)+(x−1)=5→2x+1=5→x=2 ✓.'},
+ {q:'Soluzioni di |5x + 2| = 3',opts:['x = 1/5 oppure x = −1','x = 1 oppure x = −1/5','x = 1/5','x = −1'],ans:0,
+  exp:'Caso 1: 5x+2 = 3 → x = 1/5. Caso 2: 5x+2 = −3 → x = −1.'},
+ {q:'Soluzioni di |2x − 4| = |x|',opts:['x = 4 oppure x = 4/3','x = 4','x = 4/3','x = −4 oppure x = −4/3'],ans:0,
+  exp:'Caso 1: 2x−4 = x → x = 4. Caso 2: 2x−4 = −x → 3x = 4 → x = 4/3.'}
 ],
 /* ---------- Equazioni irrazionali: teoria ---------- */
 eirr_t:[
- {q:’La condizione di esistenza per √(ax+b) è...’,opts:[‘ax+b ≥ 0’,’ax+b > 0’,’ax+b ≠ 0’,’sempre valida’],ans:0,
-  exp:’La radice quadrata è definita solo per argomento non negativo: ax+b ≥ 0.’},
- {q:’In √f(x) = g(x), oltre alla CE, quale condizione è necessaria?’,opts:[‘g(x) ≥ 0’,’g(x) > 0’,’g(x) ≠ 0’,’nessuna’],ans:0,
-  exp:’Il primo membro √f(x) è ≥ 0, quindi anche il secondo g(x) deve essere ≥ 0.’},
- {q:’Perché elevare al quadrato può introdurre soluzioni estranee?’,opts:[‘Perché x² = y² ⟺ |x| = |y|, non x = y’,’Perché si perde la CE’,’Perché il quadrato è sempre positivo’,’Perché si moltiplicano i coefficienti’],ans:0,
-  exp:’Elevando al quadrato si ottiene |f| = |g|, che include anche f = −g: le soluzioni di questo caso sono estranee.’},
- {q:’√(x²+1) = 0 ha soluzioni?’,opts:[‘No, mai’,’Sì, x = 0’,’Sì, x = ±1’,’Sì, x = i’],ans:0,
-  exp:’x²+1 ≥ 1 > 0, quindi √(x²+1) ≥ 1 > 0: non può essere uguale a zero.’},
- {q:’In √(x−3) = x−5, la condizione g(x) ≥ 0 impone...’,opts:[‘x ≥ 5’,’x ≥ 3’,’x ≥ −5’,’x ≠ 5’],ans:0,
-  exp:’g(x) = x−5 ≥ 0 → x ≥ 5. Questa va combinata con la CE (x ≥ 3): si ottiene x ≥ 5.’},
- {q:’L’equazione √(4x+9) = 2x+3 risulta equivalente (dopo elevamento) a...’,opts:[‘4x+9 = (2x+3)²’,’4x+9 = 4x+9’,’4x = 4x’,’4x² + 9 = 2x+3’],ans:0,
-  exp:’Elevando al quadrato: √(4x+9)² = (2x+3)² → 4x+9 = 4x²+12x+9.’},
- {q:’Se √f(x) = g(x) con g(x) < 0, l’equazione è...’,opts:[‘impossibile’,’sempre possibile’,’da elevare al quadrato’,’indeterminata’],ans:0,
-  exp:’Il radicale è ≥ 0, quindi non può uguagliare un valore negativo: S = ∅.’},
- {q:’La CE di √(2x−1) = √(x+4) è...’,opts:[‘x ≥ 1/2’,’x ≥ −4’,’x ≥ 1/2 e x ≥ −4 → x ≥ 1/2’,’x ≥ 0’],ans:2,
-  exp:’Servono entrambe: 2x−1 ≥ 0 → x ≥ 1/2 e x+4 ≥ 0 → x ≥ −4. Combinando: x ≥ 1/2.’},
- {q:’La verifica finale in un’equazione irrazionale serve a...’,opts:[‘eliminare le soluzioni estranee’,’trovare le CE’,’elevare al quadrato’,’semplificare i radicali’],ans:0,
-  exp:’Dopo aver elevato al quadrato, alcune soluzioni potrebbero non soddisfare l’equazione originale. La verifica le elimina.’},
- {q:’√(x+5) = x−1: quante sono le soluzioni valide?’,opts:[‘1’,’2’,’0’,’infinite’],ans:0,
-  exp:’Elevando: x+5 = (x−1)² → x²−3x−4 = 0 → x = 4 o x = −1. Solo x = 4 verifica g(x) = x−1 ≥ 0.’}
+ {q:'La condizione di esistenza per √(ax+b) è...',opts:['ax+b ≥ 0','ax+b > 0','ax+b ≠ 0','sempre valida'],ans:0,
+  exp:'La radice quadrata è definita solo per argomento non negativo: ax+b ≥ 0.'},
+ {q:'In √f(x) = g(x), oltre alla CE, quale condizione è necessaria?',opts:['g(x) ≥ 0','g(x) > 0','g(x) ≠ 0','nessuna'],ans:0,
+  exp:'Il primo membro √f(x) è ≥ 0, quindi anche il secondo g(x) deve essere ≥ 0.'},
+ {q:'Perché elevare al quadrato può introdurre soluzioni estranee?',opts:['Perché x² = y² ⟺ |x| = |y|, non x = y','Perché si perde la CE','Perché il quadrato è sempre positivo','Perché si moltiplicano i coefficienti'],ans:0,
+  exp:'Elevando al quadrato si ottiene |f| = |g|, che include anche f = −g: le soluzioni di questo caso sono estranee.'},
+ {q:'√(x²+1) = 0 ha soluzioni?',opts:['No, mai','Sì, x = 0','Sì, x = ±1','Sì, x = i'],ans:0,
+  exp:'x²+1 ≥ 1 > 0, quindi √(x²+1) ≥ 1 > 0: non può essere uguale a zero.'},
+ {q:'In √(x−3) = x−5, la condizione g(x) ≥ 0 impone...',opts:['x ≥ 5','x ≥ 3','x ≥ −5','x ≠ 5'],ans:0,
+  exp:'g(x) = x−5 ≥ 0 → x ≥ 5. Questa va combinata con la CE (x ≥ 3): si ottiene x ≥ 5.'},
+ {q:'L\u2019equazione √(4x+9) = 2x+3 risulta equivalente (dopo elevamento) a...',opts:['4x+9 = (2x+3)²','4x+9 = 4x+9','4x = 4x','4x² + 9 = 2x+3'],ans:0,
+  exp:'Elevando al quadrato: √(4x+9)² = (2x+3)² → 4x+9 = 4x²+12x+9.'},
+ {q:'Se √f(x) = g(x) con g(x) < 0, l\u2019equazione è...',opts:['impossibile','sempre possibile','da elevare al quadrato','indeterminata'],ans:0,
+  exp:'Il radicale è ≥ 0, quindi non può uguagliare un valore negativo: S = ∅.'},
+ {q:'La CE di √(2x−1) = √(x+4) è...',opts:['x ≥ 1/2','x ≥ −4','x ≥ 1/2 e x ≥ −4 → x ≥ 1/2','x ≥ 0'],ans:2,
+  exp:'Servono entrambe: 2x−1 ≥ 0 → x ≥ 1/2 e x+4 ≥ 0 → x ≥ −4. Combinando: x ≥ 1/2.'},
+ {q:'La verifica finale in un\u2019equazione irrazionale serve a...',opts:['eliminare le soluzioni estranee','trovare le CE','elevare al quadrato','semplificare i radicali'],ans:0,
+  exp:'Dopo aver elevato al quadrato, alcune soluzioni potrebbero non soddisfare l\u2019equazione originale. La verifica le elimina.'},
+ {q:'√(x+5) = x−1: quante sono le soluzioni valide?',opts:['1','2','0','infinite'],ans:0,
+  exp:'Elevando: x+5 = (x−1)² → x²−3x−4 = 0 → x = 4 o x = −1. Solo x = 4 verifica g(x) = x−1 ≥ 0.'}
 ],
 /* ---------- Equazioni irrazionali: calcolo ---------- */
 eirr_c:[
- {q:’Soluzione di √(x−1) = 3’,opts:[‘x = 10’,’x = 4’,’x = 8’,’x = 2’],ans:0,
-  exp:’CE: x ≥ 1. Elevo: x−1 = 9 → x = 10. Verifica: √9 = 3 ✓.’},
- {q:’Soluzione di √(2x+3) = 5’,opts:[‘x = 11’,’x = 14’,’x = 4’,’x = −1’],ans:0,
-  exp:’CE: x ≥ −3/2. Elevo: 2x+3 = 25 → x = 11. Verifica: √25 = 5 ✓.’},
- {q:’Soluzione di √(3x−5) = 2’,opts:[‘x = 3’,’x = 2’,’x = 4’,’x = −1’],ans:0,
-  exp:’Elevo: 3x−5 = 4 → x = 3. CE: x ≥ 5/3 ✓.’},
- {q:’Soluzioni valide di √(x+2) = x (con verifica)’,opts:[‘solo x = 2’,’x = 2 e x = −1’,’solo x = −1’,’nessuna’],ans:0,
-  exp:’Elevo: x+2 = x² → x²−x−2 = 0 → x = 2 o x = −1. Verifica: x = 2 ≥ 0 ✓; x = −1 < 0 → estranea.’},
- {q:’Soluzioni valide di √(x−1) = x−3’,opts:[‘solo x = 5’,’x = 5 e x = 2’,’solo x = 2’,’nessuna’],ans:0,
-  exp:’CE: x ≥ 1; g ≥ 0: x ≥ 3. Elevo: x−1 = x²−6x+9 → x²−7x+10 = 0 → x = 5 o x = 2. Solo x = 5 ≥ 3 ✓.’},
- {q:’Soluzione di √(2x−1) = √(x+5)’,opts:[‘x = 6’,’x = 4’,’x = 3’,’x = 2’],ans:0,
-  exp:’CE: x ≥ 1/2. Elevo: 2x−1 = x+5 → x = 6. Verifica: √11 = √11 ✓.’},
- {q:’Soluzioni di √(x²+5) = 3’,opts:[‘x = 2 oppure x = −2’,’x = 2’,’x = 4’,’x = −4 oppure x = 4’],ans:0,
-  exp:’Elevo: x²+5 = 9 → x² = 4 → x = ±2. Entrambe verificano la CE (argomento già ≥ 0).’},
- {q:’Soluzione di √(x+12) = x’,opts:[‘x = 4’,’x = −3’,’x = 3 oppure x = −4’,’x = 4 oppure x = −3’],ans:0,
-  exp:’CE: x ≥ 0. Elevo: x+12 = x² → (x−4)(x+3) = 0 → x = 4 o x = −3. Solo x = 4 ≥ 0 ✓.’},
- {q:’Soluzione di √(2x−8) = √(x−1)’,opts:[‘x = 7’,’x = 9’,’x = 4’,’x = 3’],ans:0,
-  exp:’CE: x ≥ 4. Elevo: 2x−8 = x−1 → x = 7. Verifica: √6 = √6 ✓.’},
- {q:’Soluzione di √(4x+1) = 3’,opts:[‘x = 2’,’x = 4’,’x = 1’,’x = 8’],ans:0,
-  exp:’Elevo: 4x+1 = 9 → x = 2. CE: x ≥ −1/4 ✓.’}
+ {q:'Soluzione di √(x−1) = 3',opts:['x = 10','x = 4','x = 8','x = 2'],ans:0,
+  exp:'CE: x ≥ 1. Elevo: x−1 = 9 → x = 10. Verifica: √9 = 3 ✓.'},
+ {q:'Soluzione di √(2x+3) = 5',opts:['x = 11','x = 14','x = 4','x = −1'],ans:0,
+  exp:'CE: x ≥ −3/2. Elevo: 2x+3 = 25 → x = 11. Verifica: √25 = 5 ✓.'},
+ {q:'Soluzione di √(3x−5) = 2',opts:['x = 3','x = 2','x = 4','x = −1'],ans:0,
+  exp:'Elevo: 3x−5 = 4 → x = 3. CE: x ≥ 5/3 ✓.'},
+ {q:'Soluzioni valide di √(x+2) = x (con verifica)',opts:['solo x = 2','x = 2 e x = −1','solo x = −1','nessuna'],ans:0,
+  exp:'Elevo: x+2 = x² → x²−x−2 = 0 → x = 2 o x = −1. Verifica: x = 2 ≥ 0 ✓; x = −1 < 0 → estranea.'},
+ {q:'Soluzioni valide di √(x−1) = x−3',opts:['solo x = 5','x = 5 e x = 2','solo x = 2','nessuna'],ans:0,
+  exp:'CE: x ≥ 1; g ≥ 0: x ≥ 3. Elevo: x−1 = x²−6x+9 → x²−7x+10 = 0 → x = 5 o x = 2. Solo x = 5 ≥ 3 ✓.'},
+ {q:'Soluzione di √(2x−1) = √(x+5)',opts:['x = 6','x = 4','x = 3','x = 2'],ans:0,
+  exp:'CE: x ≥ 1/2. Elevo: 2x−1 = x+5 → x = 6. Verifica: √11 = √11 ✓.'},
+ {q:'Soluzioni di √(x²+5) = 3',opts:['x = 2 oppure x = −2','x = 2','x = 4','x = −4 oppure x = 4'],ans:0,
+  exp:'Elevo: x²+5 = 9 → x² = 4 → x = ±2. Entrambe verificano la CE (argomento già ≥ 0).'},
+ {q:'Soluzione di √(x+12) = x',opts:['x = 4','x = −3','x = 3 oppure x = −4','x = 4 oppure x = −3'],ans:0,
+  exp:'CE: x ≥ 0. Elevo: x+12 = x² → (x−4)(x+3) = 0 → x = 4 o x = −3. Solo x = 4 ≥ 0 ✓.'},
+ {q:'Soluzione di √(2x−8) = √(x−1)',opts:['x = 7','x = 9','x = 4','x = 3'],ans:0,
+  exp:'CE: x ≥ 4. Elevo: 2x−8 = x−1 → x = 7. Verifica: √6 = √6 ✓.'},
+ {q:'Soluzione di √(4x+1) = 3',opts:['x = 2','x = 4','x = 1','x = 8'],ans:0,
+  exp:'Elevo: 4x+1 = 9 → x = 2. CE: x ≥ −1/4 ✓.'}
 ],
 /* ---------- Disequazioni in modulo: teoria ---------- */
 dmod_t:[
- {q:’|x| < k (k > 0) equivale a...’,opts:[‘−k < x < k’,’x < k’,’x > −k’,’x < k oppure x > −k’],ans:0,
-  exp:’|x| < k ⟺ x dista meno di k dallo 0 ⟺ −k < x < k: intervallo aperto.’},
- {q:’|x| > k (k > 0) equivale a...’,opts:[‘x < −k oppure x > k’,’−k < x < k’,’x > k’,’x < k’],ans:0,
-  exp:’|x| > k ⟺ x dista più di k dallo 0 ⟺ x < −k ∨ x > k: unione di due semirette.’},
- {q:’|x − a| < r rappresenta...’,opts:[‘un intervallo centrato in a di raggio r’,’una semiretta da a’,’il segmento [0; r]’,’x vicino a r’],ans:0,
-  exp:’|x − a| < r ⟺ a−r < x < a+r: l\’intervallo (a−r; a+r), centrato in a.’},
- {q:’|3x + 1| ≥ 0 è...’,opts:[‘sempre vera (S = ℝ)’,’sempre falsa’,’vera solo per x ≥ 0’,’vera solo per x = −1/3’],ans:0,
-  exp:’Il modulo è sempre ≥ 0, quindi |3x+1| ≥ 0 è un’identità: valida per ogni x ∈ ℝ.’},
- {q:’|f(x)| < 0 ha...’,opts:[‘S = ∅’,’S = ℝ’,’una soluzione’,’due soluzioni’],ans:0,
-  exp:’Il modulo è ≥ 0, non può essere strettamente negativo: S = ∅.’},
- {q:’|f(x)| ≤ 0 equivale a...’,opts:[‘f(x) = 0’,’f(x) < 0’,’|f(x)| = 0 e f(x) = 0’,’f(x) ≥ 0’],ans:0,
-  exp:’|f(x)| ≤ 0 con |f(x)| ≥ 0 implica |f(x)| = 0, cioè f(x) = 0: un solo punto.’},
- {q:’La soluzione di |x| ≤ 3 è...’,opts:[‘[−3; 3]’,’(−3; 3)’,’(−∞; −3] ∪ [3; +∞)’,’ℝ’],ans:0,
-  exp:’|x| ≤ 3 ⟺ −3 ≤ x ≤ 3: intervallo chiuso.’},
- {q:’|2x − 1| > 3 equivale a...’,opts:[‘2x−1 < −3 oppure 2x−1 > 3’,’−3 < 2x−1 < 3’,’2x−1 = 3’,’2x−1 < 3’],ans:0,
-  exp:’Con k = 3 > 0 e verso >, i due casi sono: 2x−1 < −3 (→ x < −1) oppure 2x−1 > 3 (→ x > 2).’},
- {q:’Se k < 0, la disequazione |f(x)| > k è...’,opts:[‘sempre vera (S = ℝ)’,’sempre falsa’,’dipende da f’,’impossibile’],ans:0,
-  exp:’Il modulo è ≥ 0 > k, quindi è sempre maggiore di un numero negativo: S = ℝ.’},
- {q:’|f(x)| > |g(x)| si risolve con...’,opts:[‘metodo dei punti critici’,’formula quadratica’,’elevamento al quadrato diretto’,’sostituzione’],ans:0,
-  exp:’Si trovano i punti critici (radici dei polinomi nei moduli), si studia il segno in ogni intervallo e si combinano i risultati.’}
+ {q:'|x| < k (k > 0) equivale a...',opts:['−k < x < k','x < k','x > −k','x < k oppure x > −k'],ans:0,
+  exp:'|x| < k ⟺ x dista meno di k dallo 0 ⟺ −k < x < k: intervallo aperto.'},
+ {q:'|x| > k (k > 0) equivale a...',opts:['x < −k oppure x > k','−k < x < k','x > k','x < k'],ans:0,
+  exp:'|x| > k ⟺ x dista più di k dallo 0 ⟺ x < −k ∨ x > k: unione di due semirette.'},
+ {q:'|x − a| < r rappresenta...',opts:['un intervallo centrato in a di raggio r','una semiretta da a','il segmento [0; r]','x vicino a r'],ans:0,
+  exp:'|x − a| < r ⟺ a−r < x < a+r: l\’intervallo (a−r; a+r), centrato in a.'},
+ {q:'|3x + 1| ≥ 0 è...',opts:['sempre vera (S = ℝ)','sempre falsa','vera solo per x ≥ 0','vera solo per x = −1/3'],ans:0,
+  exp:'Il modulo è sempre ≥ 0, quindi |3x+1| ≥ 0 è un\u2019identità: valida per ogni x ∈ ℝ.'},
+ {q:'|f(x)| < 0 ha...',opts:['S = ∅','S = ℝ','una soluzione','due soluzioni'],ans:0,
+  exp:'Il modulo è ≥ 0, non può essere strettamente negativo: S = ∅.'},
+ {q:'|f(x)| ≤ 0 equivale a...',opts:['f(x) = 0','f(x) < 0','|f(x)| = 0 e f(x) = 0','f(x) ≥ 0'],ans:0,
+  exp:'|f(x)| ≤ 0 con |f(x)| ≥ 0 implica |f(x)| = 0, cioè f(x) = 0: un solo punto.'},
+ {q:'La soluzione di |x| ≤ 3 è...',opts:['[−3; 3]','(−3; 3)','(−∞; −3] ∪ [3; +∞)','ℝ'],ans:0,
+  exp:'|x| ≤ 3 ⟺ −3 ≤ x ≤ 3: intervallo chiuso.'},
+ {q:'|2x − 1| > 3 equivale a...',opts:['2x−1 < −3 oppure 2x−1 > 3','−3 < 2x−1 < 3','2x−1 = 3','2x−1 < 3'],ans:0,
+  exp:'Con k = 3 > 0 e verso >, i due casi sono: 2x−1 < −3 (→ x < −1) oppure 2x−1 > 3 (→ x > 2).'},
+ {q:'Se k < 0, la disequazione |f(x)| > k è...',opts:['sempre vera (S = ℝ)','sempre falsa','dipende da f','impossibile'],ans:0,
+  exp:'Il modulo è ≥ 0 > k, quindi è sempre maggiore di un numero negativo: S = ℝ.'},
+ {q:'|f(x)| > |g(x)| si risolve con...',opts:['metodo dei punti critici','formula quadratica','elevamento al quadrato diretto','sostituzione'],ans:0,
+  exp:'Si trovano i punti critici (radici dei polinomi nei moduli), si studia il segno in ogni intervallo e si combinano i risultati.'}
 ],
 /* ---------- Disequazioni in modulo: calcolo ---------- */
 dmod_c:[
- {q:’Soluzione di |x − 2| < 3’,opts:[‘−1 < x < 5’,’x < −1 oppure x > 5’,’−1 ≤ x ≤ 5’,’x < 5’],ans:0,
-  exp:’−3 < x−2 < 3 → −1 < x < 5: intervallo aperto (−1; 5).’},
- {q:’Soluzione di |2x + 1| ≥ 5’,opts:[‘x ≤ −3 oppure x ≥ 2’,’−3 ≤ x ≤ 2’,’x ≥ 2’,’x ≤ −3’],ans:0,
-  exp:’2x+1 ≤ −5 → x ≤ −3 ∨ 2x+1 ≥ 5 → x ≥ 2.’},
- {q:’Soluzione di |x + 3| ≤ 2’,opts:[‘−5 ≤ x ≤ −1’,’x < −5 oppure x > −1’,’−1 ≤ x ≤ 5’,’x ≥ −1’],ans:0,
-  exp:’−2 ≤ x+3 ≤ 2 → −5 ≤ x ≤ −1: intervallo chiuso.’},
- {q:’Soluzione di |3x − 6| > 9’,opts:[‘x < −1 oppure x > 5’,’−1 < x < 5’,’x > 5’,’x < −1’],ans:0,
-  exp:’3x−6 < −9 → x < −1 ∨ 3x−6 > 9 → x > 5.’},
- {q:’Soluzione di |x| < 4’,opts:[‘−4 < x < 4’,’x < 4’,’x > −4’,’x < −4 oppure x > 4’],ans:0,
-  exp:’|x| < 4 ⟺ −4 < x < 4: intervallo aperto simmetrico.’},
- {q:’Soluzione di |2x − 3| ≤ 7’,opts:[‘−2 ≤ x ≤ 5’,’x < −2 oppure x > 5’,’−2 < x < 5’,’x ≤ 5’],ans:0,
-  exp:’−7 ≤ 2x−3 ≤ 7 → −4 ≤ 2x ≤ 10 → −2 ≤ x ≤ 5.’},
- {q:’Soluzione di |x + 5| > 0’,opts:[‘x ≠ −5 (cioè ℝ \\ {−5})’,’x > −5’,’x < −5’,’S = ∅’],ans:0,
-  exp:’|x+5| = 0 solo per x = −5; altrimenti > 0. Soluzione: x ≠ −5.’},
- {q:’Soluzione di |x − 1| ≤ 0’,opts:[‘x = 1’,’x ≥ 1’,’x ≤ 1’,’S = ∅’],ans:0,
-  exp:’|x−1| ≤ 0 con modulo ≥ 0 → |x−1| = 0 → x = 1.’},
- {q:’Soluzione di |4x − 2| < 6’,opts:[‘−1 < x < 2’,’x < −1 oppure x > 2’,’−1 ≤ x ≤ 2’,’x > 2’],ans:0,
-  exp:’−6 < 4x−2 < 6 → −4 < 4x < 8 → −1 < x < 2.’},
- {q:’Soluzione di |2x + 5| > 1’,opts:[‘x < −3 oppure x > −2’,’−3 < x < −2’,’x > −2’,’x < −3’],ans:0,
-  exp:’2x+5 < −1 → x < −3 ∨ 2x+5 > 1 → x > −2.’}
+ {q:'Soluzione di |x − 2| < 3',opts:['−1 < x < 5','x < −1 oppure x > 5','−1 ≤ x ≤ 5','x < 5'],ans:0,
+  exp:'−3 < x−2 < 3 → −1 < x < 5: intervallo aperto (−1; 5).'},
+ {q:'Soluzione di |2x + 1| ≥ 5',opts:['x ≤ −3 oppure x ≥ 2','−3 ≤ x ≤ 2','x ≥ 2','x ≤ −3'],ans:0,
+  exp:'2x+1 ≤ −5 → x ≤ −3 ∨ 2x+1 ≥ 5 → x ≥ 2.'},
+ {q:'Soluzione di |x + 3| ≤ 2',opts:['−5 ≤ x ≤ −1','x < −5 oppure x > −1','−1 ≤ x ≤ 5','x ≥ −1'],ans:0,
+  exp:'−2 ≤ x+3 ≤ 2 → −5 ≤ x ≤ −1: intervallo chiuso.'},
+ {q:'Soluzione di |3x − 6| > 9',opts:['x < −1 oppure x > 5','−1 < x < 5','x > 5','x < −1'],ans:0,
+  exp:'3x−6 < −9 → x < −1 ∨ 3x−6 > 9 → x > 5.'},
+ {q:'Soluzione di |x| < 4',opts:['−4 < x < 4','x < 4','x > −4','x < −4 oppure x > 4'],ans:0,
+  exp:'|x| < 4 ⟺ −4 < x < 4: intervallo aperto simmetrico.'},
+ {q:'Soluzione di |2x − 3| ≤ 7',opts:['−2 ≤ x ≤ 5','x < −2 oppure x > 5','−2 < x < 5','x ≤ 5'],ans:0,
+  exp:'−7 ≤ 2x−3 ≤ 7 → −4 ≤ 2x ≤ 10 → −2 ≤ x ≤ 5.'},
+ {q:'Soluzione di |x + 5| > 0',opts:['x ≠ −5 (cioè ℝ \\ {−5})','x > −5','x < −5','S = ∅'],ans:0,
+  exp:'|x+5| = 0 solo per x = −5; altrimenti > 0. Soluzione: x ≠ −5.'},
+ {q:'Soluzione di |x − 1| ≤ 0',opts:['x = 1','x ≥ 1','x ≤ 1','S = ∅'],ans:0,
+  exp:'|x−1| ≤ 0 con modulo ≥ 0 → |x−1| = 0 → x = 1.'},
+ {q:'Soluzione di |4x − 2| < 6',opts:['−1 < x < 2','x < −1 oppure x > 2','−1 ≤ x ≤ 2','x > 2'],ans:0,
+  exp:'−6 < 4x−2 < 6 → −4 < 4x < 8 → −1 < x < 2.'},
+ {q:'Soluzione di |2x + 5| > 1',opts:['x < −3 oppure x > −2','−3 < x < −2','x > −2','x < −3'],ans:0,
+  exp:'2x+5 < −1 → x < −3 ∨ 2x+5 > 1 → x > −2.'}
 ],
 /* ---------- Disequazioni irrazionali: teoria ---------- */
 dirr_t:[
- {q:’La condizione di esistenza per √f(x) ⋛ g(x) è...’,opts:[‘f(x) ≥ 0’,’f(x) > 0’,’g(x) ≥ 0’,’f(x) ≤ g(x)’],ans:0,
-  exp:’Il radicando deve essere non negativo: f(x) ≥ 0. Questa è la condizione di esistenza (CE/DE).’},
- {q:’√f(x) > g(x) con g(x) < 0 e f(x) ≥ 0 è...’,opts:[‘sempre vera sul DE’,’sempre falsa’,’da elevare al quadrato’,’impossibile’],ans:0,
-  exp:’√f(x) ≥ 0 > g(x): il radicale è sempre maggiore di un numero negativo, quindi la disequazione vale per tutto il DE.’},
- {q:’√f(x) > g(x) con g(x) ≥ 0: elevando al quadrato si ottiene...’,opts:[‘f(x) > [g(x)]²’,’f(x) ≥ [g(x)]²’,’√f(x) > g(x)’,’f(x) = g(x)²’],ans:0,
-  exp:’Se g ≥ 0, elevare è un’equivalenza (la funzione radice è crescente): √f > g ⟺ f > g².’},
- {q:’Per √f(x) < g(x), oltre a f(x) ≥ 0, serve anche...’,opts:[‘g(x) > 0’,’g(x) ≥ 0’,’f(x) < g(x)’,’nessuna’],ans:0,
-  exp:’Se g(x) ≤ 0, la disequazione sarebbe impossibile (il radicale è ≥ 0). Quindi occorre g(x) > 0.’},
- {q:’√f(x) ≤ g(x) si riduce (con g > 0) a...’,opts:[‘f(x) ≤ [g(x)]²’,’f(x) < [g(x)]²’,’f(x) = g(x)’,’f(x) ≥ g(x)²’],ans:0,
-  exp:’Con g > 0, la funzione radice è crescente: √f ≤ g ⟺ f ≤ g².’},
- {q:’√(x²+1) > 0 è...’,opts:[‘sempre vera (S = ℝ)’,’vera solo per x ≠ 0’,’sempre falsa’,’vera per x > 0’],ans:0,
-  exp:’x²+1 ≥ 1, quindi √(x²+1) ≥ 1 > 0 per ogni x ∈ ℝ.’},
- {q:’√(3x−1) > 2: elevando al quadrato si ottiene...’,opts:[‘3x−1 > 4 → x > 5/3’,’3x−1 > 2’,’3x−1 > 4 → x > 3’,’3x > 1’],ans:0,
-  exp:’g = 2 > 0: √(3x−1) > 2 ⟺ 3x−1 > 4 → x > 5/3 (con CE: x ≥ 1/3 già soddisfatta).’},
- {q:’√x < 2: la soluzione è...’,opts:[‘0 ≤ x < 4’,’x < 4’,’0 < x < 2’,’x < 2’],ans:0,
-  exp:’CE: x ≥ 0; g = 2 > 0. Elevo: x < 4. Combinando: 0 ≤ x < 4.’},
- {q:’Per √f(x) < g(x) con g(x) ≤ 0 dappertutto, la soluzione è...’,opts:[‘S = ∅’,’S = ℝ’,’il DE’,’dipende’],ans:0,
-  exp:’Il radicale è ≥ 0 ≥ g(x), quindi non può essere < g(x): S = ∅.’},
- {q:’√(x−2) < x−4: prima di elevare occorre imporre...’,opts:[‘x ≥ 2 e x > 4’,’x ≥ 2’,’x > 4’,’x ≥ 4’],ans:0,
-  exp:’CE: x−2 ≥ 0 → x ≥ 2; condizione g > 0: x−4 > 0 → x > 4. Entrambe necessarie prima di elevare.’}
+ {q:'La condizione di esistenza per √f(x) ⋛ g(x) è...',opts:['f(x) ≥ 0','f(x) > 0','g(x) ≥ 0','f(x) ≤ g(x)'],ans:0,
+  exp:'Il radicando deve essere non negativo: f(x) ≥ 0. Questa è la condizione di esistenza (CE/DE).'},
+ {q:'√f(x) > g(x) con g(x) < 0 e f(x) ≥ 0 è...',opts:['sempre vera sul DE','sempre falsa','da elevare al quadrato','impossibile'],ans:0,
+  exp:'√f(x) ≥ 0 > g(x): il radicale è sempre maggiore di un numero negativo, quindi la disequazione vale per tutto il DE.'},
+ {q:'√f(x) > g(x) con g(x) ≥ 0: elevando al quadrato si ottiene...',opts:['f(x) > [g(x)]²','f(x) ≥ [g(x)]²','√f(x) > g(x)','f(x) = g(x)²'],ans:0,
+  exp:'Se g ≥ 0, elevare è un\u2019equivalenza (la funzione radice è crescente): √f > g ⟺ f > g².'},
+ {q:'Per √f(x) < g(x), oltre a f(x) ≥ 0, serve anche...',opts:['g(x) > 0','g(x) ≥ 0','f(x) < g(x)','nessuna'],ans:0,
+  exp:'Se g(x) ≤ 0, la disequazione sarebbe impossibile (il radicale è ≥ 0). Quindi occorre g(x) > 0.'},
+ {q:'√f(x) ≤ g(x) si riduce (con g > 0) a...',opts:['f(x) ≤ [g(x)]²','f(x) < [g(x)]²','f(x) = g(x)','f(x) ≥ g(x)²'],ans:0,
+  exp:'Con g > 0, la funzione radice è crescente: √f ≤ g ⟺ f ≤ g².'},
+ {q:'√(x²+1) > 0 è...',opts:['sempre vera (S = ℝ)','vera solo per x ≠ 0','sempre falsa','vera per x > 0'],ans:0,
+  exp:'x²+1 ≥ 1, quindi √(x²+1) ≥ 1 > 0 per ogni x ∈ ℝ.'},
+ {q:'√(3x−1) > 2: elevando al quadrato si ottiene...',opts:['3x−1 > 4 → x > 5/3','3x−1 > 2','3x−1 > 4 → x > 3','3x > 1'],ans:0,
+  exp:'g = 2 > 0: √(3x−1) > 2 ⟺ 3x−1 > 4 → x > 5/3 (con CE: x ≥ 1/3 già soddisfatta).'},
+ {q:'√x < 2: la soluzione è...',opts:['0 ≤ x < 4','x < 4','0 < x < 2','x < 2'],ans:0,
+  exp:'CE: x ≥ 0; g = 2 > 0. Elevo: x < 4. Combinando: 0 ≤ x < 4.'},
+ {q:'Per √f(x) < g(x) con g(x) ≤ 0 dappertutto, la soluzione è...',opts:['S = ∅','S = ℝ','il DE','dipende'],ans:0,
+  exp:'Il radicale è ≥ 0 ≥ g(x), quindi non può essere < g(x): S = ∅.'},
+ {q:'√(x−2) < x−4: prima di elevare occorre imporre...',opts:['x ≥ 2 e x > 4','x ≥ 2','x > 4','x ≥ 4'],ans:0,
+  exp:'CE: x−2 ≥ 0 → x ≥ 2; condizione g > 0: x−4 > 0 → x > 4. Entrambe necessarie prima di elevare.'}
 ],
 /* ---------- Disequazioni irrazionali: calcolo ---------- */
 dirr_c:[
- {q:’Soluzione di √(x+3) > 2’,opts:[‘x > 1’,’x > −3’,’x ≥ −3’,’x > 4’],ans:0,
-  exp:’CE: x ≥ −3; g = 2 > 0. Elevo: x+3 > 4 → x > 1 (incluso nel DE). S = (1; +∞).’},
- {q:’Soluzione di √(2x−1) ≤ 3’,opts:[‘1/2 ≤ x ≤ 5’,’x ≤ 5’,’x ≥ 1/2’,’1/2 < x < 5’],ans:0,
-  exp:’CE: x ≥ 1/2; g = 3 > 0. Elevo: 2x−1 ≤ 9 → x ≤ 5. Intersezione: [1/2; 5].’},
- {q:’Soluzione di √(3x+4) < 4’,opts:[‘−4/3 ≤ x < 4’,’x < 4’,’x ≥ −4/3’,’−4/3 < x < 4’],ans:0,
-  exp:’CE: x ≥ −4/3; g = 4 > 0. Elevo: 3x+4 < 16 → x < 4. S = [−4/3; 4).’},
- {q:’Soluzione di √(x+4) > 3’,opts:[‘x > 5’,’x ≥ −4’,’x > 9’,’x ≥ 5’],ans:0,
-  exp:’CE: x ≥ −4; g = 3 > 0. Elevo: x+4 > 9 → x > 5. S = (5; +∞).’},
- {q:’Soluzione di √(5−x) ≥ 1’,opts:[‘x ≤ 4’,’x ≤ 5’,’x < 4’,’x ≥ 4’],ans:0,
-  exp:’CE: x ≤ 5; g = 1 > 0. Elevo: 5−x ≥ 1 → x ≤ 4. S = (−∞; 4].’},
- {q:’Soluzione di √(x+5) ≥ 2’,opts:[‘x ≥ −1’,’x ≥ −5’,’x > −1’,’x ≤ −1’],ans:0,
-  exp:’CE: x ≥ −5; g = 2 > 0. Elevo: x+5 ≥ 4 → x ≥ −1. S = [−1; +∞).’},
- {q:’Soluzione di √(2x+1) > 0’,opts:[‘x > −1/2’,’x ≥ −1/2’,’x ≥ 0’,’S = ℝ’],ans:0,
-  exp:’√(2x+1) > 0 ⟺ 2x+1 > 0 → x > −1/2 (il radicale è 0 solo quando il radicando è 0).’},
- {q:’Soluzione di √(4−x) < 2’,opts:[‘0 < x ≤ 4’,’x > 0’,’x < 4’,’0 ≤ x < 4’],ans:3,
-  exp:’CE: x ≤ 4; g = 2 > 0. Elevo: 4−x < 4 → x > 0. Intersezione: 0 < x ≤ 4.’},
- {q:’Soluzione di √(x−2) ≤ √(2x−7) (con CE)’,opts:[‘x ≥ 5’,’x ≥ 7/2’,’7/2 ≤ x ≤ 5’,’x ≥ 2’],ans:0,
-  exp:’CE: x ≥ 2 e x ≥ 7/2 → x ≥ 7/2. Elevo: x−2 ≤ 2x−7 → x ≥ 5. S = [5; +∞).’},
- {q:’Soluzione di √(x+1) < 3 (con CE)’,opts:[‘−1 ≤ x < 8’,’x < 8’,’−1 < x < 8’,’x ≤ 8’],ans:0,
-  exp:’CE: x ≥ −1; g = 3 > 0. Elevo: x+1 < 9 → x < 8. S = [−1; 8).’}
+ {q:'Soluzione di √(x+3) > 2',opts:['x > 1','x > −3','x ≥ −3','x > 4'],ans:0,
+  exp:'CE: x ≥ −3; g = 2 > 0. Elevo: x+3 > 4 → x > 1 (incluso nel DE). S = (1; +∞).'},
+ {q:'Soluzione di √(2x−1) ≤ 3',opts:['1/2 ≤ x ≤ 5','x ≤ 5','x ≥ 1/2','1/2 < x < 5'],ans:0,
+  exp:'CE: x ≥ 1/2; g = 3 > 0. Elevo: 2x−1 ≤ 9 → x ≤ 5. Intersezione: [1/2; 5].'},
+ {q:'Soluzione di √(3x+4) < 4',opts:['−4/3 ≤ x < 4','x < 4','x ≥ −4/3','−4/3 < x < 4'],ans:0,
+  exp:'CE: x ≥ −4/3; g = 4 > 0. Elevo: 3x+4 < 16 → x < 4. S = [−4/3; 4).'},
+ {q:'Soluzione di √(x+4) > 3',opts:['x > 5','x ≥ −4','x > 9','x ≥ 5'],ans:0,
+  exp:'CE: x ≥ −4; g = 3 > 0. Elevo: x+4 > 9 → x > 5. S = (5; +∞).'},
+ {q:'Soluzione di √(5−x) ≥ 1',opts:['x ≤ 4','x ≤ 5','x < 4','x ≥ 4'],ans:0,
+  exp:'CE: x ≤ 5; g = 1 > 0. Elevo: 5−x ≥ 1 → x ≤ 4. S = (−∞; 4].'},
+ {q:'Soluzione di √(x+5) ≥ 2',opts:['x ≥ −1','x ≥ −5','x > −1','x ≤ −1'],ans:0,
+  exp:'CE: x ≥ −5; g = 2 > 0. Elevo: x+5 ≥ 4 → x ≥ −1. S = [−1; +∞).'},
+ {q:'Soluzione di √(2x+1) > 0',opts:['x > −1/2','x ≥ −1/2','x ≥ 0','S = ℝ'],ans:0,
+  exp:'√(2x+1) > 0 ⟺ 2x+1 > 0 → x > −1/2 (il radicale è 0 solo quando il radicando è 0).'},
+ {q:'Soluzione di √(4−x) < 2',opts:['0 < x ≤ 4','x > 0','x < 4','0 ≤ x < 4'],ans:3,
+  exp:'CE: x ≤ 4; g = 2 > 0. Elevo: 4−x < 4 → x > 0. Intersezione: 0 < x ≤ 4.'},
+ {q:'Soluzione di √(x−2) ≤ √(2x−7) (con CE)',opts:['x ≥ 5','x ≥ 7/2','7/2 ≤ x ≤ 5','x ≥ 2'],ans:0,
+  exp:'CE: x ≥ 2 e x ≥ 7/2 → x ≥ 7/2. Elevo: x−2 ≤ 2x−7 → x ≥ 5. S = [5; +∞).'},
+ {q:'Soluzione di √(x+1) < 3 (con CE)',opts:['−1 ≤ x < 8','x < 8','−1 < x < 8','x ≤ 8'],ans:0,
+  exp:'CE: x ≥ −1; g = 3 > 0. Elevo: x+1 < 9 → x < 8. S = [−1; 8).'}
 ]
 };
 </script>
@@ -3284,7 +3352,23 @@ $$('.tabs').forEach(tb=>{
   });
 });
 
-/* ---------------- Motore quiz ---------------- */
+
+/* ---------- Navigazione sec-tabs (4 pannelli per sezione) ---------- */
+$$('.sec-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    const sec=tab.closest('section');if(!sec)return;
+    sec.querySelectorAll('.sec-tab').forEach(t=>{
+      t.classList.toggle('active',t===tab);
+      t.setAttribute('aria-selected',t===tab);
+    });
+    sec.querySelectorAll('.sec-panel').forEach(p=>{
+      p.hidden=p.dataset.sectab!==tab.dataset.sectab;
+    });
+    if(tab.dataset.sectab==='sim')requestAnimationFrame(()=>requestAnimationFrame(redrawVisible));
+  });
+});
+
+/* ---------------- Motore quiz (con back + riepilogo errori) ------------- */
 function shuffled(arr){
   const a=arr.slice();
   for(let i=a.length-1;i>0;i--){const j=ri(i+1);const t=a[i];a[i]=a[j];a[j]=t}
@@ -3292,24 +3376,60 @@ function shuffled(arr){
 }
 function initQuiz(el){
   const data=QUIZZES[el.dataset.quiz];
-  let i=0,score=0,order=null;
-  function qHTML(){
+  let i=0,score=0;
+  // history[i] = {order, chosen, right} o null se non ancora risposto
+  const history=data.map(()=>null);
+  let orders=data.map(()=>null); // ordine fisso per ogni domanda
+  // Genera ordine alla prima visita di ogni domanda
+  function ensureOrder(idx){
+    if(!orders[idx])orders[idx]=shuffled(data[idx].opts.map((t,ix)=>({t,ix})));
+  }
+
+  function qHTML(reviewing){
+    ensureOrder(i);
     const q=data[i];
-    order=shuffled(q.opts.map((t,ix)=>({t,ix})));
+    const order=orders[i];
+    const hist=history[i];
+    const isAnswered=hist!==null;
     el.innerHTML=
       '<div class="quiz-hd"><span>Domanda '+(i+1)+' di '+data.length+'</span>'+
       '<span class="score">Punteggio: '+score+'</span></div>'+
-      '<div class="quiz-bar"><i style="width:'+(i/data.length*100)+'%"></i></div>'+
+      '<div class="quiz-bar"><i style="width:'+((isAnswered?i+1:i)/data.length*100)+'%"></i></div>'+
       '<p class="quiz-q">'+q.q+'</p>'+
-      '<div class="quiz-opts">'+order.map((o,k)=>
-        '<button class="quiz-btn" data-k="'+k+'">'+o.t+'</button>').join('')+'</div>'+
-      '<div class="quiz-ft"></div>';
-    el.querySelectorAll('.quiz-btn').forEach(b=>
-      b.addEventListener('click',()=>answer(+b.dataset.k)));
+      '<div class="quiz-opts">'+order.map((o,k)=>{
+        let cls='quiz-btn';
+        if(isAnswered){
+          if(order[k].ix===q.ans)cls+=' correct';
+          else if(k===hist.chosen)cls+=' wrong';
+        }
+        return'<button class="'+cls+'" data-k="'+k+'"'+(isAnswered?' disabled':'')+'>'+o.t+'</button>';
+      }).join('')+'</div>'+
+      '<div class="quiz-ft">'+(isAnswered?'<div class="quiz-exp '+(hist.right?'ok':'no')+'"><strong>'+(hist.right?'Esatto.':'Non è corretto.')+'</strong> '+q.exp+'</div>':'')+'</div>'+
+      '<div class="quiz-nav">'+
+        '<button class="btn-back"'+(i===0?' disabled':'')+'>← Indietro</button>'+
+        (!isAnswered?'':
+          '<button class="btn btn-primary quiz-next">'+(i<data.length-1?'Avanti':'Vedi il risultato')+'</button>'
+        )+
+      '</div>';
+
+    if(!isAnswered){
+      el.querySelectorAll('.quiz-btn').forEach(b=>
+        b.addEventListener('click',()=>answer(+b.dataset.k)));
+    }else{
+      const ft=el.querySelector('.quiz-ft');
+      const nxt=el.querySelector('.quiz-next');
+      if(nxt)nxt.addEventListener('click',()=>{i++;if(i<data.length)qHTML();else end();});
+    }
+    el.querySelector('.btn-back').addEventListener('click',()=>{if(i>0){i--;qHTML();}});
   }
+
   function answer(k){
-    const q=data[i],right=order[k].ix===q.ans;
+    ensureOrder(i);
+    const q=data[i],order=orders[i];
+    const right=order[k].ix===q.ans;
     if(right)score++;
+    history[i]={chosen:k,right};
+    // Mostra stato visivo senza ricaricare tutto
     el.querySelectorAll('.quiz-btn').forEach((b,j)=>{
       b.disabled=true;
       if(order[j].ix===q.ans)b.classList.add('correct');
@@ -3318,26 +3438,50 @@ function initQuiz(el){
     el.querySelector('.quiz-hd .score').textContent='Punteggio: '+score;
     el.querySelector('.quiz-bar i').style.width=((i+1)/data.length*100)+'%';
     const ft=el.querySelector('.quiz-ft');
-    ft.innerHTML='<div class="quiz-exp '+(right?'ok':'no')+'"><strong>'+
-      (right?'Esatto.':'Non è corretto.')+'</strong> '+q.exp+'</div>'+
-      '<button class="btn btn-primary quiz-next">'+
-      (i<data.length-1?'Avanti':'Vedi il risultato')+'</button>';
-    ft.querySelector('.quiz-next').addEventListener('click',()=>{
-      i++;if(i<data.length)qHTML();else end();
-    });
+    ft.innerHTML='<div class="quiz-exp '+(right?'ok':'no')+'"><strong>'+(right?'Esatto.':'Non è corretto.')+'</strong> '+q.exp+'</div>';
+    const nav=el.querySelector('.quiz-nav');
+    const backBtn=nav.querySelector('.btn-back');
+    const nextBtn=document.createElement('button');
+    nextBtn.className='btn btn-primary quiz-next';
+    nextBtn.textContent=i<data.length-1?'Avanti':'Vedi il risultato';
+    nextBtn.addEventListener('click',()=>{i++;if(i<data.length)qHTML();else end();});
+    nav.appendChild(nextBtn);
+    if(backBtn)backBtn.disabled=false;
   }
+
   function end(){
+    const errors=history.map((h,idx)=>h&&!h.right?{idx,q:data[idx].q,exp:data[idx].exp}:null).filter(Boolean);
     const msg=score>=9?'Eccellente: padroneggi l’argomento.':
       score>=7?'Molto bene: ancora un piccolo sforzo per la perfezione.':
       score>=5?'Sufficiente: rileggi le spiegazioni degli errori e riprova.':
       'Riparti dalla teoria e dalla simulazione, poi riprova il quiz.';
+    let errHtml='';
+    if(errors.length){
+      errHtml='<div class="quiz-errors"><p class="quiz-err-hd">Argomenti da rivedere:</p>'+
+        errors.map(e=>'<div class="err-item"><div class="err-q">'+e.q+'</div>'+
+          '<div class="err-exp">'+e.exp+'</div></div>').join('')+
+        '<button class="quiz-teoria-link">← Vai alla Teoria</button>'+
+        '</div>';
+    }
     el.innerHTML='<div class="quiz-end"><div class="big">'+score+' / '+data.length+
-      '</div><p>'+msg+'</p><button class="btn btn-primary">Ricomincia</button></div>';
-    el.querySelector('button').addEventListener('click',()=>{i=0;score=0;qHTML()});
+      '</div><p>'+msg+'</p>'+errHtml+
+      '<button class="btn btn-primary" style="margin-top:.7rem">Ricomincia</button></div>';
+    el.querySelector('.btn.btn-primary').addEventListener('click',()=>{
+      history.fill(null);orders.fill(null);i=0;score=0;qHTML();
+    });
+    const teoriaLink=el.querySelector('.quiz-teoria-link');
+    if(teoriaLink){
+      teoriaLink.addEventListener('click',()=>{
+        const sec=el.closest('section');if(!sec)return;
+        const teoriaTab=sec.querySelector('[data-sectab="teoria"]');
+        if(teoriaTab)teoriaTab.click();
+      });
+    }
   }
   qHTML();
 }
 $$('.quiz[data-quiz]').forEach(el=>{try{initQuiz(el)}catch(e){console.error('initQuiz',el.dataset.quiz,e)}});
+
 
 /* ---------------- Grafici su canvas ---------------- */
 function niceStep(v){
